@@ -174,7 +174,9 @@
                       <th class="CDT-name">名称</th>
                       <th class="CDT-model">型式</th>
                       <th class="CDT-num_of_model">型式数</th>
-                      <th class="CDT-image">画像</th>
+                      <th class="CDT-image">
+                        画像
+                      </th>
                       <th class="CDT-is_new">NEW</th>
                       <th class="CDT-is_end">生産終了</th>
                       <th class="CDT-is_publish">公開</th>
@@ -184,6 +186,44 @@
                       <th class="CDT-note">注意書き</th>
                       <th class="CDT-memo">備考欄</th>
                       <th class="CDT-delete">削除</th>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <th class="CDT-category"></th>
+                      <th class="CDT-genre"></th>
+                      <th class="CDT-name"></th>
+                      <th class="CDT-model"></th>
+                      <th class="CDT-num_of_model"></th>
+                      <th class="CDT-image"></th>
+                      <th class="CDT-is_new">
+                        @include('admin.parts.block_checkbox', [
+                          'switch'      => true,
+                          'name'        => 'is_new_all',
+                        ])
+                      </th>
+                      <th class="CDT-is_end">
+                        @include('admin.parts.block_checkbox', [
+                          'switch'      => true,
+                          'name'        => 'is_end_all',
+                        ])
+                      </th>
+                      <th class="CDT-is_publish">
+                        @include('admin.parts.block_checkbox', [
+                          'switch'      => true,
+                          'name'        => 'is_publish_all',
+                        ])
+                      </th>
+                      <th class="CDT-pamphlet"></th>
+                      <th class="CDT-catalogue"></th>
+                      <th class="CDT-manual"></th>
+                      <th class="CDT-note"></th>
+                      <th class="CDT-memo"></th>
+                      <th class="CDT-delete">
+                        @include('admin.parts.block_checkbox', [
+                          'name'        => 'is_delete_all',
+                          'type'        => 'danger',
+                        ])
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -300,6 +340,10 @@
     $(function() {
       initCheckDisplayControll('CDC-', 'CDT-');
       initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
+      initAllCheck('input[name=is_new_all]', 'input[name=is_new_ids\\[\\]]');
+      initAllCheck('input[name=is_end_all]', 'input[name=is_end_ids\\[\\]]');
+      initAllCheck('input[name=is_publish_all]', 'input[name=is_publish_ids\\[\\]]');
+      initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
     })
     function doUpdate() {
       $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_update') }}').submit();

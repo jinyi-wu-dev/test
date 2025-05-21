@@ -172,7 +172,7 @@ return new class extends Migration
             $table->string('description5')->default('');
             $table->string('note')->default('');
             $table->timestamps();
-            $table->primary('model_id', 'language');
+            $table->primary(['model_id', 'language']);
         });
 
         Schema::create('model_controllers', function (Blueprint $table) {
@@ -192,7 +192,7 @@ return new class extends Migration
             $table->boolean('is_rs232c');
             $table->boolean('is_analog');
             $table->timestamps();
-            $table->primary('model_id', 'language');
+            $table->primary(['model_id', 'language']);
         });
 
         Schema::create('model_cables', function (Blueprint $table) {
@@ -201,7 +201,7 @@ return new class extends Migration
             $table->string('type')->default('');
             $table->string('note')->default('');
             $table->timestamps();
-            $table->primary('model_id', 'language');
+            $table->primary(['model_id', 'language']);
         });
 
         Schema::create('model_options', function (Blueprint $table) {
@@ -211,14 +211,14 @@ return new class extends Migration
             $table->string('throughput')->default('');
             $table->string('note')->default('');
             $table->timestamps();
-            $table->primary('model_id', 'language');
+            $table->primary(['model_id', 'language']);
         });
 
         Schema::create('model_groups', function (Blueprint $table) {
             $table->bigInteger('series_id')->unsigned();
             $table->bigInteger('model_id')->unsigned();
             $table->timestamps();
-            $table->primary('series_id', 'model_id');
+            $table->primary(['series_id', 'model_id']);
         });
 
         Schema::create('lend_models', function (Blueprint $table) {

@@ -59,20 +59,21 @@ class DatabaseSeeder extends Seeder
         
         $count = 1;
         for ($i=1; $i<=40; $i++) {
+            $pos = (int)(($i-1)/10);
             DB::table('series')->insert([
-                'category' => match((int)(($i-1)/10)) {
+                'category' => match($pos) {
                     0 => 'lighting',
                     1 => 'controller',
                     2 => 'cable',
                     3 => 'option',
                 },
-                'genre' => match((int)(($i-1)/10)) {
+                'genre' => match($pos) {
                     0 => fake()->randomElement(['lt_line', 'lt_ring', 'lt_transmission', 'lt_flatsurface', 'lt_dome', 'lt_coaxial-spot', 'lt_other']),
                     1 => fake()->randomElement(['cr_pwm', 'cr_v_current', 'cr_v_voltage', 'cr_overdrive']),
                     2 => fake()->randomElement(['cb_lighting', 'cb_external']),
                     3 => fake()->randomElement(['op_lighting', 'op_other']),
                 },
-                'model' => match((int)(($i-1)/10)) {
+                'model' => match($pos) {
                     0 => 'LT_TYPE'.$i%10,
                     1 => 'CR_TYPE'.$i%10,
                     2 => 'CB_TYPE'.$i%10,
@@ -87,13 +88,13 @@ class DatabaseSeeder extends Seeder
             DB::table('series_details')->insert([
                 'series_id' => $series_id,
                 'language' => 'jp',
-                'name' => match((int)(($i-1)/10)) {
+                'name' => match($pos) {
                     0 => '照明'.$i%10,
                     1 => 'コントローラ'.$i%10,
                     2 => 'ケーブル'.$i%10,
                     3 => 'オプション'.$i%10,
                 },
-                'model' => match((int)(($i-1)/10)) {
+                'model' => match($pos) {
                     0 => 'LT_TYPE'.$i%10,
                     1 => 'CR_TYPE'.$i%10,
                     2 => 'CB_TYPE'.$i%10,
@@ -107,7 +108,7 @@ class DatabaseSeeder extends Seeder
             DB::table('series_details')->insert([
                 'series_id' => $series_id,
                 'language' => 'en',
-                'name' => match((int)(($i-1)/10)) {
+                'name' => match($pos) {
                     0 => 'lighting'.$i%10,
                     1 => 'controller'.$i%10,
                     2 => 'cable'.$i%10,
@@ -135,6 +136,44 @@ class DatabaseSeeder extends Seeder
                     'memo' => fake()->realText(20),
                 ]);
                 $model_id = DB::getPdo()->lastInsertId();
+                if ($pos==0) {
+                    DB::table('model_lightings')->insert([
+                        'model_id' => $model_id,
+                        'language' => 'jp',
+                        'type' => fake()->word(),
+                        'color1' => fake()->word(),
+                        'color2' => fake()->word(),
+                        'color3' => fake()->word(),
+                        'power_consumption' => fake()->randomNumber(),
+                        'num_of_ch' => fake()->randomNumber(),
+                        'input' => fake()->randomNumber(),
+                        'etc' => fake()->word(),
+                        'description1' => fake()->realText(20),
+                        'description2' => fake()->realText(20),
+                        'description3' => fake()->realText(20),
+                        'description4' => fake()->realText(20),
+                        'description5' => fake()->realText(20),
+                        'note' => fake()->realText(20),
+                    ]);
+                    DB::table('model_lightings')->insert([
+                        'model_id' => $model_id,
+                        'language' => 'en',
+                        'type' => fake()->word(),
+                        'color1' => fake()->word(),
+                        'color2' => fake()->word(),
+                        'color3' => fake()->word(),
+                        'power_consumption' => fake()->randomNumber(),
+                        'num_of_ch' => fake()->randomNumber(),
+                        'input' => fake()->randomNumber(),
+                        'etc' => fake()->word(),
+                        'description1' => fake()->paragraph(1),
+                        'description2' => fake()->paragraph(1),
+                        'description3' => fake()->paragraph(1),
+                        'description4' => fake()->paragraph(1),
+                        'description5' => fake()->paragraph(1),
+                        'note' => fake()->paragraph(1),
+                    ]);
+                }
             }
         }
     }

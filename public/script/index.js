@@ -36,10 +36,10 @@ function initCheckDisplayControll($check_prefix, $target_prefix) {
     });
 }
 
-function initCheckDelete($check_patn, $button_path) {
-    $($check_patn).click(function() {
+function initCheckDelete($check_path, $button_path) {
+    $($check_path).change(function() {
         $checked = false;
-        $($check_patn).each(function() {
+        $($check_path).each(function() {
             if ($(this).prop('checked')) {
                 $checked = true;
             }
@@ -52,4 +52,12 @@ function initCheckDelete($check_patn, $button_path) {
     });
 }
 
+function initAllCheck($check_path, $target_path) {
+    $($check_path).click(function() {
+        $flag = $(this).prop('checked');
+        $($target_path).each(function() {
+            $(this).prop('checked', $flag).change();
+        });
+    });
+}
 
