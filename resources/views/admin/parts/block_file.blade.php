@@ -2,7 +2,7 @@
   <label for="{{ $name }}">{{ $label }}</label>
   @if(isset($image_path))
   <div class="text-center">
-    <img src="{{ $image_path }}">
+    <img src="{{ $image_path }}{{ isset($no_cache)&&$no_cache ? '?v='.uniqid() : ''}}">
   </div>
   @endif
   <div class="custom-file">

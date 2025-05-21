@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use App\Traits\EnumKeyValiable;
 
-enum Line: string
+enum Layout: string
 {
     use EnumKeyValiable;
 
@@ -13,8 +13,8 @@ enum Line: string
 
     public function label(): string {
         return match($this) {
-            Line::VERTICAL      => 'タテ並び',
-            Line::HORIZONTAL    => 'ヨコ並び',
+            Layout::VERTICAL      => 'タテ並び',
+            Layout::HORIZONTAL    => 'ヨコ並び',
         };
     }
 }

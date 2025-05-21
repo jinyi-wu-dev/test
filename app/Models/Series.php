@@ -46,16 +46,16 @@ class Series extends Model
         'genre'     => Genre::class,
     ];
 
-    public function jp_detail() {
-        return $this->detail('jp');
-    }
-
     public function details() {
         return $this->hasMany(SeriesDetail::class, 'series_id');
     }
 
     public function detail($language='jp') {
         return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', $language);
+    }
+
+    public function default_detail() {
+        return $this->detail('jp');
     }
 
     public function icons() {
@@ -70,7 +70,7 @@ class Series extends Model
         if (config('system.series.'.$type.'_file')) {
             if ($file) {
                 $file->storeAs(
-                    config('system.series.directory').'/'.$this->id,
+                    sprintf('%s/%d', config('system.series.directory'), $this->id),
                     config('system.series.'.$type.'_file'),
                     'public'
                 );
@@ -81,10 +81,12 @@ class Series extends Model
     public function fileUrl($type) {
         return config('system.series.'.$type.'_file') ? 
             url(
-                config('system.public_storage').'/'.
-                config('system.series.directory').'/'.
-                $this->id.'/'.
-                config('system.series.'.$type.'_file')
+                sprintf('%s/%s/%d/%s',
+                    config('system.public_storage'),
+                    config('system.series.directory'),
+                    $this->id,
+                    config('system.series.'.$type.'_file')
+                )
             ) : 
             false;
     }
@@ -92,10 +94,12 @@ class Series extends Model
     public function hasFile($type) {
         return config('system.series.'.$type.'_file') ? 
             File::exists(
-                config('system.public_storage').'/'.
-                config('system.series.directory').'/'.
-                $this->id.'/'.
-                config('system.series.'.$type.'_file')
+                sprintf('%s/%s/%d/%s',
+                    config('system.public_storage'),
+                    config('system.series.directory'),
+                    $this->id,
+                    config('system.series.'.$type.'_file')
+                )
             ) :
             false;
     }

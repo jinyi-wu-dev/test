@@ -1,47 +1,16 @@
 @extends('admin/base')
 
+
 @section('title', 'シリーズ一覧')
 @section('header', 'シリーズ')
+
 
 @section('breadcrumb')
   <li class="breadcrumb-item active">UserList</li>
 @endsection
 
-@section('footer_script')
-<script>
-  $(function() {
-    initCheckDisplayControll('CDC-', 'CDT-');
-  })
-
-  function initCheckDisplayControll($check_prefix, $target_prefix) {
-    $("[name^='"+$check_prefix+"']").click(function() {
-      $name = $(this).attr('name');
-      if ($name.indexOf($check_prefix)===0) {
-        $target = $name.substr($check_prefix.length);
-        if ($(this).prop('checked')) {
-          $("."+$target_prefix+$target).each(function() {
-            $(this).show();
-          });
-        } else {
-          $("."+$target_prefix+$target).each(function() {
-            $(this).hide();
-          });
-        }
-      }
-    });
-  }
-</script>
-@endsection
 
 @section('content')
-  <script>
-    function doUpdate() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_update') }}').submit();
-    }
-    function doDelete() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_destroy') }}').submit();
-    }
-  </script>
   @include('admin.parts.modal', [
     'id'      => 'conformModal',
     'title'   => '削除',
@@ -59,8 +28,8 @@
               <h3 class="card-title">表示項目設定</h3>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-plus"></i>
-                  </button>
+                  <i class="fas fa-plus"></i>
+                </button>
               </div>
             </div>
             <div class="card-body">
@@ -107,8 +76,6 @@
                     'label'     => '画像',
                   ])
                 </div>
-              </div>
-              <div class="d-flex justify-content-center">
                 <div class="p-2">
                   @include('admin.parts.block_checkbox', [
                     'checked'   => true,
@@ -130,6 +97,8 @@
                     'label'     => '公開',
                   ])
                 </div>
+              </div>
+              <div class="d-flex justify-content-center">
                 <div class="p-2">
                   @include('admin.parts.block_checkbox', [
                     'checked'   => true,
@@ -165,6 +134,13 @@
                     'label'     => '備考欄',
                   ])
                 </div>
+                <div class="p-2">
+                  @include('admin.parts.block_checkbox', [
+                    'checked'   => true,
+                    'name'      => 'CDC-delete',
+                    'label'     => '削除',
+                  ])
+                </div>
               </div>
             </div>
           </div>
@@ -173,6 +149,11 @@
           <div class="card card-primary card-outline">
             <div class="card-header">
               <h3 class="card-title">一覧</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
             </div>
             <div class="card-body">
               <div class="callout callout-secondary">
@@ -219,16 +200,16 @@
                         {{ $s->genre ? $s->genre->label() : '' }}
                       </td>
                       <td class="CDT-name">
-                        {{ $s->jp_detail->name ?? '' }}
+                        {{ $s->default_detail->name ?? '' }}
                       </td>
                       <td class="CDT-model">
-                        {{ $s->jp_detail->model ?? '' }}
+                        {{ $s->default_detail->model ?? '' }}
                       </td>
                       <td class="CDT-num_of_model">
                       </td>
                       <td class="CDT-image">
                         @if ($s->hasFile('image'))
-                          <img src="{{ $s->fileUrl('image') }}">
+                        <img src="{{ $s->fileUrl('image') }}?v={{ uniqid() }}">
                         @endif
                       </td>
                       <td class="CDT-is_new">
@@ -280,7 +261,7 @@
                         @endif
                       </td>
                       <td class="CDT-note">
-                        {{ $s->jp_detail->note ?? '' }}
+                        {{ $s->default_detail->note ?? '' }}
                       </td>
                       <td class="CDT-memo">
                         {{ $s->memo }}
@@ -302,7 +283,7 @@
             </div>
             <div class="card-footer">
               <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
-              <button type="button" class="btn btn-danger btn-sm float-right" data-toggle="modal" data-target="#conformModal">　削　除　</button>
+              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
             </div>
           </div>
         </div>
@@ -311,3 +292,21 @@
   </form>
   </section>
 @endsection
+
+
+@section('footer_script')
+  <script src="{{ asset('/script/index.js') }}"></script>
+  <script>
+    $(function() {
+      initCheckDisplayControll('CDC-', 'CDT-');
+      initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
+    })
+    function doUpdate() {
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_update') }}').submit();
+    }
+    function doDelete() {
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_destroy') }}').submit();
+    }
+  </script>
+@endsection
+

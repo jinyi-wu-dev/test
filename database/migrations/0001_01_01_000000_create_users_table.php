@@ -68,7 +68,7 @@ return new class extends Migration
 
         Schema::create('features', function (Blueprint $table) {
             $table->id();
-            $table->enum('line', ['vertical', 'horizontal'])->nullable();
+            $table->enum('layout', ['vertical', 'horizontal'])->nullable();
             $table->string('title')->default('');
             $table->timestamps();
             $table->softDeletes()->nullable();
@@ -141,7 +141,8 @@ return new class extends Migration
             $table->bigInteger('series_id')->unsigned();
             $table->boolean('is_new')->nullable()->default(false);
             $table->boolean('is_end')->nullable()->default(false);
-            $table->boolean('is_public')->nullable()->default(false);
+            $table->boolean('is_publish')->nullable()->default(false);
+            $table->boolean('is_lend')->nullable()->default(false);
             $table->string('model')->nullable();
             $table->string('product_number')->default('');
             $table->string('operating_temperature')->default('');
@@ -184,7 +185,6 @@ return new class extends Migration
             $table->string('output')->default('');
             $table->string('note')->default('');
             $table->enum('dimmable_control', ['pwm', 'current', 'voltage', 'overdrive'])->nullable();
-            $table->enum('compatible_standards', ['RoHS_6', 'RoHS_10', 'RoHS_e-1', 'RoHS_10-2', 'CE_IEC', 'CE_EN', 'UKCA', 'PSE'])->nullable();
             $table->boolean('external_control');
             $table->boolean('is_ethernet');
             $table->boolean('is_8bit_parallel');
@@ -221,7 +221,7 @@ return new class extends Migration
             $table->primary('series_id', 'model_id');
         });
 
-        Schema::create('lending_models', function (Blueprint $table) {
+        Schema::create('lend_models', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable(false);
             $table->enum('category', ['lighting', 'controller', 'cable', 'option'])->nullable(false);

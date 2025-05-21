@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Feature;
 use Illuminate\Http\Request;
+use App\Models\Feature;
+use App\Models\FeatureDetail;
+use App\Enums\Layout;
 
 class FeatureController extends Controller
 {
@@ -50,9 +52,11 @@ class FeatureController extends Controller
      */
     public function edit(Feature $feature)
     {
-        return view('admin/feature/edit', compact(
-            'feature'
-        ));
+        return view('admin/feature/edit', [
+            'layouts'   => Layout::keyLabel(),
+            'feature'   => $feature,
+            'details'   => $feature->details->keyBy('language'),
+        ]);
     }
 
     /**
@@ -80,17 +84,31 @@ class FeatureController extends Controller
 
     protected function save(Request $request, Feature $feature=null) {
         $request->validate([
-            'title' => 'required',
+            //'title' => 'required',
         ]);
+        list($single_params, $multi_params) = $this->splitMultiParameters($request);
 
         if (is_null($feature)) {
-            $feature = new Feature($request->all());
+            $feature = new Feature($single_params);
         } else {
-            $feature->fill($request->all());
+            $feature->fill($single_params);
         }
         $feature->save();
 
-        $feature->uploadImage($request->file('image'));
+        $details = $feature->details->keyBy('language');
+        foreach ($multi_params as $lang => $values) {
+            unset($values['image']);
+            FeatureDetail::updateOrInsert([
+                'feature_id' => $feature->id,
+                'language'  => $lang,
+            ], array_merge([
+                'feature_id' => $feature->id,
+                'language'  => $lang,
+            ], $values));
+
+            $details[$lang]->uploadImage($request->file($lang.':image'));
+        }
+
 
         return $feature;
     }

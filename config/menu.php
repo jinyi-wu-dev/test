@@ -38,7 +38,7 @@ return [
     ], [
         'type'  => 'item',
         'label' => '特徴・特性登録',
-        'route' => 'admin.feature.index',
+        'route' => 'admin.feature.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',

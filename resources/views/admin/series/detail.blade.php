@@ -1,5 +1,6 @@
 @extends('admin/base')
 
+
 @section('content')
   <section class="content">
     <div class="container-fluid">
@@ -63,6 +64,7 @@
                   'name'        => 'image',
                   'label'       => '商品画像',
                   'image_path'  => isset($series)&&$series->hasFile('image') ? $series->fileUrl('image') : '',
+                  'no_cache'    => true,
                 ])
                 @include('admin.parts.block_file', [
                   'name'        => 'catalogue',
@@ -439,4 +441,12 @@
       </form>
     </div>
   </section>
+@endsection
+
+
+@section('footer_script')
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+  <script>
+    bsCustomFileInput.init();
+  </script>
 @endsection

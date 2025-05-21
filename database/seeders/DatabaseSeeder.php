@@ -38,9 +38,9 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        for ($i=1; $i<=10; $i++) {
+        for ($i=1; $i<=20; $i++) {
             DB::table('features')->insert([
-                'line' => fake()->randomElement(['vertical', 'horizontal']),
+                'layout' => fake()->randomElement(['vertical', 'horizontal']),
                 'title' => '特徴'.$i,
             ]);
             DB::table('feature_details')->insert([
@@ -56,37 +56,86 @@ class DatabaseSeeder extends Seeder
                 'body' => fake()->paragraph(1),
             ]);
         }
-
-        for ($i=1; $i<=10; $i++) {
+        
+        $count = 1;
+        for ($i=1; $i<=40; $i++) {
             DB::table('series')->insert([
-                'category' => 'lighting',
-                'genre' => fake()->randomElement(['lt_line', 'lt_ring', 'lt_transmission', 'lt_flatsurface', 'lt_dome', 'lt_coaxial-spot', 'lt_other']),
-                'model' => 'LT_TYPE'.$i,
+                'category' => match((int)(($i-1)/10)) {
+                    0 => 'lighting',
+                    1 => 'controller',
+                    2 => 'cable',
+                    3 => 'option',
+                },
+                'genre' => match((int)(($i-1)/10)) {
+                    0 => fake()->randomElement(['lt_line', 'lt_ring', 'lt_transmission', 'lt_flatsurface', 'lt_dome', 'lt_coaxial-spot', 'lt_other']),
+                    1 => fake()->randomElement(['cr_pwm', 'cr_v_current', 'cr_v_voltage', 'cr_overdrive']),
+                    2 => fake()->randomElement(['cb_lighting', 'cb_external']),
+                    3 => fake()->randomElement(['op_lighting', 'op_other']),
+                },
+                'model' => match((int)(($i-1)/10)) {
+                    0 => 'LT_TYPE'.$i%10,
+                    1 => 'CR_TYPE'.$i%10,
+                    2 => 'CB_TYPE'.$i%10,
+                    3 => 'OP_TYPE'.$i%10,
+                },
                 'is_new' => fake()->randomElement([0, 1]),
                 'is_end' => fake()->randomElement([0, 1]),
                 'is_publish' => fake()->randomElement([0, 1]),
                 'memo' => fake()->realText(20),
             ]);
-            $id = DB::getPdo()->lastInsertId();
+            $series_id = DB::getPdo()->lastInsertId();
             DB::table('series_details')->insert([
-                'series_id' => $id,
+                'series_id' => $series_id,
                 'language' => 'jp',
-                'name' => '照明'.$i,
-                'model' => 'LT_TYPE'.$i,
+                'name' => match((int)(($i-1)/10)) {
+                    0 => '照明'.$i%10,
+                    1 => 'コントローラ'.$i%10,
+                    2 => 'ケーブル'.$i%10,
+                    3 => 'オプション'.$i%10,
+                },
+                'model' => match((int)(($i-1)/10)) {
+                    0 => 'LT_TYPE'.$i%10,
+                    1 => 'CR_TYPE'.$i%10,
+                    2 => 'CB_TYPE'.$i%10,
+                    3 => 'OP_TYPE'.$i%10,
+                },
                 'body1' => fake()->realText(20),
                 'body2' => fake()->realText(20),
                 'body3' => fake()->realText(20),
                 'note' => fake()->realText(20),
             ]);
             DB::table('series_details')->insert([
-                'series_id' => $id,
+                'series_id' => $series_id,
                 'language' => 'en',
-                'name' => 'lighting'.$i,
+                'name' => match((int)(($i-1)/10)) {
+                    0 => 'lighting'.$i%10,
+                    1 => 'controller'.$i%10,
+                    2 => 'cable'.$i%10,
+                    3 => 'option'.$i%10,
+                },
                 'body1' => fake()->paragraph(1),
                 'body2' => fake()->paragraph(1),
                 'body3' => fake()->paragraph(1),
                 'note' => fake()->paragraph(1),
             ]);
+
+            for ($j=1; $j<=5; $j++) {
+                DB::table('models')->insert([
+                    'series_id' => $series_id,
+                    'is_new' => fake()->randomElement([0, 1]),
+                    'is_end' => fake()->randomElement([0, 1]),
+                    'is_publish' => fake()->randomElement([0, 1]),
+                    'is_lend' => fake()->randomElement([0, 1]),
+                    'model' => 'MODEL_'.$count++,
+                    'product_number' => uniqid(),
+                    'operating_temperature' => fake()->randomNumber(),
+                    'operating_humidity' => fake()->randomNumber(),
+                    'weight' => fake()->randomNumber(),
+                    'compatible_standards' => fake()->randomElement(['RoHS_6', 'RoHS_10', 'RoHS_e-1', 'RoHS_10-2', 'CE_IEC', 'CE_EN', 'UKCA', 'PSE']),
+                    'memo' => fake()->realText(20),
+                ]);
+                $model_id = DB::getPdo()->lastInsertId();
+            }
         }
     }
 }

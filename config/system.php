@@ -19,8 +19,14 @@ return [
         'image_file'        => 'image',
     ],
     
+    'feature' => [
+        /* EX: storage/feature/1/image_jp */
+        'directory'         => 'feature',
+        'image_file'        => 'image_%s',
+    ],
+    
     'series' => [
-        /* ex: storage/series/1/ */
+        /* EX: storage/series/1/ */
         'directory'         => 'series',
         'image_file'        => 'image',
         'pamphlet_file'     => 'pamphlet',
