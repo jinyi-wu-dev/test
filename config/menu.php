@@ -4,11 +4,13 @@ return [
     [
         'type'  => 'header',
         'label' => 'ユーザ',
+    /*
     ], [
         'type'  => 'item',
         'label' => 'ユーザ登録',
         'route' => 'admin.user.create',
         'icon'  => 'fa-user',
+     */
     ], [
         'type'  => 'item',
         'label' => 'ユーザ一覧',
@@ -61,12 +63,13 @@ return [
     ], [
         'type'  => 'item',
         'label' => '個別（照明）登録',
-        'route' => 'admin.series.create',
+        'route' => 'admin.item.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => '個別（照明）一覧',
-        'route' => 'admin.series.index',
+        'route' => 'admin.item.index',
+        'param' => ['category'=>'lighting'],
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',

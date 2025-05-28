@@ -8,10 +8,17 @@ return [
     ],
 
     'pagination' => [
-        'num_of_item'       => 100,
+        'num_of_item'       => 10,
     ],
 
     'public_storage'        => 'storage',
+
+    'string' => [
+        'valid'     => '○',
+        'invalid'   => '',
+        'exist'     => '○',
+        'not_exist' => '-',
+    ],
 
     'icon' => [
         /* storage/icons/1/ */
@@ -27,16 +34,16 @@ return [
     
     'series' => [
         /* EX: storage/series/1/ */
-        'directory'         => 'series',
-        'image_file'        => 'image',
-        'pamphlet_file'     => 'pamphlet',
-        'catalogue_file'    => 'catalogue',
-        'manual_file'       => 'manual',
+        'directory'     => 'series',
+        'image'         => 'image',
+        'pamphlet'      => 'pamphlet',
+        'catalogue'     => 'catalogue',
+        'manual'        => 'manual',
     ],
 
-    'model' => [
+    'item' => [
         /* ex: storage/models/1/ */
-        'directory'         => 'models',
+        'directory'         => 'items',
         'external_view_pdf' => 'external_view_pdf',
         'external_view_dxf' => 'external_view_dxf',
         '3d_model_step'     => '3d_model_step',

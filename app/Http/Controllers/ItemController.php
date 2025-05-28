@@ -1,0 +1,272 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Series;
+use App\Models\Item;
+use App\Models\LightingItem;
+use App\Models\ControllerItem;
+use App\Models\CableItem;
+use App\Models\Icon;
+use App\Models\Feature;
+use App\Enums\Category;
+use App\Enums\Genre;
+use Illuminate\Http\Request;
+
+class ItemController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+        ]);
+        $query = match ($request->category) {
+            'lighting' => $this->lightingItemQuery($request),
+            'controller' => $this->controllerItemQuery($request),
+            'option' => $this->optionItemQuery($request),
+        };
+        $items = $query->paginate(config('system.pagination.num_of_item'));
+        $items->appends(['category'=>$request->category]);
+        return view('admin/item/index', [
+            'items' => $items,
+        ]);
+    }
+
+    protected function lightingItemQuery($request) {
+        $query = Item::lightings();
+        $keyword = $request->keyword ? $request->keyword : old('keyword');
+        /*
+        if ($keyword) {
+            $query->join('model_lightings', 'models.id', '=', 'model_lightings.model_id');
+            foreach (preg_split('/[ 　]++/', $keyword, 0, PREG_SPLIT_NO_EMPTY) as $key) {
+                $query->whereAny([
+                    'item.model',
+                    'item.memo',
+                    'series_details.name',
+                    'series_details.body1',
+                ],
+                'LIKE',
+                "%{$key}%"
+                );
+            }
+            $query->groupBy('item.id');
+        }
+         */
+        return $query;
+    }
+
+    protected function controllerItemQuery($request) {
+        $query = Item::controllers();
+        $keyword = $request->keyword ? $request->keyword : old('keyword');
+        /*
+        if ($keyword) {
+            $query->join('model_lightings', 'models.id', '=', 'model_lightings.model_id');
+            foreach (preg_split('/[ 　]++/', $keyword, 0, PREG_SPLIT_NO_EMPTY) as $key) {
+                $query->whereAny([
+                    'item.model',
+                    'item.memo',
+                    'series_details.name',
+                    'series_details.body1',
+                ],
+                'LIKE',
+                "%{$key}%"
+                );
+            }
+            $query->groupBy('item.id');
+        }
+         */
+        return $query;
+    }
+
+    protected function optionItemQuery($request) {
+        $query = Item::options();
+        $keyword = $request->keyword ? $request->keyword : old('keyword');
+        /*
+        if ($keyword) {
+            $query->join('model_lightings', 'models.id', '=', 'model_lightings.model_id');
+            foreach (preg_split('/[ 　]++/', $keyword, 0, PREG_SPLIT_NO_EMPTY) as $key) {
+                $query->whereAny([
+                    'item.model',
+                    'item.memo',
+                    'series_details.name',
+                    'series_details.body1',
+                ],
+                'LIKE',
+                "%{$key}%"
+                );
+            }
+            $query->groupBy('item.id');
+        }
+         */
+        return $query;
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('admin/item/create', [
+            'categories'        => Category::keyLabel(),
+            'genres'            => Genre::keyLabel(),
+            'icon_options'      => Icon::all()->pluck('title', 'id'),
+            'feature_options'   => Feature::all()->pluck('title', 'id'),
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $item = $this->save($request);
+        return redirect()
+            ->route('admin.item.index')
+            ->with('message', sprintf(config('system.messages.create_succeeded'), $item->id));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Item $item)
+    {
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Item $item)
+    {
+        return view('admin/item/edit', [
+            'item'          => $item,
+            'details'       => $item->lighting_items->keyBy('language'),
+            'series'        => Series::pluck('model', 'id'),
+            'controllers'   => Series::controller()->pluck('model', 'id'),
+            'cables'        => Series::cable()->pluck('model', 'id'),
+            'options'       => Series::option()->pluck('model', 'id'),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Item $item)
+    {
+        $this->save($request, $item);
+        return redirect()
+            ->route('admin.item.index', ['category'=>$item->series->category])
+            ->with('message', sprintf(config('system.messages.update_succeeded'), $item->id));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Item $item)
+    {
+        $id = $item->id;
+        $item->delete();
+        return redirect()
+            ->route('admin.item.index')
+            ->with('message', sprintf(config('system.messages.delete_succeeded'), $id));
+    }
+
+    public function multi_update(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $item = Item::find($id);
+            $item->is_new = in_array($id, $request->is_new_ids ?? []);
+            $item->is_end = in_array($id, $request->is_end_ids ?? []);
+            $item->is_publish = in_array($id, $request->is_publish_ids ?? []);
+            $item->is_lend = in_array($id, $request->is_lend_ids ?? []);
+            $item->save();
+        }
+        return redirect()
+            ->route('admin.item.index', ['category'=>$item->series->category])
+            ->withInput($request->only('keyword'))
+            ->with('message', sprintf(config('system.messages.update_succeeded'), implode(',', $request->ids)));
+    }
+
+    public function multi_destroy(Request $request)
+    {
+        foreach ($request->removes as $id) {
+            $item = Item::find($id);
+            $item->delete();
+        }
+        return redirect()
+            ->route('admin.item.index')
+            ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
+    }
+
+
+    protected function save(Request $request, Item $item=null) {
+        $request->validate([
+            /*
+            'icons'     => ['', function($attr, $value, $fail) {
+                if (count($value)>8) {
+                    $fail('アイコンは選択できるのは8以内です');
+                }
+            }],
+            'features'  => ['', function($attr, $value, $fail) {
+                if (count($value)>20) {
+                    $fail('特性・特徴は選択できるのは20以内です');
+                }
+            }],
+             */
+        ]);
+        list($single_params, $multi_params) = $this->splitMultiParameters($request);
+
+        if (is_null($item)) {
+            $item = new Item($single_params);
+        } else {
+            $item->fill($single_params);
+        }
+        $item->save();
+        $item->uploadFile('image', $request->file('image'));
+        $item->uploadFile('pamphlet', $request->file('pamphlet'));
+        $item->uploadFile('catalogue', $request->file('catalogue'));
+        $item->uploadFile('manual', $request->file('manual'));
+
+        switch ($item->series->category) {
+        case CATEGORY::LIGHTING:
+            $this->saveLighting($item->id, $multi_params);
+            $this->syncRelatedSeries(CATEGORY::CONTROLLER, $request->controllers, $item->related_controllers());
+            $this->syncRelatedSeries(CATEGORY::CABLE, $request->cables, $item->related_cables());
+            $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
+            break;
+        }
+
+        if (isset($single_params['icons'])) {
+            $item->icons()->sync($single_params['icons']);
+        }
+        if (isset($single_params['features'])) {
+            $item->features()->sync($single_params['features']);
+        }
+
+        return $item;
+    }
+
+    protected function syncRelatedSeries($category, $ids, $related_series) {
+        $rs = [];
+        foreach ($ids as $id) {
+            if ($id>0) {
+                $rs[$id] = ['category' => $category];
+            }
+        }
+        $related_series->sync($rs);
+    }
+
+    protected function saveLighting($id, $multi_params) {
+        foreach ($multi_params as $lang => $values) {
+            LightingItem::updateOrInsert([
+                'item_id'   => $id,
+                'language'  => $lang,
+            ], array_merge([
+                'item_id'   => $id,
+                'language'  => $lang,
+            ], $values));
+        }
+    }
+}

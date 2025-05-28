@@ -1,0 +1,121 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
+use Illuminate\Http\UploadedFile;
+use App\Models\Icon;
+use App\Models\Feature;
+use App\Enums\Category;
+use App\Traits\FileUploadable;
+
+class Item extends Model
+{
+    use FileUploadable;
+
+    protected $fillable = [
+        'series_id',
+        'is_new',
+        'is_end',
+        'is_publish',
+        'is_lend',
+        'model',
+        'product_number',
+        'operating_temperature',
+        'operating_humidity',
+        'weight',
+        'is_RoHS',
+        'is_RoHS2',
+        'is_CN_RoHSe1',
+        'is_CN_RoHS102',
+        'is_UKCA',
+        'is_PSE',
+        'memo',
+    ];
+
+    public function __construct($attributes = []) {
+        parent::__construct($attributes);
+        $this->setFileUploadModel('item');
+    }
+
+    /**
+     * Scope
+     */
+    public function scopeLightings($query) {
+        return $query
+            ->join('series', 'items.series_id', '=', 'series.id')
+            ->where('series.category', Category::LIGHTING)
+            ->select([
+                'items.*',
+            ]);
+    }
+
+    public function scopeControllers($query) {
+        return $query
+            ->join('series', 'items.series_id', '=', 'series.id')
+            ->where('series.category', Category::CONTROLLER)
+            ->select([
+                'items.*',
+            ]);
+    }
+
+    public function scopeCables($query) {
+        return $query
+            ->join('series', 'items.series_id', '=', 'series.id')
+            ->where('series.category', Category::CABLE)
+            ->select([
+                'items.*',
+            ]);
+    }
+
+    public function scopeOptions($query) {
+        return $query
+            ->join('series', 'items.series_id', '=', 'series.id')
+            ->where('series.category', Category::OPTION)
+            ->select([
+                'items.*',
+            ]);
+    }
+
+    /**
+     * Relation
+     */
+    public function series() {
+        return $this->belongsTo(Series::class);
+    }
+
+    public function lighting_items() {
+        return $this->hasMany(LightingItem::class, 'item_id');
+    }
+
+    public function lighting_item($language='jp') {
+        return $this->hasOne(SeriesDetail::class, 'item_id')->where('language', $language);
+    }
+
+    public function default_lighting_item() {
+        return $this->detail('jp');
+    }
+
+    public function related_controllers() {
+        return $this->belongsToMany(Series::class)
+                    ->withPivot('category')
+                    ->wherePivot('category', Category::CONTROLLER)
+                    ->withTimestamps();
+    }
+
+    public function related_cables() {
+        return $this->belongsToMany(Series::class)
+                    ->withPivot('category')
+                    ->wherePivot('category', Category::CABLE)
+                    ->withTimestamps();
+    }
+
+    public function related_options() {
+        return $this->belongsToMany(Series::class)
+                    ->withPivot('category')
+                    ->wherePivot('category', Category::OPTION)
+                    ->withTimestamps();
+    }
+
+}

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\SeriesController;
+use App\Http\Controllers\ItemController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,8 +25,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('user', UserController::class);
         Route::resource('feature', FeatureController::class)->except('show');
         Route::resource('icon', IconController::class)->except('show');
+
         Route::resource('series', SeriesController::class)->except('show');
         Route::post('series/m_update', [SeriesController::class, 'multi_update'])->name('series.multi_update');
         Route::post('series/m_destroy', [SeriesController::class, 'multi_destroy'])->name('series.multi_destroy');
+
+        Route::resource('item', ItemController::class)->except('show');
+        Route::post('item/m_update', [ItemController::class, 'multi_update'])->name('item.multi_update');
+        Route::post('item/m_destroy', [ItemController::class, 'multi_destroy'])->name('item.multi_destroy');
     });
 });

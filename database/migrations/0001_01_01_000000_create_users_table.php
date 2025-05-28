@@ -136,7 +136,7 @@ return new class extends Migration
             $table->primary(['series_id', 'language']);
         });
 
-        Schema::create('models', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('series_id')->unsigned();
             $table->boolean('is_new')->nullable()->default(false);
@@ -148,14 +148,20 @@ return new class extends Migration
             $table->string('operating_temperature')->default('');
             $table->string('operating_humidity')->default('');
             $table->string('weight')->default('');
-            $table->enum('compatible_standards', ['RoHS_6', 'RoHS_10', 'RoHS_e-1', 'RoHS_10-2', 'CE_IEC', 'CE_EN', 'UKCA', 'PSE'])->nullable();
+            $table->boolean('is_RoHS')->default(false);
+            $table->boolean('is_RoHS2')->default(false);
+            $table->boolean('is_CN_RoHSe1')->default(false);
+            $table->boolean('is_CN_RoHS102')->default(false);
+            $table->boolean('is_CE_IEC')->default(false);
+            $table->boolean('is_UKCA')->default(false);
+            $table->boolean('is_PSE')->default(false);
             $table->text('memo')->default('');
             $table->timestamps();
             $table->softDeletes()->nullable();
         });
             
-        Schema::create('model_lightings', function (Blueprint $table) {
-            $table->bigInteger('model_id')->unsigned();
+        Schema::create('lighting_items', function (Blueprint $table) {
+            $table->bigInteger('item_id')->unsigned();
             $table->enum('language', ['jp', 'en'])->default('jp');
             $table->string('type')->default('');
             $table->string('color1')->default('');
@@ -172,60 +178,83 @@ return new class extends Migration
             $table->string('description5')->default('');
             $table->string('note')->default('');
             $table->timestamps();
-            $table->primary(['model_id', 'language']);
+            $table->primary(['item_id', 'language']);
         });
 
-        Schema::create('model_controllers', function (Blueprint $table) {
-            $table->bigInteger('model_id')->unsigned();
+        Schema::create('controller_items', function (Blueprint $table) {
+            $table->bigInteger('item_id')->unsigned();
             $table->enum('language', ['jp', 'en'])->default('jp');
             $table->string('type')->default('');
             $table->string('total_capacity')->default('');
             $table->string('num_of_ch')->default('');
             $table->string('input')->default('');
             $table->string('output')->default('');
-            $table->string('note')->default('');
-            $table->enum('dimmable_control', ['pwm', 'current', 'voltage', 'overdrive'])->nullable();
+            $table->enum('dimmable_control', ['pwm', 'variable_current', 'variable_voltage', 'overdrive'])->nullable();
             $table->boolean('external_control');
             $table->boolean('is_ethernet');
             $table->boolean('is_8bit_parallel');
             $table->boolean('is_10bit_parallel');
             $table->boolean('is_rs232c');
             $table->boolean('is_analog');
-            $table->timestamps();
-            $table->primary(['model_id', 'language']);
-        });
-
-        Schema::create('model_cables', function (Blueprint $table) {
-            $table->bigInteger('model_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
-            $table->string('type')->default('');
+            $table->string('description1')->default('');
+            $table->string('description2')->default('');
+            $table->string('description3')->default('');
+            $table->string('description4')->default('');
+            $table->string('description5')->default('');
             $table->string('note')->default('');
             $table->timestamps();
-            $table->primary(['model_id', 'language']);
+            $table->primary(['item_id', 'language']);
         });
 
-        Schema::create('model_options', function (Blueprint $table) {
-            $table->bigInteger('model_id')->unsigned();
+        Schema::create('cable_items', function (Blueprint $table) {
+            $table->bigInteger('item_id')->unsigned();
+            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->string('type')->default('');
+            $table->timestamps();
+            $table->primary(['item_id', 'language']);
+        });
+
+        Schema::create('cable_item_groups', function (Blueprint $table) {
+            $table->id();
+            $table->string('item_ids')->default('');
+            $table->string('lighting_connector')->default('');
+            $table->string('power_connector')->default('');
+            $table->timestamps();
+        });
+
+        Schema::create('cable_item_group_details', function (Blueprint $table) {
+            $table->bigInteger('cable_item_group_id')->unsigned();
+            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->string('description1')->default('');
+            $table->string('description2')->default('');
+            $table->string('description3')->default('');
+            $table->string('description4')->default('');
+            $table->string('description5')->default('');
+            $table->string('note')->default('');
+            $table->timestamps();
+            $table->primary(['cable_item_group_id', 'language']);
+        });
+
+        Schema::create('option_items', function (Blueprint $table) {
+            $table->bigInteger('item_id')->unsigned();
             $table->enum('language', ['jp', 'en'])->default('jp');
             $table->string('type')->default('');
             $table->string('throughput')->default('');
+            $table->string('description1')->default('');
+            $table->string('description2')->default('');
+            $table->string('description3')->default('');
+            $table->string('description4')->default('');
+            $table->string('description5')->default('');
             $table->string('note')->default('');
             $table->timestamps();
-            $table->primary(['model_id', 'language']);
+            $table->primary(['item_id', 'language']);
         });
 
-        Schema::create('model_groups', function (Blueprint $table) {
-            $table->bigInteger('series_id')->unsigned();
-            $table->bigInteger('model_id')->unsigned();
-            $table->timestamps();
-            $table->primary(['series_id', 'model_id']);
-        });
-
-        Schema::create('lend_models', function (Blueprint $table) {
+        Schema::create('lend_items', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable(false);
             $table->enum('category', ['lighting', 'controller', 'cable', 'option'])->nullable(false);
-            $table->bigInteger('model_id')->nullable(false);
+            $table->bigInteger('item_id')->nullable(false);
             $table->datetime('request_at');
             $table->timestamps();
         });
@@ -244,21 +273,13 @@ return new class extends Migration
             $table->primary(['series_id', 'feature_id']);
         });
 
-        Schema::create('lighting_series', function (Blueprint $table) {
-            $table->bigInteger('lighting_id')->unsigned();
+        Schema::create('item_series', function (Blueprint $table) {
+            $table->bigInteger('item_id')->unsigned();
             $table->bigInteger('series_id')->unsigned();
+            $table->enum('category', ['lighting', 'controller', 'cable', 'option'])->nullable(false);
             $table->timestamps();
-            $table->primary(['lighting_id', 'series_id']);
+            $table->primary(['item_id', 'series_id']);
         });
-
-        Schema::create('lighting_option', function (Blueprint $table) {
-            $table->bigInteger('lighting_id')->unsigned();
-            $table->bigInteger('series_id')->unsigned();
-            $table->timestamps();
-            $table->primary(['lighting_id', 'series_id']);
-        });
-
-
 
     }
 

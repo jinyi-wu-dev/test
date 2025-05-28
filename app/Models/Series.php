@@ -3,15 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\UploadedFile;
 use App\Models\Icon;
 use App\Models\Feature;
 use App\Enums\Category;
 use App\Enums\Genre;
+use App\Traits\FileUploadable;
 
 class Series extends Model
 {
+    use FileUploadable;
+
     protected $fillable = [
         'category',
         'genre',
@@ -46,6 +48,27 @@ class Series extends Model
         'genre'     => Genre::class,
     ];
 
+    public function __construct($attributes = []) {
+        parent::__construct($attributes);
+        $this->setFileUploadModel('series');
+    }
+
+    public function scopeLighting($query) {
+        return $query->where('category', Category::LIGHTING);
+    }
+
+    public function scopeController($query) {
+        return $query->where('category', Category::CONTROLLER);
+    }
+
+    public function scopeCable($query) {
+        return $query->where('category', Category::CABLE);
+    }
+
+    public function scopeOption($query) {
+        return $query->where('category', Category::OPTION);
+    }
+
     public function details() {
         return $this->hasMany(SeriesDetail::class, 'series_id');
     }
@@ -64,44 +87,6 @@ class Series extends Model
 
     public function features() {
         return $this->belongsToMany(Feature::class, 'series_feature')->withTimestamps();
-    }
-
-    public function uploadFile($type, UploadedFile $file=null) {
-        if (config('system.series.'.$type.'_file')) {
-            if ($file) {
-                $file->storeAs(
-                    sprintf('%s/%d', config('system.series.directory'), $this->id),
-                    config('system.series.'.$type.'_file'),
-                    'public'
-                );
-            }
-        }
-    }
-
-    public function fileUrl($type) {
-        return config('system.series.'.$type.'_file') ? 
-            url(
-                sprintf('%s/%s/%d/%s',
-                    config('system.public_storage'),
-                    config('system.series.directory'),
-                    $this->id,
-                    config('system.series.'.$type.'_file')
-                )
-            ) : 
-            false;
-    }
-
-    public function hasFile($type) {
-        return config('system.series.'.$type.'_file') ? 
-            File::exists(
-                sprintf('%s/%s/%d/%s',
-                    config('system.public_storage'),
-                    config('system.series.directory'),
-                    $this->id,
-                    config('system.series.'.$type.'_file')
-                )
-            ) :
-            false;
     }
 
 }

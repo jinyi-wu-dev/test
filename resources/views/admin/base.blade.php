@@ -84,7 +84,7 @@
               <li class="nav-header">{{ $menu['label'] }}</li>
             @elseif ($menu['type']=='item')
               <li class="nav-item">
-                <a href="{{ route($menu['route']) }}" class="nav-link">
+                <a href="{{ route($menu['route'], $menu['param']??[]) }}" class="nav-link">
                   @if (isset($menu['icon']))<i class="nav-icon far {{ $menu['icon'] }}"></i>@endif<p>{{ $menu['label'] }}</p>
                 </a>
               </li>

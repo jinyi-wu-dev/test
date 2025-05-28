@@ -11,14 +11,14 @@ enum Category: string
     case LIGHTING   = 'lighting';
     case CONTROLLER = 'controller';
     case CABLE      = 'cable';
-    case ACCESSALY  = 'accessaly';
+    case OPTION     = 'option';
 
     public function label(): string {
         return match($this) {
             Category::LIGHTING      => '照明',
             Category::CONTROLLER    => 'コントロラー',
             Category::CABLE         => 'ケーブル',
-            Category::ACCESSALY     => 'オプション',
+            Category::OPTION        => 'オプション',
         };
     }
 }

@@ -9,7 +9,9 @@
   }
 @endphp
 <div class="form-group">
+  @if(isset($label))
   <label for="{{ $name }}">{{ $label }}</label>
+  @endif
   <select class="form-control @error($name) is-invalid @enderror "
     id="{{ $name }}"
     name="{{ $name }}"

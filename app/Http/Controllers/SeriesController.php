@@ -25,6 +25,7 @@ class SeriesController extends Controller
                 $query->whereAny([
                     'series.model',
                     'series.memo',
+                    'series_details.name',
                     'series_details.body1',
                 ],
                 'LIKE',

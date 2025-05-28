@@ -121,7 +121,7 @@ class DatabaseSeeder extends Seeder
             ]);
 
             for ($j=1; $j<=5; $j++) {
-                DB::table('models')->insert([
+                DB::table('items')->insert([
                     'series_id' => $series_id,
                     'is_new' => fake()->randomElement([0, 1]),
                     'is_end' => fake()->randomElement([0, 1]),
@@ -132,13 +132,12 @@ class DatabaseSeeder extends Seeder
                     'operating_temperature' => fake()->randomNumber(),
                     'operating_humidity' => fake()->randomNumber(),
                     'weight' => fake()->randomNumber(),
-                    'compatible_standards' => fake()->randomElement(['RoHS_6', 'RoHS_10', 'RoHS_e-1', 'RoHS_10-2', 'CE_IEC', 'CE_EN', 'UKCA', 'PSE']),
                     'memo' => fake()->realText(20),
                 ]);
-                $model_id = DB::getPdo()->lastInsertId();
+                $item_id = DB::getPdo()->lastInsertId();
                 if ($pos==0) {
-                    DB::table('model_lightings')->insert([
-                        'model_id' => $model_id,
+                    DB::table('lighting_items')->insert([
+                        'item_id' => $item_id,
                         'language' => 'jp',
                         'type' => fake()->word(),
                         'color1' => fake()->word(),
@@ -155,8 +154,8 @@ class DatabaseSeeder extends Seeder
                         'description5' => fake()->realText(20),
                         'note' => fake()->realText(20),
                     ]);
-                    DB::table('model_lightings')->insert([
-                        'model_id' => $model_id,
+                    DB::table('lighting_items')->insert([
+                        'item_id' => $item_id,
                         'language' => 'en',
                         'type' => fake()->word(),
                         'color1' => fake()->word(),
@@ -173,6 +172,41 @@ class DatabaseSeeder extends Seeder
                         'description5' => fake()->paragraph(1),
                         'note' => fake()->paragraph(1),
                     ]);
+                } else if ($pos==1) {
+                    DB::table('controller_items')->insert([
+                        'item_id' => $item_id,
+                        'language' => 'jp',
+                        'type' => fake()->word(),
+                        'total_capacity' => fake()->randomNumber(),
+                        'num_of_ch' => fake()->randomNumber(),
+                        'input' => fake()->randomNumber(),
+                        'output' => fake()->randomNumber(),
+                        'note' => fake()->realText(20),
+                        'dimmable_control' => fake()->randomElement(['pwm', 'current', 'voltage', 'overdrive']),
+                        'is_ethernet' => fake()->randomElement([0, 1]),
+                        'is_8bit_parallel' => fake()->randomElement([0, 1]),
+                        'is_10bit_parallel' => fake()->randomElement([0, 1]),
+                        'is_rs232c' => fake()->randomElement([0, 1]),
+                        'is_analog' => fake()->randomElement([0, 1]),
+                    ]);
+                    DB::table('controller_items')->insert([
+                        'item_id' => $item_id,
+                        'language' => 'en',
+                        'type' => fake()->word(),
+                        'total_capacity' => fake()->randomNumber(),
+                        'num_of_ch' => fake()->randomNumber(),
+                        'input' => fake()->randomNumber(),
+                        'output' => fake()->randomNumber(),
+                        'note' => fake()->realText(20),
+                        'dimmable_control' => fake()->randomElement(['pwm', 'current', 'voltage', 'overdrive']),
+                        'is_ethernet' => fake()->randomElement([0, 1]),
+                        'is_8bit_parallel' => fake()->randomElement([0, 1]),
+                        'is_10bit_parallel' => fake()->randomElement([0, 1]),
+                        'is_rs232c' => fake()->randomElement([0, 1]),
+                        'is_analog' => fake()->randomElement([0, 1]),
+                    ]);
+                } else if ($pos==2) {
+                } else if ($pos==3) {
                 }
             }
         }
