@@ -4,8 +4,8 @@
 @section('header', 'ユーザ')
 
 @section('breadcrumb')
-  <li class="breadcrumb-item"><a href="{{ route('admin.top') }}">UserList</a></li>
-  <li class="breadcrumb-item active">UserEdit</li>
+  <li class="breadcrumb-item"><a href="{{ route('admin.user.index') }}">ユーザ一覧</a></li>
+  <li class="breadcrumb-item active">ユーザ詳細</li>
 @endsection
 
 @section('form')

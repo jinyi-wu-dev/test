@@ -4,7 +4,7 @@
 @section('header', 'ユーザ')
 
 @section('breadcrumb')
-  <li class="breadcrumb-item active">UserList</li>
+  <li class="breadcrumb-item active">ユーザ一覧</li>
 @endsection
 
 @section('content')

@@ -34,7 +34,7 @@ class SeriesController extends Controller
             }
             $query->groupBy('series.id');
         }
-        $series = $query->paginate(config('pagination.num_of_item'));
+        $series = $query->paginate(config('system.pagination.num_of_item'));
         return view('admin/series/index', compact(
             'series'
         ));

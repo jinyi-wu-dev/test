@@ -240,10 +240,10 @@
                         {{ $s->genre ? $s->genre->label() : '' }}
                       </td>
                       <td class="CDT-name">
-                        {{ $s->default_detail->name ?? '' }}
+                        {{ $s->japanese_detail->name ?? '' }}
                       </td>
                       <td class="CDT-model">
-                        {{ $s->default_detail->model ?? '' }}
+                        {{ $s->japanese_detail->model ?? '' }}
                       </td>
                       <td class="CDT-num_of_model">
                       </td>
@@ -301,7 +301,7 @@
                         @endif
                       </td>
                       <td class="CDT-note">
-                        {{ $s->default_detail->note ?? '' }}
+                        {{ $s->japanese_detail->note ?? '' }}
                       </td>
                       <td class="CDT-memo">
                         {{ $s->memo }}

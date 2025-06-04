@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\UploadedFile;
+use App\Models\CableItem;
 use App\Models\Icon;
 use App\Models\Feature;
 use App\Enums\Category;
@@ -89,12 +90,12 @@ class Item extends Model
         return $this->hasMany(LightingItem::class, 'item_id');
     }
 
-    public function lighting_item($language='jp') {
-        return $this->hasOne(SeriesDetail::class, 'item_id')->where('language', $language);
+    public function cable_items() {
+        return $this->hasMany(CableItem::class, 'item_id');
     }
 
-    public function default_lighting_item() {
-        return $this->detail('jp');
+    public function japanese_lighting_item() {
+        return $this->hasOne(SeriesDetail::class, 'item_id')->where('language', 'jp');
     }
 
     public function related_controllers() {

@@ -22,16 +22,11 @@ return [
     ], [
         'type'  => 'item',
         'label' => '貸出実績一覧',
-        'route' => 'admin.user.index',
+        'route' => 'admin.lend.index',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'header',
         'label' => 'マスタ',
-    ], [
-        'type'  => 'item',
-        'label' => 'アイコン登録',
-        'route' => 'admin.icon.create',
-        'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => 'アイコン一覧',
@@ -39,8 +34,8 @@ return [
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
-        'label' => '特徴・特性登録',
-        'route' => 'admin.feature.create',
+        'label' => 'アイコン登録',
+        'route' => 'admin.icon.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
@@ -48,13 +43,13 @@ return [
         'route' => 'admin.feature.index',
         'icon'  => 'fa-user',
     ], [
-        'type'  => 'header',
-        'label' => '投稿',
-    ], [
         'type'  => 'item',
-        'label' => 'シリーズ登録',
-        'route' => 'admin.series.create',
+        'label' => '特徴・特性登録',
+        'route' => 'admin.feature.create',
         'icon'  => 'fa-user',
+    ], [
+        'type'  => 'header',
+        'label' => '製品',
     ], [
         'type'  => 'item',
         'label' => 'シリーズ一覧',
@@ -62,8 +57,8 @@ return [
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
-        'label' => '個別（照明）登録',
-        'route' => 'admin.item.create',
+        'label' => 'シリーズ登録',
+        'route' => 'admin.series.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
@@ -73,33 +68,48 @@ return [
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
-        'label' => '個別（ｺﾝﾄﾛｰﾗ）登録',
-        'route' => 'admin.series.create',
+        'label' => '個別（照明）登録',
+        'route' => 'admin.item.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => '個別（ｺﾝﾄﾛｰﾗ）一覧',
-        'route' => 'admin.series.index',
+        'route' => 'admin.item.index',
+        'param' => ['category'=>'controller'],
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
-        'label' => '個別（ｹｰﾌﾞﾙ）登録',
-        'route' => 'admin.series.create',
+        'label' => '個別（ｺﾝﾄﾛｰﾗ）登録',
+        'route' => 'admin.item.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => '個別（ｹｰﾌﾞﾙ）一覧',
-        'route' => 'admin.series.index',
+        'route' => 'admin.group.index',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
-        'label' => '個別（ｵﾌﾟｼｮﾝ）登録',
-        'route' => 'admin.series.create',
+        'label' => '個別（ｹｰﾌﾞﾙ）登録',
+        'route' => 'admin.group.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => '個別（ｵﾌﾟｼｮﾝ）一覧',
-        'route' => 'admin.series.index',
+        'route' => 'admin.item.index',
+        'param' => ['category'=>'controller'],
+        'icon'  => 'fa-user',
+    ], [
+        'type'  => 'item',
+        'label' => '個別（ｵﾌﾟｼｮﾝ）登録',
+        'route' => 'admin.item.create',
+        'icon'  => 'fa-user',
+    ], [
+        'type'  => 'header',
+        'label' => '一括',
+    ], [
+        'type'  => 'item',
+        'label' => 'CSVアップロード',
+        'route' => 'admin.csv.index',
         'icon'  => 'fa-user',
     ],
 ];

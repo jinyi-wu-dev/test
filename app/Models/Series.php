@@ -73,12 +73,8 @@ class Series extends Model
         return $this->hasMany(SeriesDetail::class, 'series_id');
     }
 
-    public function detail($language='jp') {
-        return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', $language);
-    }
-
-    public function default_detail() {
-        return $this->detail('jp');
+    public function japanese_detail() {
+        return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', 'jp');
     }
 
     public function icons() {

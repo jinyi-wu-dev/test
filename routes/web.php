@@ -7,6 +7,9 @@ use App\Http\Controllers\IconController;
 use App\Http\Controllers\FeatureController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CableItemGroupController;
+use App\Http\Controllers\CsvController;
+use App\Http\Controllers\LendItemController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,5 +36,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('item', ItemController::class)->except('show');
         Route::post('item/m_update', [ItemController::class, 'multi_update'])->name('item.multi_update');
         Route::post('item/m_destroy', [ItemController::class, 'multi_destroy'])->name('item.multi_destroy');
+
+        Route::resource('group', CableItemGroupController::class)->except('show');
+        Route::post('group/update_groups', [CableItemGroupController::class, 'update_groups'])->name('group.update_groups');
+        Route::post('group/destroy_groups', [CableItemGroupController::class, 'destroy_groups'])->name('group.destroy_groups');
+        Route::post('group/{group}/add_Item', [CableItemGroupController::class, 'add_item'])->name('group.add_item');
+        Route::post('group/{group}/destroy_items', [CableItemGroupController::class, 'destroy_items'])->name('group.destroy_items');
+
+        Route::get('csv', [CsvController::class, 'index'])->name('csv.index');
+        Route::post('csv/upload', [CsvController::class, 'upload'])->name('csv.upload');
+        Route::get('lend', [LendItemController::class, 'index'])->name('lend.index');
     });
 });

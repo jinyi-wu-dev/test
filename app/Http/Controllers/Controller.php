@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 abstract class Controller
 {
-    protected function splitMultiParameters($request) {
+    protected function splitMultiParameters($params) {
         $single_params = array();
         $multi_params = array();
-        foreach ($request->all() as $key => $value) {
-            $exp = explode(':', $key);
+        foreach ($params as $key => $value) {
+            $exp = explode(':', $key, 2);
             if (count($exp)==2) {
                 $multi_params[$exp[0]][$exp[1]] = $value;
             } else {

@@ -1,7 +1,7 @@
 @extends('admin/item/detail')
 
-@section('title', '個別型式情報（照明）更新')
-@section('header', '個別型式情報（照明）')
+@section('title', '個別型式情報・照明')
+@section('header', '個別型式情報・照明')
 
 @section('breadcrumb')
   <li class="breadcrumb-item"><a href="{{ route('admin.top') }}">UserList</a></li>

@@ -119,7 +119,8 @@ class DatabaseSeeder extends Seeder
                 'body3' => fake()->paragraph(1),
                 'note' => fake()->paragraph(1),
             ]);
-
+            
+            $cable_group = [];
             for ($j=1; $j<=5; $j++) {
                 DB::table('items')->insert([
                     'series_id' => $series_id,
@@ -206,8 +207,47 @@ class DatabaseSeeder extends Seeder
                         'is_analog' => fake()->randomElement([0, 1]),
                     ]);
                 } else if ($pos==2) {
+                    DB::table('cable_items')->insert([
+                        'item_id' => $item_id,
+                        'language' => 'jp',
+                        'type' => fake()->word(),
+                    ]);
+                    DB::table('cable_items')->insert([
+                        'item_id' => $item_id,
+                        'language' => 'en',
+                        'type' => fake()->word(),
+                    ]);
+                    $cable_group[] = $item_id;
                 } else if ($pos==3) {
                 }
+            }
+            if ($pos==2) {
+                DB::table('cable_item_groups')->insert([
+                    'item_ids' => '['.implode(',', $cable_group).']',
+                    'lighting_connector' => fake()->word(),
+                    'power_connector' => fake()->word(),
+                ]);
+                $cable_id = DB::getPdo()->lastInsertId();
+                DB::table('cable_item_group_details')->insert([
+                    'cable_item_group_id' => $cable_id,
+                    'language' => 'jp',
+                    'description1' => fake()->realText(20),
+                    'description2' => fake()->realText(20),
+                    'description3' => fake()->realText(20),
+                    'description4' => fake()->realText(20),
+                    'description5' => fake()->realText(20),
+                    'note' => fake()->realText(20),
+                ]);
+                DB::table('cable_item_group_details')->insert([
+                    'cable_item_group_id' => $cable_id,
+                    'language' => 'en',
+                    'description1' => fake()->paragraph(1),
+                    'description2' => fake()->paragraph(1),
+                    'description3' => fake()->paragraph(1),
+                    'description4' => fake()->paragraph(1),
+                    'description5' => fake()->paragraph(1),
+                    'note' => fake()->paragraph(1),
+                ]);
             }
         }
     }

@@ -1,9 +1,11 @@
 
-function initCheckDisplayControll($check_prefix, $target_prefix) {
+var save_page = '';
+function initCheckDisplayControll($page_name, $check_prefix, $target_prefix) {
+    $save_page = $page_name+'.';
     $("[name^='"+$check_prefix+"']").each(function() {
         $name = $(this).attr('name');
         $target = $name.substr($check_prefix.length);
-        $val = localStorage.getItem($target);
+        $val = localStorage.getItem($save_page+$target);
         if ($val=='0') {
             $(this).prop('checked', false);
             $("."+$target_prefix+$target).each(function() {
@@ -22,12 +24,12 @@ function initCheckDisplayControll($check_prefix, $target_prefix) {
         if ($name.indexOf($check_prefix)===0) {
             $target = $name.substr($check_prefix.length);
             if ($(this).prop('checked')) {
-                localStorage.setItem($target, 1);
+                localStorage.setItem($save_page+$target, 1);
                 $("."+$target_prefix+$target).each(function() {
                     $(this).show();
                 });
             } else {
-                localStorage.setItem($target, 0);
+                localStorage.setItem($save_page+$target, 0);
                 $("."+$target_prefix+$target).each(function() {
                     $(this).hide();
                 });

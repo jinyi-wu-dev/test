@@ -25,7 +25,9 @@ class FeatureController extends Controller
      */
     public function create()
     {
-        return view('admin/feature/create');
+        return view('admin/feature/create', [
+            'layouts'   => Layout::keyLabel(),
+        ]);
     }
 
     /**
