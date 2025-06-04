@@ -383,7 +383,7 @@
         </div>
 
         <div class="row">
-          <div class="col-6">
+          <div class="col-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <h3 class="card-title">アイコン</h3>
@@ -410,7 +410,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <h3 class="card-title">特性・特徴</h3>

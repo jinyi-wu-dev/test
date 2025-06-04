@@ -3,6 +3,7 @@
 namespace app\Traits;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\UploadedFile;
 
 trait FileUploadable
 {

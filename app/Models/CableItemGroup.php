@@ -56,7 +56,7 @@ class CableItemGroup extends Model
 
     public function addItem($id) {
         $item_ids = $this->item_ids;
-        array_push($item_ids, $item->id);
+        array_push($item_ids, $id);
         $this->item_ids = $item_ids;
     }
 

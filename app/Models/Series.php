@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\UploadedFile;
 use App\Models\Icon;
 use App\Models\Feature;
 use App\Enums\Category;
