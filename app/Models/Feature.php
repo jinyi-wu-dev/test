@@ -24,11 +24,7 @@ class Feature extends Model
         return $this->hasMany(FeatureDetail::class, 'feature_id');
     }
 
-    public function detail($language='jp') {
-        return $this->hasOne(FeatureDetail::class, 'feature_id')->where('language', $language);
-    }
-
-    public function default_detail() {
-        return $this->detail('jp');
+    public function japanese_detail() {
+        return $this->hasOne(FeatureDetail::class, 'feature_id')->where('language', 'jp');
     }
 }

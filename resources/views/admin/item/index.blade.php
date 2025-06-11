@@ -589,10 +589,10 @@
       initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
     })
     function doUpdate() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.item.multi_update') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.item.update_multiple') }}').submit();
     }
     function doDelete() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.item.multi_destroy') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.item.destroy_multiple') }}').submit();
     }
   </script>
 @endsection

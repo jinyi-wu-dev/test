@@ -49,7 +49,7 @@ class Series extends Model
 
     public function __construct($attributes = []) {
         parent::__construct($attributes);
-        $this->setFileUploadModel('series');
+        $this->initializeFileUpload('series');
     }
 
     public function scopeLighting($query) {

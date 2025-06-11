@@ -8,7 +8,15 @@
 @endsection
 
 @section('content')
+  @include('admin.parts.modal', [
+    'id'      => 'conformModal',
+    'title'   => '削除',
+    'message' => '削除します。よろしいですか？',
+    'on_ok'   => 'doDelete();',
+  ])
   <section class="content">
+  <form method="get" action="{{ route('admin.icon.index') }}"> 
+    @csrf
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8 col-sm-12 mx-auto">
@@ -18,7 +26,6 @@
             </div>
             <div class="card-body">
               {{--
-              <form method="get" action="{{ route('admin.icon.index') }}"> 
                 <div class="callout callout-secondary">
                   @include('admin.parts.block_text', [
                     'label' => '検索',
@@ -27,15 +34,26 @@
                   ])
                   <button type="submit" class="btn btn-secondary">　検　索　</button>  
                 </div>
-              </form>
               --}}
               <div class="row">
                 <table class="table table-bordered table-striped">
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>画像</th>
                       <th>タイトル</th>
+                      <th>画像</th>
+                      <th>削除</th>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th>
+                        @include('admin.parts.block_checkbox', [
+                          'name'  => 'is_delete_all',
+                          'type'  => 'danger',
+                        ])
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -45,12 +63,20 @@
                         <a href="{{ route('admin.icon.edit', $icon->id) }}">{{ $icon->id }}</a>
                       </td>
                       <td>
-                        @if ($icon->hasImage())
-                          <img src="{{ $icon->imageUrl() }}">
-                        @endif
+                        {{ $icon->title }}
                       </td>
                       <td>
-                        {{ $icon->title }}
+                        @if ($icon->hasFile('image'))
+                          <img src="{{ $icon->fileUrl('image') }}?{{uniqid()}}">
+                        @endif
+                      </td>
+                      <td class="CDT-delete">
+                        @include('admin.parts.block_checkbox', [
+                          'name'        => 'removes[]',
+                          'id'          => 'removes-'.$icon->id,
+                          'form_value'  => $icon->id,
+                          'type'        => 'danger',
+                        ])
                       </td>
                     </tr>
                     @endforeach
@@ -59,9 +85,28 @@
                 {{ $icons->links('admin.parts.pagination') }}
               </div>
             </div>
+            <div class="card-footer">
+              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </form>
   </section>
+@endsection
+
+
+@section('footer_script')
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+  <script src="{{ asset('/script/index.js') }}"></script>
+  <script>
+    $(function() {
+      initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
+      initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
+    })
+    function doDelete() {
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.icon.destroy_multiple') }}').submit();
+    }
+  </script>
 @endsection

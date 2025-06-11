@@ -28,7 +28,7 @@
                 @include('admin.parts.block_file', [
                   'name'        => 'image',
                   'label'       => '画像',
-                  'image_path'  => isset($icon)&&$icon->hasImage() ? $icon->imageUrl() : '',
+                  'image_path'  => isset($icon)&&$icon->hasFile('image') ? $icon->fileUrl('image') : '',
                 ])
                 @include('admin.parts.block_text', [
                   'name'  => 'title',

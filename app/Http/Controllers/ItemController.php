@@ -173,7 +173,7 @@ class ItemController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $id));
     }
 
-    public function multi_update(Request $request)
+    public function update_multiple(Request $request)
     {
         foreach ($request->ids as $id) {
             $item = Item::find($id);
@@ -189,7 +189,7 @@ class ItemController extends Controller
             ->with('message', sprintf(config('system.messages.update_succeeded'), implode(',', $request->ids)));
     }
 
-    public function multi_destroy(Request $request)
+    public function destroy_multiple(Request $request)
     {
         foreach ($request->removes as $id) {
             $item = Item::find($id);
@@ -223,7 +223,16 @@ class ItemController extends Controller
         } else {
             $item->fill($single_params);
         }
+        $item->is_RoHS = $request->cs_rohs=='RoHS';
+        $item->is_RoHS2 = $request->cs_rohs=='RoHS2';
+        $item->is_CN_RoHSe1 = $request->cs_crohs=='e_1';
+        $item->is_CN_RoHS102 = $request->cs_crohs=='10_2';
+        $item->is_CE_IEC = $request->cs_ce=='iec';
+        $item->is_CE_EN = $request->cs_ce=='en';
+        $item->is_UKCA = $request->cs_ukca=='ukca';
+        $item->is_PSE = $request->cs_pse=='pse';
         $item->save();
+
         $item->uploadFile('image', $request->file('image'));
         $item->uploadFile('pamphlet', $request->file('pamphlet'));
         $item->uploadFile('catalogue', $request->file('catalogue'));

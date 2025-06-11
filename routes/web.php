@@ -26,21 +26,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         //Route::resource('user', UserController::class)->except(['create', 'store', 'show']);
         Route::resource('user', UserController::class);
-        Route::resource('feature', FeatureController::class)->except('show');
-        Route::resource('icon', IconController::class)->except('show');
 
+        Route::resource('icon', IconController::class)->except('show');
+        Route::post('icon/destroy_multiple', [IconController::class, 'destroy_multiple'])->name('icon.destroy_multiple');
+
+        Route::resource('feature', FeatureController::class)->except('show');
+        Route::post('feature/destroy_multiple', [FeatureController::class, 'destroy_multiple'])->name('feature.destroy_multiple');
+        
         Route::resource('series', SeriesController::class)->except('show');
-        Route::post('series/m_update', [SeriesController::class, 'multi_update'])->name('series.multi_update');
-        Route::post('series/m_destroy', [SeriesController::class, 'multi_destroy'])->name('series.multi_destroy');
+        Route::post('series/update_multiple', [SeriesController::class, 'update_multiple'])->name('series.update_multiple');
+        Route::post('series/destroy_multiple', [SeriesController::class, 'destroy_multiple'])->name('series.destroy_multiple');
 
         Route::resource('item', ItemController::class)->except('show');
-        Route::post('item/m_update', [ItemController::class, 'multi_update'])->name('item.multi_update');
-        Route::post('item/m_destroy', [ItemController::class, 'multi_destroy'])->name('item.multi_destroy');
+        Route::post('item/update_multiple', [ItemController::class, 'update_multiple'])->name('item.update_multiple');
+        Route::post('item/destroy_multiple', [ItemController::class, 'destroy_multiple'])->name('item.destroy_multiple');
 
         Route::resource('group', CableItemGroupController::class)->except('show');
-        Route::post('group/update_groups', [CableItemGroupController::class, 'update_groups'])->name('group.update_groups');
-        Route::post('group/destroy_groups', [CableItemGroupController::class, 'destroy_groups'])->name('group.destroy_groups');
-        Route::post('group/{group}/add_Item', [CableItemGroupController::class, 'add_item'])->name('group.add_item');
+        Route::post('group/update_multiple', [CableItemGroupController::class, 'update_multiple'])->name('group.update_multiple');
+        Route::post('group/destroy_multiple', [CableItemGroupController::class, 'destroy_multiple'])->name('group.destroy_multiple');
+        Route::post('group/{group}/add_item', [CableItemGroupController::class, 'add_item'])->name('group.add_item');
         Route::post('group/{group}/destroy_items', [CableItemGroupController::class, 'destroy_items'])->name('group.destroy_items');
 
         Route::get('csv', [CsvController::class, 'index'])->name('csv.index');

@@ -11,8 +11,6 @@ return [
         'num_of_item'       => 10,
     ],
 
-    'public_storage'        => 'storage',
-
     'string' => [
         'valid'     => '○',
         'invalid'   => '',
@@ -20,33 +18,34 @@ return [
         'not_exist' => '-',
     ],
 
-    'icon' => [
-        /* storage/icons/1/ */
-        'directory'         => 'icons',
-        'image_file'        => 'image',
-    ],
-    
-    'feature' => [
-        /* EX: storage/feature/1/image_jp */
-        'directory'         => 'feature',
-        'image_file'        => 'image_%s',
-    ],
-    
-    'series' => [
-        /* EX: storage/series/1/ */
-        'directory'     => 'series',
-        'image'         => 'image',
-        'pamphlet'      => 'pamphlet',
-        'catalogue'     => 'catalogue',
-        'manual'        => 'manual',
-    ],
+    'file' => [
+        'public_storage'        => 'storage',
 
-    'item' => [
-        /* ex: storage/models/1/ */
-        'directory'         => 'items',
-        'external_view_pdf' => 'external_view_pdf',
-        'external_view_dxf' => 'external_view_dxf',
-        '3d_model_step'     => '3d_model_step',
+        'icon' => [
+            /* storage/icons/1/ */
+            'directory'     => 'icons',
+            'image'         => 'image',
+        ],
+        'feature' => [
+            /* EX: storage/feature/1/image_jp */
+            'directory'     => 'feature',
+            'image'         => 'image_{language}',
+        ],
+        'series' => [
+            /* EX: storage/series/1/ */
+            'directory'     => 'series',
+            'image'         => 'image',
+            'pamphlet'      => 'pamphlet',
+            'catalogue'     => 'catalogue',
+            'manual'        => 'manual',
+        ],
+        'item' => [
+            /* ex: storage/models/1/ */
+            'directory'         => 'items',
+            'external_view_pdf' => 'external_view_pdf',
+            'external_view_dxf' => 'external_view_dxf',
+            '3d_model_step'     => '3d_model_step',
+        ],
     ],
 ];
 

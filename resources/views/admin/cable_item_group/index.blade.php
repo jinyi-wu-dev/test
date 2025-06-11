@@ -553,10 +553,10 @@
       initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
     })
     function doUpdate() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.update_groups') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.update_multiple') }}').submit();
     }
     function doDelete() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.destroy_groups') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.destroy_multiple') }}').submit();
     }
   </script>
 @endsection

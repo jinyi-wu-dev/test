@@ -77,6 +77,17 @@ class IconController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $icon->id));
     }
 
+    public function destroy_multiple(Request $request)
+    {
+        foreach ($request->removes as $id) {
+            $icon = Icon::find($id);
+            $icon->delete();
+        }
+        return redirect()
+            ->route('admin.icon.index')
+            ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
+    }
+
 
     protected function save(Request $request, Icon $icon=null) {
         $request->validate([
@@ -90,7 +101,7 @@ class IconController extends Controller
         }
         $icon->save();
 
-        $icon->uploadImage($request->file('image'));
+        $icon->uploadFile('image', $request->file('image'));
 
         return $icon;
     }

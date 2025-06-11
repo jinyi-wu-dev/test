@@ -8,7 +8,15 @@
 @endsection
 
 @section('content')
+  @include('admin.parts.modal', [
+    'id'      => 'conformModal',
+    'title'   => '削除',
+    'message' => '削除します。よろしいですか？',
+    'on_ok'   => 'doDelete();',
+  ])
   <section class="content">
+  <form method="get" action="{{ route('admin.feature.index') }}"> 
+    @csrf
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8 col-sm-12 mx-auto">
@@ -18,7 +26,6 @@
             </div>
             <div class="card-body">
               {{--
-              <form method="get" action="{{ route('admin.feature.index') }}"> 
                 <div class="callout callout-secondary">
                   @include('admin.parts.block_text', [
                     'label' => '検索',
@@ -27,7 +34,6 @@
                   ])
                   <button type="submit" class="btn btn-secondary">　検　索　</button>  
                 </div>
-              </form>
               --}}
               <div class="row">
                 <table class="table table-bordered table-striped">
@@ -35,6 +41,23 @@
                     <tr>
                       <th>ID</th>
                       <th>タイトル</th>
+                      <th>レイアウト</th>
+                      <th>本文</th>
+                      <th></th>
+                      <th>削除</th>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                      <th>
+                        @include('admin.parts.block_checkbox', [
+                          'name'  => 'is_delete_all',
+                          'type'  => 'danger',
+                        ])
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -42,6 +65,15 @@
                     <tr>
                       <td>
                         <a href="{{ route('admin.feature.edit', $feature->id) }}">{{ $feature->id }}</a>
+                      </td>
+                      <td>
+                        {{ $feature->title }}
+                      </td>
+                      <td>
+                        {{ $feature->layout->label() }}
+                      </td>
+                      <td>
+                        {{ $feature->japanese_detail->body }}
                       </td>
                       <td>
                         {{ $feature->title }}

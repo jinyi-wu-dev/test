@@ -83,12 +83,23 @@ class FeatureController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $feature->id));
     }
 
+    public function destroy_multiple(Request $request)
+    {
+        foreach ($request->removes as $id) {
+            $feature = Feature::find($id);
+            $feature->delete();
+        }
+        return redirect()
+            ->route('admin.feature.index')
+            ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
+    }
+
 
     protected function save(Request $request, Feature $feature=null) {
         $request->validate([
             //'title' => 'required',
         ]);
-        list($single_params, $multi_params) = $this->splitMultiParameters($request);
+        list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
 
         if (is_null($feature)) {
             $feature = new Feature($single_params);
@@ -108,7 +119,7 @@ class FeatureController extends Controller
                 'language'  => $lang,
             ], $values));
 
-            $details[$lang]->uploadImage($request->file($lang.':image'));
+            $details[$lang]->uploadFile('image', $request->file($lang.':image'));
         }
 
 

@@ -69,7 +69,7 @@
                 @include('admin.parts.block_file', [
                   'name'        => 'jp:image',
                   'label'       => '画像',
-                  'image_path'  => isset($details['jp'])&&$details['jp']->hasImage() ? $details['jp']->imageUrl() : '',
+                  'image_path'  => isset($details['jp'])&&$details['jp']->hasFile('image') ? $details['jp']->fileUrl('image') : '',
                 ])
                 
               </div>
@@ -98,7 +98,7 @@
                 @include('admin.parts.block_file', [
                   'name'        => 'en:image',
                   'label'       => '画像',
-                  'image_path'  => isset($details['en'])&&$details['en']->hasImage() ? $details['en']->imageUrl() : '',
+                  'image_path'  => isset($details['en'])&&$details['en']->hasFile('image') ? $details['en']->fileUrl('image') : '',
                 ])
                 
               </div>

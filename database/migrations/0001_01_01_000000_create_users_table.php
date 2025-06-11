@@ -153,6 +153,7 @@ return new class extends Migration
             $table->boolean('is_CN_RoHSe1')->default(false);
             $table->boolean('is_CN_RoHS102')->default(false);
             $table->boolean('is_CE_IEC')->default(false);
+            $table->boolean('is_CE_EN')->default(false);
             $table->boolean('is_UKCA')->default(false);
             $table->boolean('is_PSE')->default(false);
             $table->text('memo')->default('');

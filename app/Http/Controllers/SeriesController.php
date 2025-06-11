@@ -111,7 +111,7 @@ class SeriesController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $id));
     }
 
-    public function multi_update(Request $request)
+    public function update_multiple(Request $request)
     {
         foreach ($request->ids as $id) {
             $series = Series::find($id);
@@ -126,7 +126,7 @@ class SeriesController extends Controller
             ->with('message', sprintf(config('system.messages.update_succeeded'), implode(',', $request->ids)));
     }
 
-    public function multi_destroy(Request $request)
+    public function destroy_multiple(Request $request)
     {
         foreach ($request->removes as $id) {
             $series = Series::find($id);

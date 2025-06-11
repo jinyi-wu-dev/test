@@ -136,7 +136,7 @@ class CableItemGroupController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $id));
     }
 
-    public function update_groups(Request $request)
+    public function update_multiple(Request $request)
     {
         foreach ($request->group_ids as $group_id) {
             $group = CableItemGroup::find($group_id);
@@ -154,7 +154,7 @@ class CableItemGroupController extends Controller
             ->with('message', sprintf(config('system.messages.update_succeeded'), implode(',', $request->group_ids)));
     }
 
-    public function destroy_groups(Request $request)
+    public function destroy_multiple(Request $request)
     {
         foreach ($request->removes as $id) {
             $group = CableItemGroup::find($id);

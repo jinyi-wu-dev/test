@@ -95,6 +95,69 @@
                   'label'     => '器具重量',
                   'valiable'  => 'item',
                 ])
+                <div class="row">
+                  <div class="col-2">
+                    @include('admin.parts.block_radio', [
+                      'name'      => 'cs_rohs',
+                      'label'     => '適合規格1',
+                      'value'     => $item->is_RoHS ? 'RoHS' :
+                                        ($item->is_RoHS2 ? 'RoHS2' : ''),
+                      'list'      => [
+                        'RoHS'    => 'RoHS',
+                        'RoHS2'   => 'RoHS2',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                  <div class="col-3">
+                    @include('admin.parts.block_radio', [
+                      'name'      => 'cs_crohs',
+                      'label'     => '適合規格2',
+                      'value'     => $item->is_CN_RoHSe1 ? 'e_1' :
+                                        ($item->is_CN_RoHS102 ? '10_2' : ''),
+                      'list'      => [
+                        'e_1'     => '中国RoHS e-1',
+                        '10_2'    => '中国RoHS 10-2',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                  <div class="col-3">
+                    @include('admin.parts.block_radio', [
+                      'name'      => 'cs_ce',
+                      'label'     => '適合規格3',
+                      'value'     => $item->is_CE_IEC ? 'iec' :
+                                        ($item->is_CE_EN ? 'en' : ''),
+                      'list'      => [
+                        'iec'     => 'CE(IEC62471)',
+                        'en'      => 'CE(EN55011, EN61000-6-2)',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                  <div class="col-2">
+                    @include('admin.parts.block_radio', [
+                      'name'      => 'cs_ukca',
+                      'label'     => '適合規格4',
+                      'value'     => $item->is_UKCA ? 'ukca' : '',
+                      'list'      => [
+                        'ukca'    => 'UKCA',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                  <div class="col-2">
+                    @include('admin.parts.block_radio', [
+                      'name'      => 'cs_pse',
+                      'label'     => '適合規格5',
+                      'value'     => $item->is_PSE ? 'pse' : '',
+                      'list'      => [
+                        'pse'     => 'PSE',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                </div>
                 @include('admin.parts.block_textarea', [
                   'name'      => 'memo',
                   'label'     => '備考欄',
@@ -204,7 +267,7 @@
               <div class="card-body">
                 @include('admin.parts.block_text', [
                   'name'      => 'en:type',
-                  'label'     => '',
+                  'label'     => 'タイプ',
                   'value'     => $details['en']->type ?? '',
                 ])
                 @include('admin.parts.block_text', [
@@ -359,6 +422,11 @@
                 </div>
               </div>
               <div class="card-body">
+                @include('admin.parts.block_text', [
+                  'name'      => 'search_options',
+                  'label'     => '',
+                  'value'     => '',
+                ])
                 @foreach ($item->related_options as $series)
                   @include('admin.parts.block_select', [
                     'name'      => 'options[]',
@@ -392,6 +460,18 @@
 @section('footer_script')
   <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
   <script>
-    bsCustomFileInput.init();
+    $(function() {
+      bsCustomFileInput.init();
+      $('input[name=search_options]').change(function() {
+        $keyword = $(this).val();
+        $('[name="options\\[\\]"] option').each(function() {
+          if ($(this).text().indexOf($keyword)>-1) {
+            $(this).css('display', 'block');
+          } else {
+            $(this).css('display', 'none');
+          }
+        });
+      });
+    });
   </script>
 @endsection

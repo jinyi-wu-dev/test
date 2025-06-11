@@ -338,7 +338,7 @@
   <script src="{{ asset('/script/index.js') }}"></script>
   <script>
     $(function() {
-      initCheckDisplayControll('CDC-', 'CDT-');
+      initCheckDisplayControll('series', 'CDC-', 'CDT-');
       initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
       initAllCheck('input[name=is_new_all]', 'input[name=is_new_ids\\[\\]]');
       initAllCheck('input[name=is_end_all]', 'input[name=is_end_ids\\[\\]]');
@@ -346,10 +346,10 @@
       initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
     })
     function doUpdate() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_update') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.update_multiple') }}').submit();
     }
     function doDelete() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.multi_destroy') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.series.destroy_multiple') }}').submit();
     }
   </script>
 @endsection

@@ -30,6 +30,8 @@ class Item extends Model
         'is_RoHS2',
         'is_CN_RoHSe1',
         'is_CN_RoHS102',
+        'is_CE_IEC',
+        'is_CE_EN',
         'is_UKCA',
         'is_PSE',
         'memo',
@@ -37,7 +39,7 @@ class Item extends Model
 
     public function __construct($attributes = []) {
         parent::__construct($attributes);
-        $this->setFileUploadModel('item');
+        $this->initializeFileUpload('item');
     }
 
     /**
