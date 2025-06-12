@@ -60,23 +60,13 @@
                   'empty'     => true,
                   'options'   => $series,
                 ])
-                @include('admin.parts.block_file', [
-                  'name'        => 'catalogue',
-                  'label'       => 'カタログ',
-                  'file_label'  => isset($item)&&$item->hasFile('catalogue') ? '○' : '-',
-                ])
-                @include('admin.parts.block_file', [
-                  'name'        => 'pamphlet',
-                  'label'       => 'パンフレット',
-                  'file_label'  => isset($item)&&$item->hasFile('pamphlet') ? '○' : '-',
-                ])
-                @include('admin.parts.block_file', [
-                  'name'        => 'manual',
-                  'label'       => '取扱説明書',
-                  'file_label'  => isset($item)&&$item->hasFile('manual') ? '○' : '-',
-                ])
                 @include('admin.parts.block_text', [
                   'name'      => 'model',
+                  'label'     => '個別型式',
+                  'valiable'  => 'item',
+                ])
+                @include('admin.parts.block_text', [
+                  'name'      => 'product_number',
                   'label'     => '品番',
                   'valiable'  => 'item',
                 ])
@@ -329,6 +319,88 @@
                   'name'      => 'en:description5',
                   'label'     => '欄外記述5',
                   'value'     => $details['en']->description5 ?? '',
+                ])
+              </div>
+              <div class="card-footer">
+                @yield('form_button')
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">共通ファイル</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                @include('admin.parts.block_file', [
+                  'name'        => '3d_model_step',
+                  'label'       => '3Dモデル（STEP）',
+                  'file_label'  => isset($item)&&$item->hasFile('3d_model_step') ? '○' : '-',
+                ])
+              </div>
+              <div class="card-footer">
+                @yield('form_button')
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">日本語ファイル</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                @include('admin.parts.block_file', [
+                  'name'        => 'jp:external_view_pdf',
+                  'label'       => '外観図（PDF）',
+                  'file_label'  => isset($details['jp'])&&$details['jp']->hasFile('external_view_pdf') ? '○' : '-',
+                ])
+                @include('admin.parts.block_file', [
+                  'name'        => 'jp:external_view_dxf',
+                  'label'       => '外観図（DXF）',
+                  'file_label'  => isset($details['jp'])&&$details['jp']->hasFile('external_view_dxf') ? '○' : '-',
+                ])
+              </div>
+              <div class="card-footer">
+                @yield('form_button')
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">英語ファイル</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                @include('admin.parts.block_file', [
+                  'name'        => 'en:external_view_pdf',
+                  'label'       => '外観図（PDF）',
+                  'file_label'  => isset($details['en'])&&$details['en']->hasFile('external_view_pdf') ? '○' : '-',
+                ])
+                @include('admin.parts.block_file', [
+                  'name'        => 'en:external_view_dxf',
+                  'label'       => '外観図（DXF）',
+                  'file_label'  => isset($details['en'])&&$details['en']->hasFile('external_view_dxf') ? '○' : '-',
                 ])
               </div>
               <div class="card-footer">

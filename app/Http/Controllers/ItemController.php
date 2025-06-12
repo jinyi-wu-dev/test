@@ -216,7 +216,7 @@ class ItemController extends Controller
             }],
              */
         ]);
-        list($single_params, $multi_params) = $this->splitMultiParameters($request);
+        list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
 
         if (is_null($item)) {
             $item = new Item($single_params);
@@ -233,14 +233,11 @@ class ItemController extends Controller
         $item->is_PSE = $request->cs_pse=='pse';
         $item->save();
 
-        $item->uploadFile('image', $request->file('image'));
-        $item->uploadFile('pamphlet', $request->file('pamphlet'));
-        $item->uploadFile('catalogue', $request->file('catalogue'));
-        $item->uploadFile('manual', $request->file('manual'));
+        $item->uploadFile('3d_model_step', $request->file('3d_model_step'));
 
         switch ($item->series->category) {
         case CATEGORY::LIGHTING:
-            $this->saveLighting($item->id, $multi_params);
+            $this->saveLighting($item, $request, $multi_params);
             $this->syncRelatedSeries(CATEGORY::CONTROLLER, $request->controllers, $item->related_controllers());
             $this->syncRelatedSeries(CATEGORY::CABLE, $request->cables, $item->related_cables());
             $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
@@ -267,15 +264,20 @@ class ItemController extends Controller
         $related_series->sync($rs);
     }
 
-    protected function saveLighting($id, $multi_params) {
+    protected function saveLighting($item, $request, $multi_params) {
+        $details = $item->lighting_items->keyBy('language');
         foreach ($multi_params as $lang => $values) {
+            unset($values['external_view_pdf']);
+            unset($values['external_view_dxf']);
             LightingItem::updateOrInsert([
-                'item_id'   => $id,
+                'item_id'   => $item->id,
                 'language'  => $lang,
             ], array_merge([
-                'item_id'   => $id,
+                'item_id'   => $item->id,
                 'language'  => $lang,
             ], $values));
+            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
         }
     }
 }
