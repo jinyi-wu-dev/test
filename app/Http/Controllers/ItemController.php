@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\LightingItem;
 use App\Models\ControllerItem;
 use App\Models\CableItem;
+use App\Models\OptionItem;
 use App\Models\Icon;
 use App\Models\Feature;
 use App\Enums\Category;
@@ -31,7 +32,8 @@ class ItemController extends Controller
         $items = $query->paginate(config('system.pagination.num_of_item'));
         $items->appends(['category'=>$request->category]);
         return view('admin/item/index', [
-            'items' => $items,
+            'items'     => $items,
+            'category'  => Category::from($request->category),
         ]);
     }
 
@@ -107,13 +109,18 @@ class ItemController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->validate([
+            'category'  => 'required',
+        ]);
         return view('admin/item/create', [
-            'categories'        => Category::keyLabel(),
-            'genres'            => Genre::keyLabel(),
-            'icon_options'      => Icon::all()->pluck('title', 'id'),
-            'feature_options'   => Feature::all()->pluck('title', 'id'),
+            'category'      => Category::from($request->category),
+            'categories'    => Category::keyLabel(),
+            'series'        => Series::pluck('model', 'id'),
+            'controllers'   => Series::controller()->pluck('model', 'id'),
+            'cables'        => Series::cable()->pluck('model', 'id'),
+            'options'       => Series::option()->pluck('model', 'id'),
         ]);
     }
 
@@ -124,7 +131,7 @@ class ItemController extends Controller
     {
         $item = $this->save($request);
         return redirect()
-            ->route('admin.item.index')
+            ->route('admin.item.index', ['category' => $request->category])
             ->with('message', sprintf(config('system.messages.create_succeeded'), $item->id));
     }
 
@@ -140,9 +147,15 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $details = match ($item->series->category) {
+            Category::LIGHTING      => $item->lighting_items->keyBy('language'),
+            Category::CONTROLLER    => $item->controller_items->keyBy('language'),
+            Category::OPTION        => $item->option_items->keyBy('language'),
+        };
         return view('admin/item/edit', [
             'item'          => $item,
-            'details'       => $item->lighting_items->keyBy('language'),
+            'category'      => $item->series->category,
+            'details'       => $details,
             'series'        => Series::pluck('model', 'id'),
             'controllers'   => Series::controller()->pluck('model', 'id'),
             'cables'        => Series::cable()->pluck('model', 'id'),
@@ -203,18 +216,7 @@ class ItemController extends Controller
 
     protected function save(Request $request, Item $item=null) {
         $request->validate([
-            /*
-            'icons'     => ['', function($attr, $value, $fail) {
-                if (count($value)>8) {
-                    $fail('アイコンは選択できるのは8以内です');
-                }
-            }],
-            'features'  => ['', function($attr, $value, $fail) {
-                if (count($value)>20) {
-                    $fail('特性・特徴は選択できるのは20以内です');
-                }
-            }],
-             */
+            'series_id'  => 'required',
         ]);
         list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
 
@@ -235,11 +237,29 @@ class ItemController extends Controller
 
         $item->uploadFile('3d_model_step', $request->file('3d_model_step'));
 
-        switch ($item->series->category) {
+        $commons = [];
+        if (isset($multi_params['_c'])) {
+            $commons = $multi_params['_c'];
+            unset($multi_params['_c']);
+            foreach ($multi_params as $key => $val) {
+                $multi_params[$key] = array_merge($multi_params[$key], $commons);
+            }
+        }
+
+        switch ($request->category) {
         case CATEGORY::LIGHTING:
             $this->saveLighting($item, $request, $multi_params);
             $this->syncRelatedSeries(CATEGORY::CONTROLLER, $request->controllers, $item->related_controllers());
             $this->syncRelatedSeries(CATEGORY::CABLE, $request->cables, $item->related_cables());
+            $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
+            break;
+        case CATEGORY::CONTROLLER:
+            $this->saveController($item, $request, $multi_params);
+            $this->syncRelatedSeries(CATEGORY::CABLE, $request->cables, $item->related_cables());
+            $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
+            break;
+        case CATEGORY::OPTION:
+            $this->saveOption($item, $request, $multi_params);
             $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
             break;
         }
@@ -280,4 +300,39 @@ class ItemController extends Controller
             $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
         }
     }
+    
+    protected function saveController($item, $request, $multi_params) {
+        $details = $item->controller_items->keyBy('language');
+        foreach ($multi_params as $lang => $values) {
+            unset($values['external_view_pdf']);
+            unset($values['external_view_dxf']);
+            ControllerItem::updateOrInsert([
+                'item_id'   => $item->id,
+                'language'  => $lang,
+            ], array_merge([
+                'item_id'   => $item->id,
+                'language'  => $lang,
+            ], $values));
+            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+        }
+    }
+    
+    protected function saveOption($item, $request, $multi_params) {
+        $details = $item->option_items->keyBy('language');
+        foreach ($multi_params as $lang => $values) {
+            unset($values['external_view_pdf']);
+            unset($values['external_view_dxf']);
+            OptionItem::updateOrInsert([
+                'item_id'   => $item->id,
+                'language'  => $lang,
+            ], array_merge([
+                'item_id'   => $item->id,
+                'language'  => $lang,
+            ], $values));
+            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+        }
+    }
+    
 }

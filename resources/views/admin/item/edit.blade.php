@@ -1,11 +1,19 @@
 @extends('admin/item/detail')
 
-@section('title', '個別型式情報・照明')
-@section('header', '個別型式情報・照明')
+@if ($item->series->category==App\Enums\Category::LIGHTING)
+  @section('title', '個別型式情報・照明')
+  @section('header', '個別型式情報・照明')
+@elseif ($item->series->category==App\Enums\Category::CONTROLLER)
+  @section('title', '個別型式情報・コントローラ')
+  @section('header', '個別型式情報・コントローラ')
+@elseif ($item->series->category==App\Enums\Category::OPTION)
+  @section('title', '個別型式情報・オプション')
+  @section('header', '個別型式情報・オプション')
+@endif
 
 @section('breadcrumb')
-  <li class="breadcrumb-item"><a href="{{ route('admin.top') }}">UserList</a></li>
-  <li class="breadcrumb-item active">UserEdit</li>
+  <li class="breadcrumb-item"><a href="{{ route('admin.top') }}">一覧</a></li>
+  <li class="breadcrumb-item active">詳細</li>
 @endsection
 
 @section('form')

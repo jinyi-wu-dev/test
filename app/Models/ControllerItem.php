@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use app\Enums\DimmableControl;
+use App\Enums\DimmableControl;
+use App\Traits\FileUploadable;
 
 class ControllerItem extends Model
 {
+    use FileUploadable;
+
     protected $primaryKey = ['item_id', 'language'];
 
     public $incrementing = false;
@@ -37,4 +40,9 @@ class ControllerItem extends Model
     protected $casts = [
         'dimmable_control'  => DimmableControl::class,
     ];
+
+    public function __construct($attributes = []) {
+        parent::__construct($attributes);
+        $this->initializeFileUpload('item', 'item_id', ['language']);
+    }
 }

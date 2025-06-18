@@ -1,15 +1,24 @@
-@extends('admin/series/detail')
+@extends('admin/item/detail')
 
-@section('title', '個別型式新規作成・照明')
-@section('header', '個別型式新規作成・照明')
+
+@if ($category==App\Enums\Category::LIGHTING)
+  @section('title', '個別型式登録・照明')
+  @section('header', '個別型式登録・照明')
+@elseif ($category==App\Enums\Category::CONTROLLER)
+  @section('title', '個別型式登録・コントローラー')
+  @section('header', '個別型式登録・コントローラー')
+@endif
+
 
 @section('breadcrumb')
-  <li class="breadcrumb-item active">UserCreate</li>
+  <li class="breadcrumb-item active">登録</li>
 @endsection
+
 
 @section('form')
   <form method="post" action="{{ route('admin.item.store') }}" enctype="multipart/form-data">
 @endsection
+
 
 @section('form_button')
   <button type="submit" class="btn btn-primary">　追　加　</button>  

@@ -70,6 +70,7 @@ return [
         'type'  => 'item',
         'label' => '個別（照明）登録',
         'route' => 'admin.item.create',
+        'param' => ['category'=>'lighting'],
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
@@ -81,6 +82,7 @@ return [
         'type'  => 'item',
         'label' => '個別（ｺﾝﾄﾛｰﾗ）登録',
         'route' => 'admin.item.create',
+        'param' => ['category'=>'controller'],
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
@@ -96,12 +98,13 @@ return [
         'type'  => 'item',
         'label' => '個別（ｵﾌﾟｼｮﾝ）一覧',
         'route' => 'admin.item.index',
-        'param' => ['category'=>'controller'],
+        'param' => ['category'=>'option'],
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => '個別（ｵﾌﾟｼｮﾝ）登録',
         'route' => 'admin.item.create',
+        'param' => ['category'=>'option'],
         'icon'  => 'fa-user',
     ], [
         'type'  => 'header',

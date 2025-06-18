@@ -4,10 +4,11 @@ namespace App\Enums;
 
 use App\Traits\EnumKeyValiable;
 
-enum DimmableControll: string
+enum DimmableControl: string
 {
     use EnumKeyValiable;
 
+    case NONE       = '';
     case PWM        = 'pwm';
     case V_CURRENT  = 'variable_current';
     case V_VOLTAGE  = 'variable_voltage';
@@ -15,10 +16,11 @@ enum DimmableControll: string
 
     public function label(): string {
         return match($this) {
-            DimmableControll::LIGHTING      => 'PWM方式',
-            DimmableControll::CONTROLLER    => '電流可変方式',
-            DimmableControll::CABLE         => '電圧可変方式',
-            DimmableControll::OPTION        => 'オーバードライブ',
+            DimmableControl::NONE       => '',
+            DimmableControl::PWM        => 'PWM方式',
+            DimmableControl::V_CURRENT  => '電流可変方式',
+            DimmableControl::V_VOLTAGE  => '電圧可変方式',
+            DimmableControl::OVERDRIVE  => 'オーバードライブ',
         };
     }
 }

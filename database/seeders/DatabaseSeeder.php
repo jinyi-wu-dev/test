@@ -189,6 +189,12 @@ class DatabaseSeeder extends Seeder
                         'is_10bit_parallel' => fake()->randomElement([0, 1]),
                         'is_rs232c' => fake()->randomElement([0, 1]),
                         'is_analog' => fake()->randomElement([0, 1]),
+                        'description1' => fake()->realText(20),
+                        'description2' => fake()->realText(20),
+                        'description3' => fake()->realText(20),
+                        'description4' => fake()->realText(20),
+                        'description5' => fake()->realText(20),
+                        'note' => fake()->realText(20),
                     ]);
                     DB::table('controller_items')->insert([
                         'item_id' => $item_id,
@@ -205,6 +211,12 @@ class DatabaseSeeder extends Seeder
                         'is_10bit_parallel' => fake()->randomElement([0, 1]),
                         'is_rs232c' => fake()->randomElement([0, 1]),
                         'is_analog' => fake()->randomElement([0, 1]),
+                        'description1' => fake()->paragraph(1),
+                        'description2' => fake()->paragraph(1),
+                        'description3' => fake()->paragraph(1),
+                        'description4' => fake()->paragraph(1),
+                        'description5' => fake()->paragraph(1),
+                        'note' => fake()->paragraph(1),
                     ]);
                 } else if ($pos==2) {
                     DB::table('cable_items')->insert([
@@ -219,6 +231,18 @@ class DatabaseSeeder extends Seeder
                     ]);
                     $cable_group[] = $item_id;
                 } else if ($pos==3) {
+                    DB::table('option_items')->insert([
+                        'item_id' => $item_id,
+                        'language' => 'jp',
+                        'type' => fake()->word(),
+                        'throughput' => fake()->randomNumber(),
+                    ]);
+                    DB::table('option_items')->insert([
+                        'item_id' => $item_id,
+                        'language' => 'en',
+                        'type' => fake()->word(),
+                        'throughput' => fake()->randomNumber(),
+                    ]);
                 }
             }
             if ($pos==2) {

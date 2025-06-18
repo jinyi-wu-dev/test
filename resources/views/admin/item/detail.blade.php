@@ -6,12 +6,13 @@
     <div class="container-fluid">
       @yield('form')
         @csrf
+        <input type="hidden" name="category" value="{{ $category }}">
 
         <div class="row">
           <div class="col-12">
             <div class="card card-primary card-outline">
               <div class="card-header">
-                <h3 class="card-title">共通項目</h3>
+                <h3 class="card-title">個別共通項目</h3>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -56,7 +57,7 @@
                 @include('admin.parts.block_select', [
                   'name'      => 'series_id',
                   'label'     => 'シリーズ型式',
-                  'value'     => $item->series_id,
+                  'value'     => $item->series_id ?? '',
                   'empty'     => true,
                   'options'   => $series,
                 ])
@@ -90,8 +91,7 @@
                     @include('admin.parts.block_radio', [
                       'name'      => 'cs_rohs',
                       'label'     => '適合規格1',
-                      'value'     => $item->is_RoHS ? 'RoHS' :
-                                        ($item->is_RoHS2 ? 'RoHS2' : ''),
+                      'value'     => isset($item) ?  ($item->is_RoHS ? 'RoHS' : ($item->is_RoHS2 ? 'RoHS2' : '')) : '',
                       'list'      => [
                         'RoHS'    => 'RoHS',
                         'RoHS2'   => 'RoHS2',
@@ -103,8 +103,7 @@
                     @include('admin.parts.block_radio', [
                       'name'      => 'cs_crohs',
                       'label'     => '適合規格2',
-                      'value'     => $item->is_CN_RoHSe1 ? 'e_1' :
-                                        ($item->is_CN_RoHS102 ? '10_2' : ''),
+                      'value'     => isset($item) ? ($item->is_CN_RoHSe1 ? 'e_1' : ($item->is_CN_RoHS102 ? '10_2' : '')) : '',
                       'list'      => [
                         'e_1'     => '中国RoHS e-1',
                         '10_2'    => '中国RoHS 10-2',
@@ -116,8 +115,7 @@
                     @include('admin.parts.block_radio', [
                       'name'      => 'cs_ce',
                       'label'     => '適合規格3',
-                      'value'     => $item->is_CE_IEC ? 'iec' :
-                                        ($item->is_CE_EN ? 'en' : ''),
+                      'value'     => isset($item) ? ($item->is_CE_IEC ? 'iec' : ($item->is_CE_EN ? 'en' : '')) : '',
                       'list'      => [
                         'iec'     => 'CE(IEC62471)',
                         'en'      => 'CE(EN55011, EN61000-6-2)',
@@ -129,7 +127,7 @@
                     @include('admin.parts.block_radio', [
                       'name'      => 'cs_ukca',
                       'label'     => '適合規格4',
-                      'value'     => $item->is_UKCA ? 'ukca' : '',
+                      'value'     => isset($item) ? ($item->is_UKCA ? 'ukca' : '') : '',
                       'list'      => [
                         'ukca'    => 'UKCA',
                         ''        => 'なし',
@@ -140,7 +138,7 @@
                     @include('admin.parts.block_radio', [
                       'name'      => 'cs_pse',
                       'label'     => '適合規格5',
-                      'value'     => $item->is_PSE ? 'pse' : '',
+                      'value'     => isset($item) ? ($item->is_PSE ? 'pse' : '') : '',
                       'list'      => [
                         'pse'     => 'PSE',
                         ''        => 'なし',
@@ -161,172 +159,55 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-6">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">日本語項目</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:type',
-                  'label'     => 'タイプ',
-                  'value'     => $details['jp']->type ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:color1',
-                  'label'     => '発光色',
-                  'value'     => $details['jp']->color1 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:color2',
-                  'label'     => '発光色記号',
-                  'value'     => $details['jp']->color2 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:color3',
-                  'label'     => '色温度/ピーク波長',
-                  'value'     => $details['jp']->color3 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:power_consumption',
-                  'label'     => '消費電力',
-                  'value'     => $details['jp']->power_consumption ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:num_of_ch',
-                  'label'     => 'CH数',
-                  'value'     => $details['jp']->num_of_ch ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:input',
-                  'label'     => '入力',
-                  'value'     => $details['jp']->input ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:etc',
-                  'label'     => 'その他',
-                  'value'     => $details['jp']->etc ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:description1',
-                  'label'     => '欄外記述1',
-                  'value'     => $details['jp']->description1 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:description2',
-                  'label'     => '欄外記述2',
-                  'value'     => $details['jp']->description2 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:description3',
-                  'label'     => '欄外記述3',
-                  'value'     => $details['jp']->description3 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:description4',
-                  'label'     => '欄外記述4',
-                  'value'     => $details['jp']->description4 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'jp:description5',
-                  'label'     => '欄外記述5',
-                  'value'     => $details['jp']->description5 ?? '',
-                ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
-            </div>
+        @if ($category==App\Enums\Category::CONTROLLER)
+          <div class="row">
+            @include('admin/item/detail_c_controller', [
+              'title'   => '共通項目',
+              'detail'  => $details['jp'] ?? null,
+            ])
           </div>
-          <div class="col-6">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">英語</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                </div>
-              </div>
-              <div class="card-body">
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:type',
-                  'label'     => 'タイプ',
-                  'value'     => $details['en']->type ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:color1',
-                  'label'     => '発光色',
-                  'value'     => $details['en']->color1 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:color2',
-                  'label'     => '発光色記号',
-                  'value'     => $details['en']->color2 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:color3',
-                  'label'     => '色温度/ピーク波長',
-                  'value'     => $details['en']->color3 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:power_consumption',
-                  'label'     => '消費電力',
-                  'value'     => $details['en']->power_consumption ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:num_of_ch',
-                  'label'     => 'CH数',
-                  'value'     => $details['en']->num_of_ch ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:input',
-                  'label'     => '入力',
-                  'value'     => $details['en']->input ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:etc',
-                  'label'     => 'その他',
-                  'value'     => $details['en']->etc ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:description1',
-                  'label'     => '欄外記述1',
-                  'value'     => $details['en']->description1 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:description2',
-                  'label'     => '欄外記述2',
-                  'value'     => $details['en']->description2 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:description3',
-                  'label'     => '欄外記述3',
-                  'value'     => $details['en']->description3 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:description4',
-                  'label'     => '欄外記述4',
-                  'value'     => $details['en']->description4 ?? '',
-                ])
-                @include('admin.parts.block_text', [
-                  'name'      => 'en:description5',
-                  'label'     => '欄外記述5',
-                  'value'     => $details['en']->description5 ?? '',
-                ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
-            </div>
+        @endif
+
+        @if ($category==App\Enums\Category::LIGHTING)
+          <div class="row">
+            @include('admin/item/detail_d_lighting', [
+              'title'   => '日本語項目',
+              'lang'    => 'jp',
+              'detail'  => $details['jp'] ?? null,
+            ])
+            @include('admin/item/detail_d_lighting', [
+              'title'   => '英語項目',
+              'lang'    => 'en',
+              'detail'  => $details['en'] ?? null,
+            ])
           </div>
-        </div>
+        @elseif ($category==App\Enums\Category::CONTROLLER)
+          <div class="row">
+            @include('admin/item/detail_d_controller', [
+              'title'   => '日本語項目',
+              'lang'    => 'jp',
+              'detail'  => $details['jp'] ?? null,
+            ])
+            @include('admin/item/detail_d_controller', [
+              'title'   => '英語項目',
+              'lang'    => 'en',
+              'detail'  => $details['en'] ?? null,
+            ])
+          </div>
+        @elseif ($category==App\Enums\Category::OPTION)
+          <div class="row">
+            @include('admin/item/detail_d_option', [
+              'title'   => '日本語項目',
+              'lang'    => 'jp',
+              'detail'  => $details['jp'] ?? null,
+            ])
+            @include('admin/item/detail_d_option', [
+              'title'   => '英語項目',
+              'lang'    => 'en',
+              'detail'  => $details['en'] ?? null,
+            ])
+          </div>
+        @endif
 
         <div class="row">
           <div class="col-12">
@@ -410,118 +291,58 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">関連製品（コントローラ）</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                @foreach ($item->related_controllers as $series)
-                  @include('admin.parts.block_select', [
-                    'name'      => 'controllers[]',
-                    'value'     => $series->id,
-                    'empty'     => true,
-                    'options'   => $controllers,
-                  ])
-                @endforeach
-                @for ($series=count($item->related_controllers); $series<20; $series++)
-                  @include('admin.parts.block_select', [
-                    'name'      => 'controllers[]',
-                    'value'     => '',
-                    'empty'     => true,
-                    'options'   => $controllers,
-                  ])
-                @endfor
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
-            </div>
+        @if ($category==App\Enums\Category::LIGHTING)
+          <div class="row">
+            @include('admin/item/detail_r_controller', [
+              'title'     => '関連製品（コントローラ）',
+              'col'       => '12',
+              'relateds'  => $item->related_controllers ?? [],
+              'options'   => $controllers,
+            ])
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">:
-                <h3 class="card-title">関連製品（ケーブル）</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                @foreach ($item->related_cables as $series)
-                  @include('admin.parts.block_select', [
-                    'name'      => 'cables[]',
-                    'value'     => $series->id,
-                    'empty'     => true,
-                    'options'   => $cables,
-                  ])
-                @endforeach
-                @for ($series=count($item->related_cables); $series<20; $series++)
-                  @include('admin.parts.block_select', [
-                    'name'      => 'cables[]',
-                    'value'     => '',
-                    'empty'     => true,
-                    'options'   => $cables,
-                  ])
-                @endfor
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
-            </div>
+          <div class="row">
+            @include('admin/item/detail_r_cable', [
+              'title'     => '関連製品（ケーブル）',
+              'col'       => '12',
+              'relateds'  => $item->related_cables ?? [],
+              'options'   => $cables,
+            ])
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h3 class="card-title">関連製品（オプション）</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                @include('admin.parts.block_text', [
-                  'name'      => 'search_options',
-                  'label'     => '',
-                  'value'     => '',
-                ])
-                @foreach ($item->related_options as $series)
-                  @include('admin.parts.block_select', [
-                    'name'      => 'options[]',
-                    'value'     => $series->id,
-                    'empty'     => true,
-                    'options'   => $options,
-                  ])
-                @endforeach
-                @for ($series=count($item->related_options); $series<20; $series++)
-                  @include('admin.parts.block_select', [
-                    'name'      => 'options[]',
-                    'value'     => '',
-                    'empty'     => true,
-                    'options'   => $options,
-                  ])
-                @endfor
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
-            </div>
+          <div class="row">
+            @include('admin/item/detail_r_option', [
+              'title'     => '関連製品（オプション）',
+              'col'       => '12',
+              'relateds'  => $item->related_options ?? [],
+              'options'   => $options,
+            ])
           </div>
-        </div>
+        @elseif ($category==App\Enums\Category::CONTROLLER)
+          <div class="row">
+            @include('admin/item/detail_r_cable', [
+              'title'     => '関連製品（ケーブル）',
+              'col'       => '12',
+              'relateds'  => $item->related_cables ?? [],
+              'options'   => $cables,
+            ])
+          </div>
+          <div class="row">
+            @include('admin/item/detail_r_option', [
+              'title'     => '関連製品（オプション）',
+              'col'       => '12',
+              'relateds'  => $item->related_options ?? [],
+              'options'   => $options,
+            ])
+          </div>
+        @elseif ($category==App\Enums\Category::OPTION)
+          <div class="row">
+            @include('admin/item/detail_r_option', [
+              'title'     => '関連製品（オプション）',
+              'col'       => '12',
+              'relateds'  => $item->related_options ?? [],
+              'options'   => $options,
+            ])
+          </div>
+        @endif
 
       </form>
     </div>
