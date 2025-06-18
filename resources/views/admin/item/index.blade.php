@@ -44,9 +44,11 @@
               @if ($category==App\Enums\Category::LIGHTING)
                 @include('admin.item.index_show_lighting')
               @elseif ($category==App\Enums\Category::CONTROLLER)
-                @include('admin.item.index_show_controller')
+                @include('admin.item.index_show_lighting')
+                {{--@include('admin.item.index_show_controller')--}}
               @elseif ($category==App\Enums\Category::OPTION)
-                @include('admin.item.index_show_option')
+                @include('admin.item.index_show_lighting')
+                {{--@include('admin.item.index_show_option')--}}
               @endif
             </div>
           </div>
@@ -76,9 +78,11 @@
                     @if ($category==App\Enums\Category::LIGHTING)
                       @include('admin.item.index_thead_lighting')
                     @elseif ($category==App\Enums\Category::CONTROLLER)
-                      @include('admin.item.index_thead_controller')
+                      @include('admin.item.index_thead_lighting')
+                      {{--@include('admin.item.index_thead_controller')--}}
                     @elseif ($category==App\Enums\Category::OPTION)
-                      @include('admin.item.index_thead__option')
+                      @include('admin.item.index_thead_lighting')
+                      {{--@include('admin.item.index_thead__option')--}}
                     @endif
                   </thead>
                   <tbody>
@@ -88,11 +92,13 @@
                       @endforeach
                     @elseif ($category==App\Enums\Category::CONTROLLER)
                       @foreach ($items as $i)
-                        @include('admin.item.index_tbody_controller', ['item'=>$i])
+                        @include('admin.item.index_tbody_lighting', ['item'=>$i])
+                        {{--@include('admin.item.index_tbody_controller', ['item'=>$i])--}}
                       @endforeach
                     @elseif ($category==App\Enums\Category::OPTION)
                       @foreach ($items as $i)
-                        @include('admin.item.index_tbody_option', ['item'=>$i])
+                        @include('admin.item.index_tbody_lighting', ['item'=>$i])
+                        {{--@include('admin.item.index_tbody_option', ['item'=>$i])--}}
                       @endforeach
                     @endif
                   </tbody>
