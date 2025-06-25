@@ -108,7 +108,7 @@ class Item extends Model
     }
 
     public function japanese_lighting_item() {
-        return $this->hasOne(SeriesDetail::class, 'item_id')->where('language', 'jp');
+        return $this->hasOne(SeriesDetail::class, 'item_id')->where('language', config('system.language.default'));
     }
 
     public function related_controllers() {

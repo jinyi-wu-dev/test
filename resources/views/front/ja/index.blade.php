@@ -1,0 +1,462 @@
+@extends('front/ja/base')
+
+
+@section('body_class') page--top @endsection
+
+
+@section('main')
+    <main class="site-main" id="site-main">
+      <div class="page">
+        <div class="fv">
+          <div class="fv-img"><img src="{{ asset('/assets/img/top/top-fv.jpg') }}" alt=""></div>
+          <div class="fv-img-hv"><img src="{{ asset('/assets/img/top/top-fv-hv.jpg') }}" alt=""></div>
+          <div class="fv-img-text"><img src="{{ asset('/assets/img/top/top-fv-text.png') }}" alt=""></div>
+        </div>
+
+        <!-- section-news-->
+        <section class="section section-news">
+          <div class="section-content">
+            <div class="content row w1360">
+              <h2 class="headline-title--2">
+                <span>
+                  <span class="text">NEWS</span>
+                  <span class="bg"></span>
+                </span>
+              </h2>
+              <ul class="news-list--top">
+                <li class="news-list--top__item">
+                  <div class="meta">
+                    <time datetime="0000-00-00">2023年12月01日</time>
+                    <span class="category">イベント情報</span>
+                  </div>
+                  <a href="https://leimac.co.jp/news/led_20240902_iwdv-idbc-re-h_idba-hms/" target="_blank" rel="noopener">「国際画像機器展2023」出展のご案内</a>
+                </li>
+                <li class="news-list--top__item">
+                  <div class="meta">
+                    <time datetime="0000-00-00">2023年11月22日</time>
+                    <span class="category">新製品</span>
+                  </div>
+                  <a href="https://leimac.co.jp/news/20250207_ac_adapter/" target="_blank" rel="noopener">ブライバックライン照明III IDBC-REシリーズ販売開始のお知らせ</a>
+                </li>
+                <li class="news-list--top__item">
+                  <div class="meta">
+                    <time datetime="0000-00-00">2023年10月13日</time>
+                    <span class="category">イベント情報</span>
+                  </div>
+                  <a href="https://leimac.co.jp/news/led_20241217_w_awseries/" target="_blank" rel="noopener">「第6回[名古屋] ロボデックス」出展のご案内</a>
+                </li>
+                <li class="news-list--top__item">
+                  <div class="meta">
+                    <time datetime="0000-00-00">2023年10月02日</time>
+                    <span class="category">重要</span>
+                  </div>
+                  <a href="https://leimac.co.jp/news/2024_winter_business_days/" target="_blank" rel="noopener">赤色砲弾型LED（660nm)照明Rシリーズの生産終了および代替推奨品のご案内</a>
+                </li>
+                <li class="news-list--top__item">
+                  <div class="meta">
+                    <time datetime="0000-00-00">2023年09月27日</time>
+                    <span class="category">重要</span>
+                  </div>
+                  <a href="https://leimac.co.jp/news/led_20241215_phlox/" target="_blank" rel="noopener">Smart Vision Lightsとの業務提携のお知らせ</a>
+                </li>
+              </ul>
+              <div class="news-link">
+                <a href="./news">NEWS 一覧へ</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- End - section-news-->
+
+        <!-- section-product-->
+        <section class="section section-product">
+          <div class="section-content">
+            <div class="content row">
+              <form action="./search/" method="get">
+                <div class="product-search">
+                  <input type="text" name="s" placeholder="キーワード、型式等を入力して製品を検索">
+                  <button type="submit"></button>
+                  <!-- 	<input type="submit" value="">-->
+                </div>
+              </form>
+              <div class="product-main">
+                <div class="product-link">
+                  <a href="./">＞＞すべての製品を見る</a>
+                </div>
+                <h2 class="headline-title--2">
+                  <span>
+                    <span class="text">PRODUCTS</span>
+                    <span class="bg"></span>
+                  </span>
+                </h2>
+                <div class="product-block">
+                  <h3 class="headline-title--3">
+                    <span>
+                      <span class="text">LED LIGHTING</span>
+                      <span class="bg"></span>
+                    </span>
+                  </h3>
+                  <div class="product-list">
+                    <div class="product-item">
+                      <a href="./search/?s=ライン">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product001.jpg') }}" alt="ライン照明">
+                          <figcaption>ライン照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=リング照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product002.jpg') }}" alt="リング照明">
+                          <figcaption>リング照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=バー照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product003.jpg') }}" alt="バー照明">
+                          <figcaption>バー照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=透過・面照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product004.jpg') }}" alt="透過・面照明">
+                          <figcaption>透過・面照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=ドーム照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product005.jpg') }}" alt="ドーム照明">
+                          <figcaption>ドーム照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=同軸・スポット照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product006.jpg') }}" alt="同軸・スポット照明">
+                          <figcaption>同軸・スポット照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=その他照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product007.jpg') }}" alt="その他照明">
+                          <figcaption>その他照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=提携製品">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product008.jpg') }}" alt="提携製品">
+                          <figcaption>提携製品</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=赤外照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product009.jpg') }}" alt="赤外照明">
+                          <figcaption>赤外照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=紫外照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product010.jpg') }}" alt="紫外照明">
+                          <figcaption>紫外照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=フルカラー・マルチカラー照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product011.jpg') }}" alt="フルカラー・マルチカラー照明">
+                          <figcaption>フルカラー・マルチカラー照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=物流用照明">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product012.jpg') }}" alt="物流用照明">
+                          <figcaption>物流用照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="index-link">
+                    <a href="./search/?s=">＞＞すべてのLED照明を見る</a>
+                  </div>
+                </div>
+                <div class="product-block">
+                  <h3 class="headline-title--3">
+                    <span>
+                      <span class="text">CONTROLLER</span>
+                      <span class="bg"></span>
+                    </span>
+                  </h3>
+                  <div class="product-list">
+                    <div class="product-item">
+                      <a href="./search/?s=AC入力コントローラ">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product013.jpg') }}" alt="AC入力コントローラ">
+                          <figcaption>AC入力コントローラ</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=DC入力コントローラ">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product014.jpg') }}" alt="DC入力コントローラ">
+                          <figcaption>DC入力コントローラ</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=PoEコントローラ">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product015.jpg') }}" alt="PoEコントローラ">
+                          <figcaption>PoEコントローラ</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=専用/特殊コントローラ">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product016.jpg') }}" alt="専用/特殊コントローラ">
+                          <figcaption>専用/特殊コントローラ</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="index-link">
+                    <a href="./search/?s=">＞＞すべてのコントローラを見る</a>
+                  </div>
+                </div>
+                <div class="product-block">
+                  <h3 class="headline-title--3">
+                    <span>
+                      <span class="text">OPTIONAL PARTS</span>
+                      <span class="bg"></span>
+                    </span>
+                  </h3>
+                  <div class="product-list">
+                    <div class="product-item">
+                      <a href="./search/?s=照明用ケーブル">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product017.jpg') }}" alt="照明用ケーブル">
+                          <figcaption>照明用ケーブル</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=外部制御ケーブル">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product018.jpg') }}" alt="外部制御ケーブル">
+                          <figcaption>外部制御ケーブル</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=照明オプション">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product019.jpg') }}" alt="照明オプション">
+                          <figcaption>照明オプション</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <div class="product-item">
+                      <a href="./search/?s=その他">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product020.jpg') }}" alt="その他">
+                          <figcaption>その他</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="index-link">
+                    <a href="./search/?s=">＞＞すべてのオプショナルパーツを見る</a>
+                  </div>
+                </div>
+                <div class="product-block">
+                  <h3 class="headline-title--3">
+                    <span>
+                      <span class="text">OPTERA</span>
+                      <span class="bg"></span>
+                    </span>
+                  </h3>
+                  <div class="optera-column">
+                    <div class="product-item">
+                      <a href="./optera">
+                        <figure class="figure"><img src="{{ asset('/assets/img/top/top-product021.jpg') }}" alt="特殊用途照明">
+                          <figcaption>特殊用途照明</figcaption>
+                        </figure>
+                      </a>
+                    </div>
+                    <p>分光検出や樹脂硬化など紫外線を利用した機器を
+                      <br>特注で試作・開発しています。
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="product-end">
+                <a href="./search/?s=">生産終了製品はこちら</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- End - section-product-->
+        <!-- section-cta-->
+        <section class="section section-cta">
+          <div class="section-content">
+            <div class="content row w1360">
+              <div class="cta">
+                <p class="cta-title">お気軽にご相談くださいませ</p>
+                <div class="cta-contact">
+                  <div class="btn--cta">
+                    <a href="./mail">
+                      <svg id="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.5 25">
+                        <<path class="cta-icon" d="M25.12,0H5.39C2.41,0,0,2.41,0,5.39v10.14c0,2.97,2.41,5.39,5.39,5.39h9.62l5.82,4.09v-4.09h4.29c2.97,0,5.39-2.41,5.39-5.39V5.39c0-2.97-2.41-5.39-5.39-5.39ZM7.73,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM15.25,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM22.78,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12Z" />
+                      </svg>
+                      <span>お問合せ</span>
+                    </a>
+                  </div>
+                  <div class="tel">
+                    <span class="num">077-585-6771</span>
+                    <span>（平日8：45－17：30）</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- End - section-cta-->
+      </div>
+      <style>
+        .nav {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          z-index: 999999999;
+          font-weight: bold;
+        }
+
+        .nav-title {
+          width: 20rem;
+          background: #999;
+          padding-left: 1rem;
+          cursor: pointer;
+        }
+
+        .nav-list {
+          padding-left: 1rem;
+          background: #ccc;
+          display: none;
+        }
+
+        .nav-item a {
+          color: #000;
+          opacity: 0.1;
+        }
+
+        .nav-item.ok a {
+          opacity: 1;
+
+        }
+
+        .nav-item .nav-item {
+          padding-left: 1rem;
+        }
+
+        .nav-item a:hover {
+          color: var(--themeColor);
+        }
+      </style>
+      <div class="nav">
+        <div class="nav-title">リンク</div>
+        <div class="nav-list">
+          <div class="nav-item ok">
+            <a href="./">TOP </a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./news">NEWS一覧 </a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./optera">特殊用途照明ページ OPTERA</a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./catalog">カタログ閲覧/DLページ</a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./technorogy_quality">技術・品質情報ページ</a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./register">新規会員登録</a>
+            <div class="nav-item ok">
+              <a href="./register/confirm.html">登録確認画面</a>
+            </div>
+            <div class="nav-item ok">
+              <a href="./register/complete.html">登録完了画面</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./contact">お問合せ</a>
+            <div class="nav-item ok">
+              <a href="./contact/confirm.html">お問合せ確認画面</a>
+            </div>
+            <div class="nav-item ok">
+              <a href="./contact/complete.html">お問合せ完了画面</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./login">ログインページ</a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./mypage">マイページ</a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./cart">貸出依頼（カート）ページ</a>
+            <div class="nav-item ok">
+              <a href="./cart/thanks.html">貸出依頼（サンクス）ページ</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./search">製品検索結果ページ</a>
+          </div>
+          <div class="nav-item ok">
+            <a href="./series-led">シリーズLEDページ</a>
+            <div class="nav-item ok">
+              <a href="./series-led/item">個別LED詳細ページ</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./series-controller">シリーズコントローラーページ</a>
+            <div class="nav-item ok">
+              <a href="./series-controller/item">個別コントローラー詳細ページ</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./series-cable">シリーズケーブルページ</a>
+            <div class="nav-item ok">
+              <a href="./series-cable/item">個別ケーブル詳細ページ</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./series-option">シリーズその他オプションページ</a>
+            <div class="nav-item ok">
+              <a href="./series-option/item">個別その他オプション詳細ページ</a>
+            </div>
+          </div>
+          <div class="nav-item ok">
+            <a href="./test/item/">詳細テンプレート</a>
+          </div>
+        </div>
+      </div>
+      <script>
+        document.querySelectorAll('.nav-title').forEach(title => {
+          title.addEventListener('click', () => {
+            const content = title.nextElementSibling;
+            if (!content) return;
+
+            // トグル処理：表示/非表示を切り替える
+            if (content.style.display === 'none' || getComputedStyle(content).display === 'none') {
+              content.style.display = 'block';
+            } else {
+              content.style.display = 'none';
+            }
+          });
+        });
+      </script>
+    </main>
+    <!-- End Site Main-->
+@endsection

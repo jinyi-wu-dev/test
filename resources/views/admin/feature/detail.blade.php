@@ -57,19 +57,19 @@
               <div class="card-body">
 
                 @include('admin.parts.block_text', [
-                  'name'      => 'jp:title',
+                  'name'      => 'ja:title',
                   'label'     => 'タイトル',
-                  'value'     => $details['jp']->title ?? '',
+                  'value'     => $details['ja']->title ?? '',
                 ])
                 @include('admin.parts.block_textarea', [
-                  'name'      => 'jp:body',
+                  'name'      => 'ja:body',
                   'label'     => '本文',
-                  'value'     => $details['jp']->body ?? '',
+                  'value'     => $details['ja']->body ?? '',
                 ])
                 @include('admin.parts.block_file', [
-                  'name'        => 'jp:image',
+                  'name'        => 'ja:image',
                   'label'       => '画像',
-                  'image_path'  => isset($details['jp'])&&$details['jp']->hasFile('image') ? $details['jp']->fileUrl('image') : '',
+                  'image_path'  => isset($details['ja'])&&$details['ja']->hasFile('image') ? $details['ja']->fileUrl('image') : '',
                 ])
                 
               </div>

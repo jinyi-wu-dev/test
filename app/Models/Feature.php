@@ -25,6 +25,6 @@ class Feature extends Model
     }
 
     public function japanese_detail() {
-        return $this->hasOne(FeatureDetail::class, 'feature_id')->where('language', 'jp');
+        return $this->hasOne(FeatureDetail::class, 'feature_id')->where('language', 'ja');
     }
 }

@@ -31,7 +31,7 @@ class CableItemGroup extends Model
     }
 
     public function japanese_detail() {
-        return $this->hasOne(CableItemGroupDetail::class, 'cable_item_group_id')->where('language', 'jp');
+        return $this->hasOne(CableItemGroupDetail::class, 'cable_item_group_id')->where('language', config('system.language.default'));
     }
 
     /**

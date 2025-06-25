@@ -163,7 +163,7 @@
           <div class="row">
             @include('admin/item/detail_c_controller', [
               'title'   => '共通項目',
-              'detail'  => $details['jp'] ?? null,
+              'detail'  => $details['ja'] ?? null,
             ])
           </div>
         @endif
@@ -172,8 +172,8 @@
           <div class="row">
             @include('admin/item/detail_d_lighting', [
               'title'   => '日本語項目',
-              'lang'    => 'jp',
-              'detail'  => $details['jp'] ?? null,
+              'lang'    => 'ja',
+              'detail'  => $details['ja'] ?? null,
             ])
             @include('admin/item/detail_d_lighting', [
               'title'   => '英語項目',
@@ -185,8 +185,8 @@
           <div class="row">
             @include('admin/item/detail_d_controller', [
               'title'   => '日本語項目',
-              'lang'    => 'jp',
-              'detail'  => $details['jp'] ?? null,
+              'lang'    => 'ja',
+              'detail'  => $details['ja'] ?? null,
             ])
             @include('admin/item/detail_d_controller', [
               'title'   => '英語項目',
@@ -198,8 +198,8 @@
           <div class="row">
             @include('admin/item/detail_d_option', [
               'title'   => '日本語項目',
-              'lang'    => 'jp',
-              'detail'  => $details['jp'] ?? null,
+              'lang'    => 'ja',
+              'detail'  => $details['ja'] ?? null,
             ])
             @include('admin/item/detail_d_option', [
               'title'   => '英語項目',
@@ -247,14 +247,14 @@
               </div>
               <div class="card-body">
                 @include('admin.parts.block_file', [
-                  'name'        => 'jp:external_view_pdf',
+                  'name'        => 'ja:external_view_pdf',
                   'label'       => '外観図（PDF）',
-                  'file_label'  => isset($details['jp'])&&$details['jp']->hasFile('external_view_pdf') ? '○' : '-',
+                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_pdf') ? '○' : '-',
                 ])
                 @include('admin.parts.block_file', [
-                  'name'        => 'jp:external_view_dxf',
+                  'name'        => 'ja:external_view_dxf',
                   'label'       => '外観図（DXF）',
-                  'file_label'  => isset($details['jp'])&&$details['jp']->hasFile('external_view_dxf') ? '○' : '-',
+                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_dxf') ? '○' : '-',
                 ])
               </div>
               <div class="card-footer">

@@ -120,7 +120,7 @@
 
 
 @section('footer_script')
-  <script src="{{ asset('/script/index.js') }}"></script>
+  <script src="{{ asset('/admin/js/index.js') }}"></script>
   <script>
     $(function() {
       initCheckDisplayControll('lighting', 'CDC-', 'CDT-');

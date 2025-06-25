@@ -1,19 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\IconController;
-use App\Http\Controllers\FeatureController;
-use App\Http\Controllers\SeriesController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\CableItemGroupController;
-use App\Http\Controllers\CsvController;
-use App\Http\Controllers\LendItemController;
 
-Route::get('/', function () {
-    return view('welcome');
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\IconController;
+use App\Http\Controllers\Admin\FeatureController;
+use App\Http\Controllers\Admin\SeriesController;
+use App\Http\Controllers\Admin\ItemController;
+use App\Http\Controllers\Admin\CableItemGroupController;
+use App\Http\Controllers\Admin\CsvController;
+use App\Http\Controllers\Admin\LendItemController;
+
+use App\Http\Controllers\Front\TopController;
+use App\Http\Controllers\Front\SignupController;
+use App\Http\Controllers\Front\SigninController;
+use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Front\NewsController;
+use App\Http\Controllers\Front\PageController;
+
+Route::get('/test', function () {
+    return view('front/jp/test');
 });
+
+
+Route::get( '/',                [TopController::class, 'index'])            ->name('index');
+
+Route::get( '/signup',          [SignupController::class, 'index'])         ->name('signup');
+Route::post('/signup/confirm',  [SignupController::class, 'confirm'])       ->name('signup.confirm');
+Route::post('/signup/complete', [SignupController::class, 'complete'])      ->name('signup.complete');
+
+Route::get( '/signin',          [SigninController::class, 'index'])         ->name('signin');
+Route::post('/signin',          [SigninController::class, 'authenticate'])  ->name('signin.do');
+Route::get ('/signout',         [SigninController::class, 'logout'])        ->name('signout');
+
+Route::get( '/contact',         [ContactController::class, 'index'])        ->name('contact');
+Route::post('/contact',         [ContactController::class, 'do'])           ->name('contact.do');
+
+Route::get( '/news',            [NewsController::class, 'index'])           ->name('news');
+
+Route::get( '/page/{page}',     [PageController::class, 'index'])           ->name('page');
+
+
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function() {

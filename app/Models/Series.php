@@ -73,7 +73,7 @@ class Series extends Model
     }
 
     public function japanese_detail() {
-        return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', 'jp');
+        return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', config('system.language.jp'));
     }
 
     public function icons() {

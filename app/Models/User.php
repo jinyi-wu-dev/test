@@ -19,8 +19,23 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
+        'name1',
+        'name2',
+        'kana1',
+        'kana2',
+        'postal_code',
+        'prefecture',
+        'country',
+        'city',
+        'area',
+        'building',
+        'phone_number',
+        'company',
+        'department',
+        'positions',
+        'industries',
+        'occupationes',
         'password',
     ];
 
@@ -31,7 +46,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -42,8 +56,20 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
+
+    public function setPositionsAttribute($value) {
+        $this->attributes['positions'] = is_array($value) ? implode(',', $value) : $value;
+    }
+
+    public function setIndustriesAttribute($value) {
+        $this->attributes['industries'] = is_array($value) ? implode(',', $value) : $value;
+    }
+
+    public function setOccupationesAttribute($value) {
+        $this->attributes['occupationes'] = is_array($value) ? implode(',', $value) : $value;
+    }
+
 }

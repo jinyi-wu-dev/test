@@ -14,19 +14,22 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->string('name')->default('');
-            $table->string('kana')->default('');
-            $table->string('post_code', 7)->default('');
-            $table->integer('prefecture_id')->nullable();
-            $table->string('municipalities')->default('');
-            $table->string('block_number')->default('');
+            $table->string('name1')->default('');
+            $table->string('name2')->default('');
+            $table->string('kana1')->default('');
+            $table->string('kana2')->default('');
+            $table->string('postal_code', 7)->default('');
+            $table->string('prefecture')->nullable('');
+            $table->string('country')->nullable('');
+            $table->string('city')->default('');
+            $table->string('area')->default('');
             $table->string('building')->default('');
             $table->string('phone_number', 11)->default('');
             $table->string('company')->default('');
             $table->string('department')->default('');
-            $table->string('position')->default('');
-            $table->string('industry')->default('');
-            $table->string('occupation')->default('');
+            $table->string('positions')->default('');
+            $table->string('industries')->default('');
+            $table->string('occupationes')->default('');
             $table->string('password')->default('');
             $table->rememberToken();
             $table->timestamps();
@@ -76,7 +79,7 @@ return new class extends Migration
 
         Schema::create('feature_details', function (Blueprint $table) {
             $table->bigInteger('feature_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('title')->default('');
             $table->text('body')->default('');
             $table->timestamps();
@@ -125,7 +128,7 @@ return new class extends Migration
 
         Schema::create('series_details', function (Blueprint $table) {
             $table->bigInteger('series_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('name')->default('');
             $table->string('model')->default('');
             $table->string('body1')->default('');
@@ -163,7 +166,7 @@ return new class extends Migration
             
         Schema::create('lighting_items', function (Blueprint $table) {
             $table->bigInteger('item_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('type')->default('');
             $table->string('color1')->default('');
             $table->string('color2')->default('');
@@ -184,7 +187,7 @@ return new class extends Migration
 
         Schema::create('controller_items', function (Blueprint $table) {
             $table->bigInteger('item_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('type')->default('');
             $table->string('total_capacity')->default('');
             $table->string('num_of_ch')->default('');
@@ -209,7 +212,7 @@ return new class extends Migration
 
         Schema::create('cable_items', function (Blueprint $table) {
             $table->bigInteger('item_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('type')->default('');
             $table->timestamps();
             $table->primary(['item_id', 'language']);
@@ -225,7 +228,7 @@ return new class extends Migration
 
         Schema::create('cable_item_group_details', function (Blueprint $table) {
             $table->bigInteger('cable_item_group_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('description1')->default('');
             $table->string('description2')->default('');
             $table->string('description3')->default('');
@@ -238,7 +241,7 @@ return new class extends Migration
 
         Schema::create('option_items', function (Blueprint $table) {
             $table->bigInteger('item_id')->unsigned();
-            $table->enum('language', ['jp', 'en'])->default('jp');
+            $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('type')->default('');
             $table->string('throughput')->default('');
             $table->string('description1')->default('');

@@ -99,7 +99,7 @@
 
 @section('footer_script')
   <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
-  <script src="{{ asset('/script/index.js') }}"></script>
+  <script src="{{ asset('/admin/js/index.js') }}"></script>
   <script>
     $(function() {
       initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');

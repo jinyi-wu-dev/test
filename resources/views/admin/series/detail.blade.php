@@ -298,34 +298,34 @@
               </div>
               <div class="card-body">
                 @include('admin.parts.block_text', [
-                  'name'      => 'jp:name',
+                  'name'      => 'ja:name',
                   'label'     => 'シリーズ名',
-                  'value'     => $details['jp']->name ?? '',
+                  'value'     => $details['ja']->name ?? '',
                 ])
                 @include('admin.parts.block_text', [
-                  'name'      => 'jp:model',
+                  'name'      => 'ja:model',
                   'label'     => 'シリーズ型式',
-                  'value'     => $details['jp']->model ?? '',
+                  'value'     => $details['ja']->model ?? '',
                 ])
                 @include('admin.parts.block_textarea', [
-                  'name'      => 'jp:body1',
+                  'name'      => 'ja:body1',
                   'label'     => '本文１',
-                  'value'     => $details['jp']->body1 ?? '',
+                  'value'     => $details['ja']->body1 ?? '',
                 ])
                 @include('admin.parts.block_textarea', [
-                  'name'      => 'jp:body2',
+                  'name'      => 'ja:body2',
                   'label'     => '本文２',
-                  'value'     => $details['jp']->body2 ?? '',
+                  'value'     => $details['ja']->body2 ?? '',
                 ])
                 @include('admin.parts.block_textarea', [
-                  'name'      => 'jp:body3',
+                  'name'      => 'ja:body3',
                   'label'     => '本文３',
-                  'value'     => $details['jp']->body3 ?? '',
+                  'value'     => $details['ja']->body3 ?? '',
                 ])
                 @include('admin.parts.block_textarea', [
-                  'name'      => 'jp:note',
+                  'name'      => 'ja:note',
                   'label'     => '注意書き',
-                  'value'     => $details['jp']->note ?? '',
+                  'value'     => $details['ja']->note ?? '',
                 ])
               </div>
               <div class="card-footer">

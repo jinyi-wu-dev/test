@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'language' => [
+        'default' => 'ja',
+        'list' => ['ja', 'en'],
+    ],
+
     'messages' => [
         'create_succeeded'  => 'ID: %s を追加しました。',
         'update_succeeded'  => 'ID: %s を更新しました。',

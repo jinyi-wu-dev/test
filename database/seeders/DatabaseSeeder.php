@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name'      => 'test_user',
+            'name1'      => 'test_user',
             'email'     => 'test@example.com',
             'password'  => Hash::make('password'),
         ]);
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             ]);
             DB::table('feature_details')->insert([
                 'feature_id' => $i,
-                'language' => 'jp',
+                'language' => 'ja',
                 'title' => '特徴'.$i,
                 'body' => fake()->realText(10),
             ]);
@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
             $series_id = DB::getPdo()->lastInsertId();
             DB::table('series_details')->insert([
                 'series_id' => $series_id,
-                'language' => 'jp',
+                'language' => 'ja',
                 'name' => match($pos) {
                     0 => '照明'.$i%10,
                     1 => 'コントローラ'.$i%10,
@@ -139,7 +139,7 @@ class DatabaseSeeder extends Seeder
                 if ($pos==0) {
                     DB::table('lighting_items')->insert([
                         'item_id' => $item_id,
-                        'language' => 'jp',
+                        'language' => 'ja',
                         'type' => fake()->word(),
                         'color1' => fake()->word(),
                         'color2' => fake()->word(),
@@ -176,7 +176,7 @@ class DatabaseSeeder extends Seeder
                 } else if ($pos==1) {
                     DB::table('controller_items')->insert([
                         'item_id' => $item_id,
-                        'language' => 'jp',
+                        'language' => 'ja',
                         'type' => fake()->word(),
                         'total_capacity' => fake()->randomNumber(),
                         'num_of_ch' => fake()->randomNumber(),
@@ -221,7 +221,7 @@ class DatabaseSeeder extends Seeder
                 } else if ($pos==2) {
                     DB::table('cable_items')->insert([
                         'item_id' => $item_id,
-                        'language' => 'jp',
+                        'language' => 'ja',
                         'type' => fake()->word(),
                     ]);
                     DB::table('cable_items')->insert([
@@ -233,7 +233,7 @@ class DatabaseSeeder extends Seeder
                 } else if ($pos==3) {
                     DB::table('option_items')->insert([
                         'item_id' => $item_id,
-                        'language' => 'jp',
+                        'language' => 'ja',
                         'type' => fake()->word(),
                         'throughput' => fake()->randomNumber(),
                     ]);
@@ -254,7 +254,7 @@ class DatabaseSeeder extends Seeder
                 $cable_id = DB::getPdo()->lastInsertId();
                 DB::table('cable_item_group_details')->insert([
                     'cable_item_group_id' => $cable_id,
-                    'language' => 'jp',
+                    'language' => 'ja',
                     'description1' => fake()->realText(20),
                     'description2' => fake()->realText(20),
                     'description3' => fake()->realText(20),

@@ -138,34 +138,34 @@
               </div>
               <div class="card-body">
                 @include('admin.parts.block_text', [
-                  'name'      => 'detail:jp:description1',
+                  'name'      => 'detail:ja:description1',
                   'label'     => '欄外記述1',
-                  'value'     => $details['jp']->description1 ?? '',
+                  'value'     => $details['ja']->description1 ?? '',
                 ])
                 @include('admin.parts.block_text', [
-                  'name'      => 'detail:jp:description2',
+                  'name'      => 'detail:ja:description2',
                   'label'     => '欄外記述2',
-                  'value'     => $details['jp']->description2 ?? '',
+                  'value'     => $details['ja']->description2 ?? '',
                 ])
                 @include('admin.parts.block_text', [
-                  'name'      => 'detail:jp:description3',
+                  'name'      => 'detail:ja:description3',
                   'label'     => '欄外記述3',
-                  'value'     => $details['jp']->description3 ?? '',
+                  'value'     => $details['ja']->description3 ?? '',
                 ])
                 @include('admin.parts.block_text', [
-                  'name'      => 'detail:jp:description4',
+                  'name'      => 'detail:ja:description4',
                   'label'     => '欄外記述4',
-                  'value'     => $details['jp']->description4 ?? '',
+                  'value'     => $details['ja']->description4 ?? '',
                 ])
                 @include('admin.parts.block_text', [
-                  'name'      => 'detail:jp:description5',
+                  'name'      => 'detail:ja:description5',
                   'label'     => '欄外記述5',
-                  'value'     => $details['jp']->description5 ?? '',
+                  'value'     => $details['ja']->description5 ?? '',
                 ])
                 @include('admin.parts.block_textarea', [
-                  'name'      => 'detail:jp:note',
+                  'name'      => 'detail:ja:note',
                   'label'     => '注意書き',
-                  'value'     => $details['jp']->note ?? '',
+                  'value'     => $details['ja']->note ?? '',
                 ])
               </div>
               <div class="card-footer">
@@ -271,8 +271,8 @@
                         </td>
                         <td>
                           @include('admin.parts.block_text', [
-                            'name'      => 'cable:jp:type[]',
-                            'value'     => $cables['jp']->type ?? '',
+                            'name'      => 'cable:ja:type[]',
+                            'value'     => $cables['ja']->type ?? '',
                           ])
                           @include('admin.parts.block_text', [
                             'name'      => 'cable:en:type[]',
@@ -332,7 +332,7 @@
 
 
 @section('footer_script')
-  <script src="{{ asset('/script/index.js') }}"></script>
+  <script src="{{ asset('/admin/js/index.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
   <script>
     bsCustomFileInput.init();
