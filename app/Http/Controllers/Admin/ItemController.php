@@ -248,18 +248,18 @@ class ItemController extends Controller
         }
 
         switch ($request->category) {
-        case CATEGORY::LIGHTING:
+        case Category::LIGHTING->value:
             $this->saveLighting($item, $request, $multi_params);
             $this->syncRelatedSeries(CATEGORY::CONTROLLER, $request->controllers, $item->related_controllers());
             $this->syncRelatedSeries(CATEGORY::CABLE, $request->cables, $item->related_cables());
             $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
             break;
-        case CATEGORY::CONTROLLER:
+        case CATEGORY::CONTROLLER->value:
             $this->saveController($item, $request, $multi_params);
             $this->syncRelatedSeries(CATEGORY::CABLE, $request->cables, $item->related_cables());
             $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
             break;
-        case CATEGORY::OPTION:
+        case CATEGORY::OPTION->value:
             $this->saveOption($item, $request, $multi_params);
             $this->syncRelatedSeries(CATEGORY::OPTION, $request->options, $item->related_options());
             break;

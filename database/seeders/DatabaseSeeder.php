@@ -32,25 +32,37 @@ class DatabaseSeeder extends Seeder
             'password'  => Hash::make('password'),
         ]);
 
+        DB::table('icons')->insert(['title'=>'強制空冷']);
+        DB::table('icons')->insert(['title'=>'自然空冷']);
+        DB::table('icons')->insert(['title'=>'意匠登録済み']);
+        DB::table('icons')->insert(['title'=>'特殊光学設計']);
+        DB::table('icons')->insert(['title'=>'PowerLED']);
+        DB::table('icons')->insert(['title'=>'UKCA']);
+        DB::table('icons')->insert(['title'=>'CE']);
+        DB::table('icons')->insert(['title'=>'PSE']);
+        DB::table('icons')->insert(['title'=>'GigE']);
         for ($i=1; $i<=10; $i++) {
-            DB::table('icons')->insert([
-                'title' => 'icon'.$i,
-            ]);
+            DB::table('icons')->insert(['title' => 'icon'.$i]);
         }
 
-        for ($i=1; $i<=20; $i++) {
+        $this->insertFeature('horizontal', '自然空冷で業界最高クラスの180万lx！', '他シリーズとの明るさ比較（照射方式：集光、WD：50mmで計測）');
+        $this->insertFeature('horizontal', '筐体デザインを一新し、よりコンパクトに', 'デザインを一新し、照明高さ方向で3㎜/照明長さ方向で10㎜のコンパクト化を実現');
+        $this->insertFeature('horizontal', '個別調光により均一な照射が可能', "対応電源IMCシリーズにより100mm毎に個別制御が可能なため、状況に合わせた調光制御が可能です。\n更に個別の調光設定を保持したまま全体上下するオフセット調光も搭載しています。 ");
+        $this->insertFeature('horizontal', 'IDBB-LSRHシリーズと比べ、約30%の軽量化！', 'デザインを一新し、30％の軽量化を実現');
+        for ($i=1; $i<=10; $i++) {
             DB::table('features')->insert([
                 'layout' => fake()->randomElement(['vertical', 'horizontal']),
                 'title' => '特徴'.$i,
             ]);
+            $id = DB::getPdo()->lastInsertId();
             DB::table('feature_details')->insert([
-                'feature_id' => $i,
+                'feature_id' => $id,
                 'language' => 'ja',
                 'title' => '特徴'.$i,
                 'body' => fake()->realText(10),
             ]);
             DB::table('feature_details')->insert([
-                'feature_id' => $i,
+                'feature_id' => $id,
                 'language' => 'en',
                 'title' => 'feature'.$i,
                 'body' => fake()->paragraph(1),
@@ -274,5 +286,25 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+    }
+
+    protected function insertFeature($layout, $title, $body) {
+        DB::table('features')->insert([
+            'layout' => $layout,
+            'title' => $title,
+        ]);
+        $id = DB::getPdo()->lastInsertId();
+        DB::table('feature_details')->insert([
+            'feature_id' => $id,
+            'language' => 'ja',
+            'title' => $title,
+            'body' => $body,
+        ]);
+        DB::table('feature_details')->insert([
+            'feature_id' => $id,
+            'language' => 'en',
+            'title' => $title,
+            'body' => $body,
+        ]);
     }
 }

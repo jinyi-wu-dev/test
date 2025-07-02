@@ -76,7 +76,9 @@
                         {{ $feature->japanese_detail->body }}
                       </td>
                       <td>
-                        {{ $feature->title }}
+                        @if ($icon->hasFile('image'))
+                          <img src="{{ $icon->fileUrl('image') }}?{{uniqid()}}">
+                        @endif
                       </td>
                     </tr>
                     @endforeach

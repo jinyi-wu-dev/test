@@ -120,6 +120,7 @@ return new class extends Migration
             $table->boolean('show_output')->default(false);
             $table->boolean('show_external_onoff')->default(false);
             $table->boolean('show_external_diming_control')->default(false);
+
             $table->boolean('show_throughput')->default(false);
             $table->text('memo')->default('');
             $table->timestamps();

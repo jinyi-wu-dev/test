@@ -153,7 +153,7 @@ class SeriesController extends Controller
                 }
             }],
         ]);
-        list($single_params, $multi_params) = $this->splitMultiParameters($request);
+        list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
 
         if (is_null($series)) {
             $series = new Series($single_params);

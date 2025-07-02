@@ -72,8 +72,18 @@ class Series extends Model
         return $this->hasMany(SeriesDetail::class, 'series_id');
     }
 
+    /*
+    public function detail() {
+        return $this->hasOne(SeriesDetail::class, 'series_id');
+    }
+     */
+
     public function japanese_detail() {
         return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', config('system.language.jp'));
+    }
+
+    public function locale_detail() {
+        return $this->hasOne(SeriesDetail::class, 'series_id')->where('language', app()->getLocale());
     }
 
     public function icons() {
@@ -82,6 +92,10 @@ class Series extends Model
 
     public function features() {
         return $this->belongsToMany(Feature::class, 'series_feature')->withTimestamps();
+    }
+
+    public function items() {
+        return $this->hasMany(Item::class, 'series_id');
     }
 
 }

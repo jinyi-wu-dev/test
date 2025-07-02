@@ -108,7 +108,35 @@ class Item extends Model
     }
 
     public function japanese_lighting_item() {
-        return $this->hasOne(SeriesDetail::class, 'item_id')->where('language', config('system.language.default'));
+        return $this->hasOne(LightingItem::class, 'item_id')->where('language', config('system.language.default'));
+    }
+
+    public function japanese_controller_item() {
+        return $this->hasOne(ControllerItem::class, 'item_id')->where('language', config('system.language.default'));
+    }
+
+    public function japanese_cable_item() {
+        return $this->hasOne(CableItem::class, 'item_id')->where('language', config('system.language.default'));
+    }
+
+    public function japanese_option_item() {
+        return $this->hasOne(OptionItem::class, 'item_id')->where('language', config('system.language.default'));
+    }
+
+    public function locale_lighting_item() {
+        return $this->hasOne(LightingItem::class, 'item_id')->where('language', app()->getLocale());
+    }
+
+    public function locale_controller_item() {
+        return $this->hasOne(ControllerItem::class, 'item_id')->where('language', app()->getLocale());
+    }
+
+    public function locale_cable_Item() {
+        return $this->hasOne(CableItem::class, 'item_id')->where('language', app()->getLocale());
+    }
+
+    public function locale_option_item() {
+        return $this->hasOne(OptionItem::class, 'item_id')->where('language', app()->getLocale());
     }
 
     public function related_controllers() {

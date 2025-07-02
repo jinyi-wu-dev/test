@@ -113,3 +113,13 @@
     </div>
   </section>
 @endsection
+
+
+@section('footer_script')
+  <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+  <script>
+    $(function() {
+      bsCustomFileInput.init();
+    });
+  </script>
+@endsection

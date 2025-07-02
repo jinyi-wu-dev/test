@@ -72,7 +72,7 @@
         <section class="section section-product">
           <div class="section-content">
             <div class="content row">
-              <form action="./search/" method="get">
+              <form action="{{ route('search') }}" method="get">
                 <div class="product-search">
                   <input type="text" name="s" placeholder="キーワード、型式等を入力して製品を検索">
                   <button type="submit"></button>
