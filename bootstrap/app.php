@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->routeIs('admin.*')) {
                 return route('admin.login');
             }
-            return route('login');
+            return route('signin');
         });
         $middleware->remove(ConvertEmptyStringsToNull::class);
     })

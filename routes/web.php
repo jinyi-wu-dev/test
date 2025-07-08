@@ -46,6 +46,12 @@ Route::get( '/item/{id}',       [ProductController::class, 'item'])         ->na
 
 Route::get( '/page/{page}',     [PageController::class, 'index'])           ->name('page');
 
+Route::middleware('auth')->group(function() {
+    Route::get( '/cart',            [ProductController::class, 'cart'])         ->name('cart');
+    Route::post( '/cart',           [ProductController::class, 'cart_complete'])->name('cart.complete');
+
+});
+
 
 
 Route::prefix('admin')->name('admin.')->group(function () {

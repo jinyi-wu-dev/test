@@ -258,10 +258,17 @@ return new class extends Migration
         Schema::create('lend_items', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->nullable(false);
-            $table->enum('category', ['lighting', 'controller', 'cable', 'option'])->nullable(false);
-            $table->bigInteger('item_id')->nullable(false);
+            $table->string('remarks')->default('');
             $table->datetime('request_at');
             $table->timestamps();
+        });
+
+        Schema::create('lend_item', function (Blueprint $table) {
+            $table->bigInteger('lend_id')->nullable(false);
+            $table->bigInteger('item_id')->nullable(false);
+            $table->integer('num_of_item')->default(0);
+            $table->timestamps();
+            $table->primary(['lend_id', 'item_id']);
         });
 
         Schema::create('series_icon', function (Blueprint $table) {

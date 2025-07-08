@@ -192,7 +192,12 @@
                                   </div>
                                 </td>
                                 <td>
-                                  <button class="lending-request-button">貸出依頼</button>
+                                  <button class="lending-request-button"
+                                    item_id="{{ $item->id }}"
+                                    item_name1="{{ $item->model }}"
+                                    item_name2="{{ $item->model }}"
+                                    item_url="{{ $series->fileUrl('image') }}"
+                                  >貸出依頼</button>
                                 </td>
                               </tr>
                             @endforeach
@@ -235,4 +240,9 @@
       <!-- End - article-page-->
     </main>
     <!-- End Site Main-->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+      });
+    </script>
 @endsection

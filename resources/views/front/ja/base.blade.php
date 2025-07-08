@@ -36,10 +36,11 @@
   <link rel="stylesheet" href="{{ asset('/assets/css/common.css?1748573944399') }}">
   <link rel="stylesheet" href="{{ asset('/assets/css/style.css?1748573944399') }}">
 
-
 </head>
 
 <body class="@yield('body_class', '')">
+  <script>
+  </script>
 
   <div class="wrap" id="wrap">
 
@@ -176,8 +177,8 @@
                 </a>
               </li>
               <li class="gnav-list__item cart">
-                <button class="cart-toggle hide-small">
-                  <span class="num cart-num">1</span>
+                <button class="@if(!isset($disabled_header_cart)) cart-toggle @endif hide-small">
+                  <span class="num cart-num">0</span>
                   <svg id="_ヘッダ2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.94 7.73">
                     <polyline class="polyline" points="29.94 1 18.47 1 15.47 6.73 12.47 1 1 1" />
                   </svg>
@@ -193,47 +194,32 @@
                   <div class="gnav-lending-inner">
                     <p class="c-title square border">デモ機貸出カート</p>
                     <ul class="lending-list">
-                      <li class="lending-list__item">
-                        <div class="lending-img"><img src="{{ asset('/assets/img/common/lending-item.jpg') }}" alt="アイテム"></div>
-                        <div class="lending-text">
-                          <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇照明
-                            <br>IXXXXX-XXXXXX0000W-XX-XX
-                          </p>
-                        </div>
-                        <div class="lending-counter">
-                          <span>数量:</span>
-                          <div class="counter">
-                            <button class="counter-btn decrement">−</button>
-                            <input class="counter-input" type="text" value="1" readonly>
-                            <button class="counter-btn increment">＋</button>
+
+                      <div id="lending_item_sample" style="display:none">
+                        <li class="lending-list__item" item_id="">
+                          <input type="hidden" name="items[]" value="">
+                          <div class="lending-img"><img src="{{ asset('/assets/img/common/lending-item.jpg') }}" alt="アイテム"></div>
+                          <div class="lending-text">
+                            <p class="lending-text__name">
+                            </p>
                           </div>
-                        </div>
-                        <div class="lending-delete">
-                          <button class="lending-delete-button">削除</button>
-                        </div>
-                      </li>
-                      <li class="lending-list__item">
-                        <div class="lending-img"><img src="{{ asset('/assets/img/common/lending-item.jpg') }}" alt="アイテム"></div>
-                        <div class="lending-text">
-                          <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇照明
-                            <br>IXXXXX-XXXXXX0000W-XX-XX
-                          </p>
-                        </div>
-                        <div class="lending-counter">
-                          <span>数量:</span>
-                          <div class="counter">
-                            <button class="counter-btn decrement">−</button>
-                            <input class="counter-input" type="text" value="1" readonly>
-                            <button class="counter-btn increment">＋</button>
+                          <div class="lending-counter">
+                            <span>数量:</span>
+                            <div class="counter">
+                              <button type="button" class="counter-btn decrement2">−</button>
+                              <input class="counter-input" type="text" value="1" name="num_of_items[]" readonly>
+                              <button type="button" class="counter-btn increment">＋</button>
+                            </div>
                           </div>
-                        </div>
-                        <div class="lending-delete">
-                          <button class="lending-delete-button">削除</button>
-                        </div>
-                      </li>
+                          <div class="lending-delete">
+                            <button class="lending-delete-button">削除</button>
+                          </div>
+                        </li>
+                      </div>
+
                     </ul>
                     <div class="btn text-center">
-                      <a href="./cart">貸出依頼申込み画面に進む</a>
+                      <a href="{{ route('cart') }}">貸出依頼申込み画面に進む</a>
                     </div>
                   </div>
                 </div>
@@ -477,8 +463,11 @@
     <!-- End Site Footer-->
 
   </div>
-  <script src="{{ asset('assets/js/libs.js?1749610231691') }}"></script>
-  <script src="{{ asset('assets/js/app.js?1749610231691') }}"></script>
+  <script src="{{ asset('assets/js/libs.js') }}"></script>
+  <script src="{{ asset('assets/js/app.js') }}"></script>
+  @if(!isset($disabled_cart))
+  <script src="{{ asset('assets/js/cart.js') }}"></script>
+  @endif
 
 </body>
 </html>
