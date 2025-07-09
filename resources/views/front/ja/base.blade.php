@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <title></title>
+  <title>@yield('title')</title>
 
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="">
@@ -50,7 +50,7 @@
 
       <div class="masthead">
         <p class="brand-logo">
-          <a href="./">
+          <a href="{{ route('index') }}">
             <svg id="brand-logo-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 41.23">
               <defs>
                 <style>

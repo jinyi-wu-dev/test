@@ -68,6 +68,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         //Route::resource('user', UserController::class)->except(['create', 'store', 'show']);
         Route::resource('user',                     UserController::class);
+        Route::post(    'user/csv',                 [UserController::class, 'csv'])->name('user.csv');
 
         Route::resource('icon',                     IconController::class)->except('show');
         Route::post(    'icon/destroy_multiple',    [IconController::class, 'destroy_multiple'])->name('icon.destroy_multiple');

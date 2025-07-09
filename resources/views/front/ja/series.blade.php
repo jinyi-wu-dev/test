@@ -1,5 +1,6 @@
 @extends('front/ja/base')
 
+@section('title') Leimac | {{ $series->model }} @endsection
 
 @section('main')
     <!-- Site Main-->
@@ -114,12 +115,12 @@
                         <table class="series-table-fix">
                           <thead>
                             <tr>
-                              @if ($series->show_type)                    <th>タイプ</th> @endif
-                              @if ($series->show_model)                   <th class="format">型　式</th> @endif
-                              @if ($series->show_product_number)          <th>品番</th> @endif
-                              @if ($series->show_weight)                  <th>器具重量</th> @endif
-                              @if ($series->show_other)                   <th>その他</th> @endif
-                              @if ($series->show_compatible_standards)    <th>適合規格</th> @endif
+                              @if ($series->show_type)                      <th>タイプ</th> @endif
+                              @if ($series->show_model)                     <th class="format">型　式</th> @endif
+                              @if ($series->show_product_number)            <th>品番</th> @endif
+                              @if ($series->show_weight)                    <th>器具重量</th> @endif
+                              @if ($series->show_other)                     <th>その他</th> @endif
+                              @if ($series->show_compatible_standards)      <th>適合規格</th> @endif
 
                               @if ($series->category==App\Enums\Category::LIGHTING)
                                 @if ($series->show_luminous_color)          <th>発光色</th> @endif
@@ -177,7 +178,7 @@
                                 @endif
 
                                 @if ($series->category==App\Enums\Category::OPTION)
-                                  @if ($series->show_throughput)              <td>{{ $itme->locale_option_item->throughput }}</td> @endif
+                                  @if ($series->show_throughput)              <td>{{ $item->locale_option_item->throughput }}</td> @endif
                                 @endif
 
                                 <td>
@@ -192,7 +193,8 @@
                                   </div>
                                 </td>
                                 <td>
-                                  <button class="lending-request-button"
+                                  <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
+                                    @if(!$item->is_lend) disabled @endif
                                     item_id="{{ $item->id }}"
                                     item_name1="{{ $item->model }}"
                                     item_name2="{{ $item->model }}"

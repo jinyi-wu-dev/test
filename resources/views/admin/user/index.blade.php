@@ -18,6 +18,7 @@
             </div>
             <div class="card-body">
               <form method="get" action="{{ route('admin.user.index') }}"> 
+                @csrf
                 <div class="callout callout-secondary">
                   @include('admin.parts.block_text', [
                     'label' => '名前',
@@ -25,6 +26,9 @@
                     'value' => request('name'),
                   ])
                   <button type="submit" class="btn btn-secondary">　検　索　</button>  
+                  <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                    $('form').attr('action', '{{ route('admin.user.csv') }}').attr('target', '_blank').attr('method', 'post');
+                  ">　CSV出力　</button>  
                 </div>
               </form>
               <div class="row">
@@ -32,7 +36,9 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>名称</th>
+                      <th>名前</th>
+                      <th>会社名</th>
+                      <th>メールアドレス</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -44,6 +50,8 @@
                       <td>
                         {{ $user->name }}
                       </td>
+                      <td>{{ $user->company }}</td>
+                      <td>{{ $user->email }}</td>
                     </tr>
                     @endforeach
                   </tbody>

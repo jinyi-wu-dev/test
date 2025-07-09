@@ -10,7 +10,7 @@ class PageController extends Controller
 {
     public function index(String $page)
     {
-        return $this->localeView('front/%s/page/'.$page);
+        return $this->languageView('page/'.$page);
     }
 
 }

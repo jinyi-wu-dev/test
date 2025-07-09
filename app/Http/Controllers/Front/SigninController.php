@@ -11,7 +11,7 @@ class SigninController extends Controller
 {
     public function index()
     {
-        return $this->localeView('front/%s/signin');
+        return $this->languageView('signin');
     }
 
     public function authenticate(Request $request)

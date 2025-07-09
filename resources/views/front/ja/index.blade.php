@@ -1,6 +1,8 @@
 @extends('front/ja/base')
 
 
+@section('title') Leimac @endsection
+
 @section('body_class') page--top @endsection
 
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use App\Models\Item;
 
 class LendItem extends Model
@@ -17,5 +18,10 @@ class LendItem extends Model
                     ->withPivot('num_of_item')
                     ->withTimestamps();
     }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
 
 }

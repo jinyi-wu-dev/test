@@ -10,7 +10,7 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return $this->localeView("front/%s/contact");
+        return $this->languageView("contact");
     }
 
     public function do(Request $request)

@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->string('name1')->default('');
-            $table->string('name2')->default('');
-            $table->string('kana1')->default('');
-            $table->string('kana2')->default('');
+            $table->string('name')->default('');
+            $table->string('kana')->default('');
             $table->string('postal_code', 7)->default('');
             $table->string('prefecture')->nullable('');
             $table->string('country')->nullable('');

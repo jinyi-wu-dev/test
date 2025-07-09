@@ -14,8 +14,8 @@ class ProductController extends Controller
     public function search(Request $request)
     {
         $q = Series::query();
-        $q->limit(10);
-        return $this->localeView('front/%s/search', [
+        //$q->limit(10);
+        return $this->languageView('search', [
             'list' => $q->get(),
         ]);
     }
@@ -23,7 +23,7 @@ class ProductController extends Controller
     public function series($id)
     {
         $series = Series::find($id);
-        return $this->localeView('front/%s/series', [
+        return $this->languageView('series', [
             'series' => $series,
         ]);
     }
@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function item($id)
     {
         $item = Item::find($id);
-        return $this->localeView('front/%s/item', [
+        return $this->languageView('item', [
             'series' => $item->series,
             'item' => $item,
         ]);
@@ -39,7 +39,7 @@ class ProductController extends Controller
 
     public function cart()
     {
-        return $this->localeView('front/%s/cart', [
+        return $this->languageView('cart', [
             'disabled_header_cart' => true,
         ]);
     }
@@ -55,7 +55,7 @@ class ProductController extends Controller
         }
          */
         $lend = LendItem::find(2);
-        return $this->localeView('front/%s/cart_complete', [
+        return $this->languageView('cart_complete', [
             'disabled_cart'         => true,
             'disabled_header_cart'  => true,
             'lend_item'             => $lend,

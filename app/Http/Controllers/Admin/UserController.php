@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\LendItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class UserController extends Controller
@@ -20,6 +22,26 @@ class UserController extends Controller
             ->withQueryString();
         return view('admin/user/index', [
             'users' => $users,
+        ]);
+    }
+
+    public function csv() {
+        $users = User::get();
+
+        $header = [''];
+        $data = $users->toArray();
+        return new StreamedResponse(function () use ($header, $users) {
+            $fh = fopen('php://output', 'w');
+
+            fputcsv($fh, $header);
+            foreach ($users as $row) {
+                fputcsv($fh, $row->toArray());
+            }
+
+            fclose($fh);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="users.csv"',
         ]);
     }
 
@@ -58,7 +80,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         return view('admin/user/edit', [
-            'user'      => $user,
+            'user'          => $user,
+            'lend_items'    => LendItem::where('user_id', $user->id)->get(),
         ]);
     }
 

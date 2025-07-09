@@ -10,7 +10,7 @@ class TopController extends Controller
 {
     public function index()
     {
-        return $this->localeView('front/%s/index');
+        return $this->languageView('index');
     }
 
 }

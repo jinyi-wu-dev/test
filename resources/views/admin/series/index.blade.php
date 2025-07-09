@@ -249,7 +249,7 @@
                       </td>
                       <td class="CDT-image">
                         @if ($s->hasFile('image'))
-                        <img src="{{ $s->fileUrl('image') }}?v={{ uniqid() }}">
+                        <img src="{{ $s->fileUrl('image') }}?v={{ uniqid() }}" width="200px">
                         @endif
                       </td>
                       <td class="CDT-is_new">

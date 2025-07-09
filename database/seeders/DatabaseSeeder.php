@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name1'      => 'test_user',
+            'name'      => 'test_user',
             'email'     => 'test@example.com',
             'password'  => Hash::make('password'),
         ]);
@@ -94,6 +94,25 @@ class DatabaseSeeder extends Seeder
                 'is_new' => fake()->randomElement([0, 1]),
                 'is_end' => fake()->randomElement([0, 1]),
                 'is_publish' => fake()->randomElement([0, 1]),
+                'show_type' => true,
+                'show_model' => true,
+                'show_product_number' => true,
+                'show_weight' => true,
+                'show_other' => true,
+                'show_compatible_standards' => true,
+                'show_luminous_color' => true,
+                'show_lt_num_of_ch' => true,
+                'show_power_consumption' => true,
+                'show_seg' => true,
+                'show_input_voltage' => true,
+                'show_diming_controll' => true,
+                'show_total_capacity' => true,
+                'show_ct_num_of_ch' => true,
+                'show_input' => true,
+                'show_output' => true,
+                'show_external_onoff' => true,
+                'show_external_diming_control' => true,
+                'show_throughput' => true,
                 'memo' => fake()->realText(20),
             ]);
             $series_id = DB::getPdo()->lastInsertId();

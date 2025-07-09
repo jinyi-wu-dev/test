@@ -19,7 +19,7 @@ abstract class Controller
         return [$single_params, $multi_params];
     }
 
-    protected function localeView($view, $params=[]) {
-        return view(sprintf($view, app()->getLocale()), $params);
+    protected function languageView($view, $params=[]) {
+        return view(sprintf('front/%s/'.$view, app()->getLocale()), $params);
     }
 }

@@ -10,7 +10,7 @@ class SignupController extends Controller
 {
     public function index()
     {
-        return $this->localeView("front/%s/signup");
+        return $this->languageView("signup");
     }
 
     protected function validate(Request $request, $confirm=false) {
@@ -42,7 +42,7 @@ class SignupController extends Controller
     {
         $this->validate($request);
 
-        return $this->localeView("front/%s/signup_confirm");
+        return $this->languageView("signup_confirm");
     }
 
     public function complete(Request $request)
@@ -53,9 +53,11 @@ class SignupController extends Controller
         }
 
         $user = new User($request->all());
+        $user->name = $request->name1 . $request->name2;
+        $user->kana = $request->kana1 . $request->kana2;
         $user->save();
 
-        return $this->localeView("front/%s/signup_complete");
+        return $this->languageView("signup_complete");
     }
 
 }
