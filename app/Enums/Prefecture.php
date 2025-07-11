@@ -55,6 +55,8 @@ enum Prefecture: string
     case MIYAZAKI = "miyazaki";
     case KAGOSHIMA = "kagosima";
     case OKINAWA = "okinawa";
+    case FOREIGN = "foreign";
+    case UNKNOWN = "";
 
     public function label(): string {
         return match($this) {
@@ -105,6 +107,8 @@ enum Prefecture: string
             Prefecture::MIYAZAKI => "宮崎",
             Prefecture::KAGOSHIMA => "鹿児島",
             Prefecture::OKINAWA => "沖縄",
+            Prefecture::FOREIGN => "海外",
+            Prefecture::UNKNOWN => "",
         };
     }
 }

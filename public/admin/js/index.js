@@ -63,3 +63,13 @@ function initAllCheck($check_path, $target_path) {
     });
 }
 
+function initImageRange($range_path, $image_path) {
+    $($image_path).width('200px');
+    $($range_path).change(function() {
+        w = $(this).val()*10 + 'px';
+        $($image_path).each(function() {
+            $(this).width(w);
+        });
+    });
+}
+

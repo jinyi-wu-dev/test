@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Enums\Prefecture;
 use App\Models\User;
 use App\Models\LendItem;
 use Illuminate\Http\Request;
@@ -27,15 +28,46 @@ class UserController extends Controller
 
     public function csv() {
         $users = User::get();
-
-        $header = [''];
-        $data = $users->toArray();
-        return new StreamedResponse(function () use ($header, $users) {
+        return new StreamedResponse(function () use ($users) {
             $fh = fopen('php://output', 'w');
 
-            fputcsv($fh, $header);
-            foreach ($users as $row) {
-                fputcsv($fh, $row->toArray());
+            fputcsv($fh, mb_convert_encoding([
+                'ID',
+                'メールアドレス',
+                '名前',
+                'フリガナ',
+                '郵便番号',
+                '都道府県',
+                '市町村区',
+                '番地',
+                'ビル名',
+                '電話番号',
+                '会社名',
+                '部署',
+                '役職',
+                '業種',
+                '職種',
+            ], 'cp932', 'utf8'));
+            foreach ($users as $user) {
+                fputcsv($fh, mb_convert_encoding([
+                    $user->id,
+                    $user->email,
+                    $user->name,
+                    $user->kana,
+                    $user->postal_code,
+                    $user->prefecture==Prefecture::FOREIGN ? 
+                        $user->country :
+                        $user->prefecture->label(),
+                    $user->city,
+                    $user->area,
+                    $user->building,
+                    $user->phone_number,
+                    $user->company,
+                    $user->department,
+                    $user->positionsString(),
+                    $user->industriesString(),
+                    $user->occupationesString(),
+                ], 'cp932', 'utf8'));
             }
 
             fclose($fh);

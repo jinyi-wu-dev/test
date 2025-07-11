@@ -47,8 +47,6 @@ class SeriesController extends Controller
     public function create()
     {
         return view('admin/series/create', [
-            'categories'        => Category::keyLabel(),
-            'genres'            => Genre::keyLabel(),
             'icon_options'      => Icon::all()->pluck('title', 'id'),
             'feature_options'   => Feature::all()->pluck('title', 'id'),
         ]);

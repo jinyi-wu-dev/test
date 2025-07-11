@@ -3,7 +3,7 @@
 return [
     [
         'type'  => 'header',
-        'label' => 'ユーザ',
+        'label' => '会員',
     /*
     ], [
         'type'  => 'item',
@@ -13,7 +13,7 @@ return [
      */
     ], [
         'type'  => 'item',
-        'label' => 'ユーザ一覧',
+        'label' => '会員一覧',
         'route' => 'admin.user.index',
         'icon'  => 'fa-user',
     ], [

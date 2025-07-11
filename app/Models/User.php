@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Enums\Prefecture;
 
 class User extends Authenticatable
 {
@@ -20,10 +21,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'email',
-        'name1',
-        'name2',
-        'kana1',
-        'kana2',
+        'name',
+        'kana',
         'postal_code',
         'prefecture',
         'country',
@@ -56,10 +55,50 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'prefecture' => Prefecture::class,
             'password' => 'hashed',
         ];
     }
 
+    public function positionsString($lang='ja', $dlmt=',') {
+        $texts = [];
+        $conf = config('enums.'.$lang.'.position');
+        foreach ($this->positions as $pos) {
+            $texts[] = $conf[$pos];
+        }
+        return implode($dlmt, $texts);
+    }
+
+    public function industriesString($lang='ja', $dlmt=',') {
+        $texts = [];
+        $conf = config('enums.'.$lang.'.industry');
+        foreach ($this->industries as $pos) {
+            $texts[] = $conf[$pos];
+        }
+        return implode($dlmt, $texts);
+    }
+
+    public function occupationesString($lang='ja', $dlmt=',') {
+        $texts = [];
+        $conf = config('enums.'.$lang.'.occupation');
+        foreach ($this->occupationes as $pos) {
+            $texts[] = $conf[$pos];
+        }
+        return implode($dlmt, $texts);
+    }
+
+    public function getPositionsAttribute() {
+        return $this->attributes['positions'] ? explode(',', $this->attributes['positions']) : [];
+    }
+    
+    public function getIndustriesAttribute() {
+        return $this->attributes['industries'] ? explode(',', $this->attributes['industries']) : [];
+    }
+    
+    public function getOccupationesAttribute() {
+        return $this->attributes['occupationes'] ? explode(',', $this->attributes['occupationes']) : [];
+    }
+    
     public function setPositionsAttribute($value) {
         $this->attributes['positions'] = is_array($value) ? implode(',', $value) : $value;
     }
