@@ -98,7 +98,7 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="margin-bottom:60px">
 
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -141,16 +141,12 @@
       </div>
     </section>
 
+    @yield('form')
     @yield('content')
 
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <strong>&copy; Leimac</strong>
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.1.0
-    </div>
-  </footer>
+  @yield('footer')
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">

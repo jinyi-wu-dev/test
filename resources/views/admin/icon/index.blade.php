@@ -1,11 +1,28 @@
 @extends('admin/base')
 
+
 @section('title', 'アイコン一覧')
 @section('header', 'アイコン')
+
 
 @section('breadcrumb')
   <li class="breadcrumb-item active">アイコン一覧</li>
 @endsection
+
+
+@section('form')
+  <form method="get" action="{{ route('admin.icon.index') }}"> 
+  @csrf
+@endsection
+
+
+@section('footer')
+  <footer class="main-footer fixed-bottom">
+    <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
+  </footer>
+  </form>
+@endsection
+
 
 @section('content')
   @include('admin.parts.modal', [
@@ -15,7 +32,6 @@
     'on_ok'   => 'doDelete();',
   ])
   <section class="content">
-  <form method="get" action="{{ route('admin.icon.index') }}"> 
     @csrf
     <div class="container-fluid">
       <div class="row">
@@ -49,7 +65,7 @@
                       <th></th>
                       <th></th>
                       <th>
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'  => 'is_delete_all',
                           'type'  => 'danger',
                         ])
@@ -71,7 +87,7 @@
                         @endif
                       </td>
                       <td class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'removes[]',
                           'id'          => 'removes-'.$icon->id,
                           'form_value'  => $icon->id,
@@ -85,14 +101,10 @@
                 {{ $icons->links('admin.parts.pagination') }}
               </div>
             </div>
-            <div class="card-footer">
-              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
   </section>
 @endsection
 

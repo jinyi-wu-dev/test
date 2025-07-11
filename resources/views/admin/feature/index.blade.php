@@ -1,11 +1,28 @@
 @extends('admin/base')
 
+
 @section('title', '特徴・特性一覧')
 @section('header', '特徴・特性')
+
 
 @section('breadcrumb')
   <li class="breadcrumb-item active">特徴・特性一覧</li>
 @endsection
+
+
+@section('form')
+  <form method="get" action="{{ route('admin.feature.index') }}"> 
+  @csrf
+@endsection
+
+
+@section('footer')
+  <footer class="main-footer fixed-bottom">
+    <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
+  </footer>
+  </form>
+@endsection
+
 
 @section('content')
   @include('admin.parts.modal', [
@@ -15,8 +32,6 @@
     'on_ok'   => 'doDelete();',
   ])
   <section class="content">
-  <form method="get" action="{{ route('admin.feature.index') }}"> 
-    @csrf
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8 col-sm-12 mx-auto">
@@ -27,7 +42,7 @@
             <div class="card-body">
               {{--
                 <div class="callout callout-secondary">
-                  @include('admin.parts.block_text', [
+                  @include('admin.parts.form_text', [
                     'label' => '検索',
                     'name'  => 'search_text',
                     'value' => request('name'),
@@ -43,7 +58,7 @@
                       <th>タイトル</th>
                       <th>レイアウト</th>
                       <th>本文</th>
-                      <th></th>
+                      <th>画像</th>
                       <th>削除</th>
                     </tr>
                     <tr>
@@ -53,7 +68,7 @@
                       <th></th>
                       <th></th>
                       <th>
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'  => 'is_delete_all',
                           'type'  => 'danger',
                         ])
@@ -76,9 +91,17 @@
                         {{ $feature->japanese_detail->body }}
                       </td>
                       <td>
-                        @if ($icon->hasFile('image'))
-                          <img src="{{ $icon->fileUrl('image') }}?{{uniqid()}}">
+                        @if ($feature->japanese_detail->hasFile('image'))
+                          <img src="{{ $feature->japanese_detail->fileUrl('image') }}?{{uniqid()}}" width="200px">
                         @endif
+                      </td>
+                      <td class="CDT-delete">
+                        @include('admin.parts.custom_checkbox', [
+                          'name'        => 'removes[]',
+                          'id'          => 'removes-'.$feature->id,
+                          'form_value'  => $feature->id,
+                          'type'        => 'danger',
+                        ])
                       </td>
                     </tr>
                     @endforeach
@@ -92,4 +115,15 @@
       </div>
     </div>
   </section>
+@endsection
+
+
+@section('footer_script')
+  <script src="{{ asset('/admin/js/index.js') }}"></script>
+  <script>
+    $(function() {
+      initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
+      initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
+    });
+  </script>
 @endsection

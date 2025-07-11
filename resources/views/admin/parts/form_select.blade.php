@@ -5,7 +5,7 @@
   } else if (isset($value)) {
     $v = $value;
   } else if (isset($valiable) && isset(${$valiable})) {
-    $v = ${$valiable}->{$name};
+    $v = ${$valiable}->{$name}->value ?? ${$valiable}->{$name};
   }
 @endphp
 <div class="form-group">

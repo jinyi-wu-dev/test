@@ -31,87 +31,87 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'        => 'id',
                   'label'       => 'ID',
                   'value'       => $group->id ?? '',
                   'disabled'    => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'item:is_new',
                   'label'       => 'NEW',
                   'checked'     => $first_item->is_new ?? '',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'item:is_publish',
                   'label'       => '公開',
                   'checked'     => $first_item->is_publish ?? '',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'item:is_end',
                   'label'       => '生産終了',
                   'checked'     => $first_item->is_end ?? '',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_select', [
+                @include('admin.parts.form_select', [
                   'name'      => 'item:series_id',
                   'label'     => 'シリーズ型式',
                   'value'     => $first_item->series_id ?? '',
                   'empty'     => true,
                   'options'   => $series,
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'group:lighting_connector',
                   'label'     => '照明側コネクタ',
                   'value'     => $group->lighting_connector ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'group:power_connector',
                   'label'     => '電源側コネクタ',
                   'value'     => $group->power_connector ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'item:operating_temperature',
                   'label'     => '使用温度',
                   'value'     => $first_item->operating_temperature ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'item:operating_humidity',
                   'label'     => '使用湿度',
                   'value'     => $first_item->operating_humidity ?? '',
                 ])
-                @include('admin.parts.block_textarea', [
+                @include('admin.parts.form_textarea', [
                   'name'      => 'item:memo',
                   'label'     => '備考欄',
                   'value'     => $first_item->memo ?? '',
                 ])
                 {{--
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'catalogue',
                   'label'       => 'カタログ',
                   'file_label'  => isset($item)&&$item->hasFile('catalogue') ? '○' : '-',
                 ])
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'pamphlet',
                   'label'       => 'パンフレット',
                   'file_label'  => isset($item)&&$item->hasFile('pamphlet') ? '○' : '-',
                 ])
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'manual',
                   'label'       => '取扱説明書',
                   'file_label'  => isset($item)&&$item->hasFile('manual') ? '○' : '-',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'model',
                   'label'     => '品番',
                   'valiable'  => 'item',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'weight',
                   'label'     => '器具重量',
                   'valiable'  => 'item',
@@ -137,32 +137,32 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:ja:description1',
                   'label'     => '欄外記述1',
                   'value'     => $details['ja']->description1 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:ja:description2',
                   'label'     => '欄外記述2',
                   'value'     => $details['ja']->description2 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:ja:description3',
                   'label'     => '欄外記述3',
                   'value'     => $details['ja']->description3 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:ja:description4',
                   'label'     => '欄外記述4',
                   'value'     => $details['ja']->description4 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:ja:description5',
                   'label'     => '欄外記述5',
                   'value'     => $details['ja']->description5 ?? '',
                 ])
-                @include('admin.parts.block_textarea', [
+                @include('admin.parts.form_textarea', [
                   'name'      => 'detail:ja:note',
                   'label'     => '注意書き',
                   'value'     => $details['ja']->note ?? '',
@@ -184,32 +184,32 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:en:description1',
                   'label'     => '欄外記述1',
                   'value'     => $details['en']->description1 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:en:description2',
                   'label'     => '欄外記述2',
                   'value'     => $details['en']->description2 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:en:description3',
                   'label'     => '欄外記述3',
                   'value'     => $details['en']->description3 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:en:description4',
                   'label'     => '欄外記述4',
                   'value'     => $details['en']->description4 ?? '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'detail:en:description5',
                   'label'     => '欄外記述5',
                   'value'     => $details['en']->description5 ?? '',
                 ])
-                @include('admin.parts.block_textarea', [
+                @include('admin.parts.form_textarea', [
                   'name'      => 'detail:en:note',
                   'label'     => '注意書き',
                   'value'     => $details['en']->note ?? '',
@@ -261,7 +261,7 @@
                           <input type="hidden" name="cable:cable_ids[]" value="{{ $item->id }}">
                         </td>
                         <td>
-                          @include('admin.parts.block_checkbox', [
+                          @include('admin.parts.custom_checkbox', [
                             'switch'    => true,
                             'name'      => 'cable:common2:is_lend[]',
                             'id'        => 'is_lend_' . $item->id,
@@ -270,35 +270,35 @@
                           ])
                         </td>
                         <td>
-                          @include('admin.parts.block_text', [
+                          @include('admin.parts.form_text', [
                             'name'      => 'cable:ja:type[]',
                             'value'     => $cables['ja']->type ?? '',
                           ])
-                          @include('admin.parts.block_text', [
+                          @include('admin.parts.form_text', [
                             'name'      => 'cable:en:type[]',
                             'value'     => $cables['en']->type ?? '',
                           ])
                         </td>
                         <td>
-                          @include('admin.parts.block_text', [
+                          @include('admin.parts.form_text', [
                             'name'      => 'cable:common:model[]',
                             'value'     => $item->model,
                           ])
                         </td>
                         <td>
-                          @include('admin.parts.block_text', [
+                          @include('admin.parts.form_text', [
                             'name'      => 'cable:common:product_number[]',
                             'value'     => $item->product_number,
                           ])
                         </td>
                         <td>
-                          @include('admin.parts.block_text', [
+                          @include('admin.parts.form_text', [
                             'name'      => 'cable:common:weight[]',
                             'value'     => $item->weight,
                           ])
                         </td>
                         <td>
-                          @include('admin.parts.block_checkbox', [
+                          @include('admin.parts.custom_checkbox', [
                             'name'        => 'removes[]',
                             'id'          => 'removes-'.$item->id,
                             'form_value'  => $item->id,

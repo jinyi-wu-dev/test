@@ -17,9 +17,13 @@
 
 @section('form')
   <form method="post" action="{{ route('admin.item.store') }}" enctype="multipart/form-data">
+  @csrf
 @endsection
 
 
-@section('form_button')
-  <button type="submit" class="btn btn-primary">　追　加　</button>  
+@section('footer')
+  <footer class="main-footer fixed-bottom">
+    <button type="submit" class="btn btn-primary">　追　加　</button>  
+  </footer>
+  </form>
 @endsection

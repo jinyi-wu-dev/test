@@ -1,5 +1,6 @@
 @extends('admin/base')
 
+
 @section('content')
   <script>
     function onOK() {
@@ -21,26 +22,20 @@
             <div class="card-header">
               <h3 class="card-title">詳細</h3>
             </div>
-            @yield('form')
-              @csrf
               <div class="card-body">
 
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'image',
                   'label'       => '画像',
                   'image_path'  => isset($icon)&&$icon->hasFile('image') ? $icon->fileUrl('image') : '',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'  => 'title',
                   'label' => 'タイトル',
                   'value' => $icon->title ?? '',
                 ])
                 
               </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
-            </form>
           </div>
         </div>
       </div>

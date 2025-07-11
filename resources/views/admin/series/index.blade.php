@@ -6,7 +6,22 @@
 
 
 @section('breadcrumb')
-  <li class="breadcrumb-item active">UserList</li>
+  <li class="breadcrumb-item active">シリーズ一覧</li>
+@endsection
+
+
+@section('form')
+  <form method="get" action="{{ route('admin.series.index') }}"> 
+  @csrf
+@endsection
+
+
+@section('footer')
+  <footer class="main-footer fixed-bottom">
+    <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
+    <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
+  </footer>
+  </form>
 @endsection
 
 
@@ -18,8 +33,6 @@
     'on_ok'   => 'doDelete();',
   ])
   <section class="content">
-  <form method="get" action="{{ route('admin.series.index') }}"> 
-    @csrf
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -35,63 +48,63 @@
             <div class="card-body">
               <div class="d-flex justify-content-center">
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-category',
                     'label'     => '品目タイプ',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-genre',
                     'label'     => 'ジャンル',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-name',
                     'label'     => '名称',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-model',
                     'label'     => '型式',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-num_of_model',
                     'label'     => '型式数',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-image',
                     'label'     => '画像',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_new',
                     'label'     => 'NEW',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_end',
                     'label'     => '生産終了',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_publish',
                     'label'     => '公開',
@@ -100,42 +113,42 @@
               </div>
               <div class="d-flex justify-content-center">
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-pamphlet',
                     'label'     => 'パンフレット',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-catalogue',
                     'label'     => 'カタログ',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-manual',
                     'label'     => '取説',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-note',
                     'label'     => '注意書き',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-memo',
                     'label'     => '備考欄',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-delete',
                     'label'     => '削除',
@@ -157,7 +170,7 @@
             </div>
             <div class="card-body">
               <div class="callout callout-secondary">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'label' => '名前',
                   'name'  => 'keyword',
                   'value' => request('keyword'),
@@ -194,21 +207,23 @@
                       <th class="CDT-name"></th>
                       <th class="CDT-model"></th>
                       <th class="CDT-num_of_model"></th>
-                      <th class="CDT-image"></th>
+                      <th class="CDT-image">
+                        <input type="range" class="custom-range" value="20">
+                      </th>
                       <th class="CDT-is_new">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_new_all',
                         ])
                       </th>
                       <th class="CDT-is_end">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_end_all',
                         ])
                       </th>
                       <th class="CDT-is_publish">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_publish_all',
                         ])
@@ -219,7 +234,7 @@
                       <th class="CDT-note"></th>
                       <th class="CDT-memo"></th>
                       <th class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'is_delete_all',
                           'type'        => 'danger',
                         ])
@@ -249,11 +264,11 @@
                       </td>
                       <td class="CDT-image">
                         @if ($s->hasFile('image'))
-                        <img src="{{ $s->fileUrl('image') }}?v={{ uniqid() }}" width="200px">
+                        <img src="{{ $s->fileUrl('image') }}?v={{ uniqid() }}" width="200px" class="list-image">
                         @endif
                       </td>
                       <td class="CDT-is_new">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_new_ids[]',
                           'id'          => 'is_new-'.$s->id,
@@ -262,7 +277,7 @@
                         ])
                       </td>
                       <td class="CDT-is_end">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_end_ids[]',
                           'id'          => 'is_end-'.$s->id,
@@ -271,7 +286,7 @@
                         ])
                       </td>
                       <td class="CDT-is_publish">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_publish_ids[]',
                           'id'          => 'is_publish-'.$s->id,
@@ -307,7 +322,7 @@
                         {{ $s->memo }}
                       </td>
                       <td class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'removes[]',
                           'id'          => 'removes-'.$s->id,
                           'form_value'  => $s->id,
@@ -321,15 +336,10 @@
                 {{ $series->links('admin.parts.pagination') }}
               </div>
             </div>
-            <div class="card-footer">
-              <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
-              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
   </section>
 @endsection
 
@@ -344,7 +354,8 @@
       initAllCheck('input[name=is_end_all]', 'input[name=is_end_ids\\[\\]]');
       initAllCheck('input[name=is_publish_all]', 'input[name=is_publish_ids\\[\\]]');
       initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
-    })
+      initImageRange('.custom-range', '.list-image');
+    });
     function doUpdate() {
       $('form').attr('method', 'post').attr('action', '{{ route('admin.series.update_multiple') }}').submit();
     }

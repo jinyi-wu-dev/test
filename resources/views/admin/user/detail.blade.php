@@ -1,5 +1,6 @@
 @extends('admin/base')
 
+
 @section('content')
   <script>
     function onOK() {
@@ -21,21 +22,119 @@
             <div class="card-header">
               <h3 class="card-title">詳細</h3>
             </div>
-            @yield('form')
-              @csrf
               <div class="card-body">
 
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'name',
                   'label'     => '名前',
                   'valiable'  => 'user',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
+                  'name'      => 'kana',
+                  'label'     => 'フリガナ',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'postal_code',
+                  'label'     => '郵便番号',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_select', [
+                  'name'      => 'prefecture',
+                  'label'     => '都道府県',
+                  'valiable'  => 'user',
+                  'empty'     => true,
+                  'options'   => App\Enums\Prefecture::keyLabel(),
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'country',
+                  'label'     => '国名',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'city',
+                  'label'     => '市町村区',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'area',
+                  'label'     => '番地',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'building',
+                  'label'     => 'ビル名',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'phone_number',
+                  'label'     => '電話番号',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'company',
+                  'label'     => '会社名',
+                  'valiable'  => 'user',
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => 'department',
+                  'label'     => '部署',
+                  'valiable'  => 'user',
+                ])
+                <div class="form-group">
+                  <label for="">役職</label>
+                  <div class="d-flex flex-row flex-wrap justify-content-start">
+                    @foreach (config('enums.ja.position') as $val => $label)
+                      <div class="pl-4">
+                        @include('admin.parts.form_checkbox', [
+                          'name'        => 'positions[]',
+                          'id'          => 'positions-'.$val,
+                          'label'       => $label,
+                          'form_value'  => $val,
+                          'checked'     => in_array($val, $user->positions),
+                        ])
+                      </div>
+                    @endforeach
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">業種</label>
+                  <div class="d-flex flex-row flex-wrap justify-content-start">
+                    @foreach (config('enums.ja.industry') as $val => $label)
+                      <div class="pl-4">
+                        @include('admin.parts.form_checkbox', [
+                          'name'        => 'industries[]',
+                          'id'          => 'industries-'.$val,
+                          'label'       => $label,
+                          'form_value'  => $val,
+                          'checked'     => in_array($val, $user->industries),
+                        ])
+                      </div>
+                    @endforeach
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">職種</label>
+                  <div class="d-flex flex-row flex-wrap justify-content-start">
+                    @foreach (config('enums.ja.occupation') as $val => $label)
+                      <div class="pl-4">
+                        @include('admin.parts.form_checkbox', [
+                          'name'        => 'occupationes[]',
+                          'id'          => 'occupationes-'.$val,
+                          'label'       => $label,
+                          'form_value'  => $val,
+                          'checked'     => in_array($val, $user->occupationes),
+                        ])
+                      </div>
+                    @endforeach
+                  </div>
+                </div>
+                @include('admin.parts.form_text', [
                   'name'      => 'email',
                   'label'     => 'メールアドレス',
                   'valiable'  => 'user',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'password',
                   'label'     => 'パスワード',
                 ])

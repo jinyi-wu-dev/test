@@ -9,13 +9,13 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'search_options',
                   'label'     => '',
                   'value'     => '',
                 ])
                 @foreach ($relateds as $series)
-                  @include('admin.parts.block_select', [
+                  @include('admin.parts.form_select', [
                     'name'      => 'options[]',
                     'value'     => $series->id,
                     'empty'     => true,
@@ -23,16 +23,13 @@
                   ])
                 @endforeach
                 @for ($series=count($relateds); $series<20; $series++)
-                  @include('admin.parts.block_select', [
+                  @include('admin.parts.form_select', [
                     'name'      => 'options[]',
                     'value'     => '',
                     'empty'     => true,
                     'options'   => $options,
                   ])
                 @endfor
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@
               </div>
               <div class="card-body">
                 @foreach ($relateds as $series)
-                  @include('admin.parts.block_select', [
+                  @include('admin.parts.form_select', [
                     'name'      => 'cables[]',
                     'value'     => $series->id,
                     'empty'     => true,
@@ -18,16 +18,13 @@
                   ])
                 @endforeach
                 @for ($series=count($relateds); $series<20; $series++)
-                  @include('admin.parts.block_select', [
+                  @include('admin.parts.form_select', [
                     'name'      => 'cables[]',
                     'value'     => '',
                     'empty'     => true,
                     'options'   => $options,
                   ])
                 @endfor
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>

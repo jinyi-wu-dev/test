@@ -35,35 +35,35 @@
             <div class="card-body">
               <div class="d-flex justify-content-center">
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-series_category',
                     'label'     => '品目タイプ',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-series_genre',
                     'label'     => 'ジャンル',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-series_name',
                     'label'     => 'シリーズ名称',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-series_model',
                     'label'     => 'シリーズ型式',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-model',
                     'label'     => '型式',
@@ -72,63 +72,63 @@
               </div>
               <div class="d-flex justify-content-center">
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-image',
                     'label'     => '画像',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_new',
                     'label'     => 'NEW',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_end',
                     'label'     => '生産終了',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_publish',
                     'label'     => '公開',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_lend',
                     'label'     => '貸出',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-product_number',
                     'label'     => '品番',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-operating_temperature',
                     'label'     => '使用温度',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-operating_humidity',
                     'label'     => '使用湿度',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-weight',
                     'label'     => '器具重量',
@@ -137,28 +137,28 @@
               </div>
               <div class="d-flex justify-content-center">
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_RoHS',
                     'label'     => 'RoHS',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_RoHS2',
                     'label'     => 'RoHS2',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_CN_RoHSe1',
                     'label'     => '中国RoHSe1',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_CN_RoHS102',
                     'label'     => '中国RoHS10-2',
@@ -167,91 +167,91 @@
               </div>
               <div class="d-flex justify-content-center">
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-description1',
                     'label'     => '欄外記述1',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-description2',
                     'label'     => '欄外記述2',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-description3',
                     'label'     => '欄外記述3',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-description4',
                     'label'     => '欄外記述4',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-description5',
                     'label'     => '欄外記述5',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-exterior_image',
                     'label'     => '外観図(画像)',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-exterior_pdf',
                     'label'     => '外観図(PDF)',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-exterior_dxf',
                     'label'     => '外観図(DXF)',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-model_stl',
                     'label'     => 'モデル(STL)',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-model_step',
                     'label'     => 'モデル(STEP)',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-note',
                     'label'     => '注意書き',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-memo',
                     'label'     => '備考欄',
                   ])
                 </div>
                 <div class="p-2">
-                  @include('admin.parts.block_checkbox', [
+                  @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-delete',
                     'label'     => '削除',
@@ -273,7 +273,7 @@
             </div>
             <div class="card-body">
               <div class="callout callout-secondary">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'label' => '名前',
                   'name'  => 'keyword',
                   'value' => request('keyword'),
@@ -326,25 +326,25 @@
                       <th class="CDT-model"></th>
                       <th class="CDT-image"></th>
                       <th class="CDT-is_new">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_new_all',
                         ])
                       </th>
                       <th class="CDT-is_end">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_end_all',
                         ])
                       </th>
                       <th class="CDT-is_publish">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_publish_all',
                         ])
                       </th>
                       <th class="CDT-is_lend">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_lend_all',
                         ])
@@ -370,7 +370,7 @@
                       <th class="CDT-note"></th>
                       <th class="CDT-memo"></th>
                       <th class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'is_delete_all',
                           'type'        => 'danger',
                         ])
@@ -411,7 +411,7 @@
                         @endif
                       </td>
                       <td class="CDT-is_new">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_new_group_ids[]',
                           'id'          => 'is_new-'.$g->id,
@@ -420,7 +420,7 @@
                         ])
                       </td>
                       <td class="CDT-is_end">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_end_group_ids[]',
                           'id'          => 'is_end-'.$g->id,
@@ -429,7 +429,7 @@
                         ])
                       </td>
                       <td class="CDT-is_publish">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_publish_group_ids[]',
                           'id'          => 'is_publish-'.$g->id,
@@ -439,7 +439,7 @@
                       </td>
                       <td class="CDT-is_lend">
                         @foreach ($g->items() as $item)
-                          @include('admin.parts.block_checkbox', [
+                          @include('admin.parts.custom_checkbox', [
                             'switch'      => true,
                             'name'        => 'is_lend_item_ids[]',
                             'id'          => 'is_lend-'.$item->id,
@@ -513,7 +513,7 @@
                         {{ $first_item->memo }}
                       </td>
                       <td class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'removes[]',
                           'id'          => 'removes-'.$g->id,
                           'form_value'  => $g->id,

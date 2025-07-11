@@ -43,27 +43,29 @@
                       <th class="CDT-series_name"></th>
                       <th class="CDT-series_model"></th>
                       <th class="CDT-model"></th>
-                      <th class="CDT-image"></th>
+                      <th class="CDT-image">
+                        <input type="range" class="custom-range" value="20">
+                      </th>
                       <th class="CDT-is_new">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_new_all',
                         ])
                       </th>
                       <th class="CDT-is_end">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_end_all',
                         ])
                       </th>
                       <th class="CDT-is_publish">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_publish_all',
                         ])
                       </th>
                       <th class="CDT-is_lend">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_lend_all',
                         ])
@@ -93,7 +95,7 @@
                       <th class="CDT-note"></th>
                       <th class="CDT-memo"></th>
                       <th class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'is_delete_all',
                           'type'        => 'danger',
                         ])

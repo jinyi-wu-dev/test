@@ -20,11 +20,11 @@
                       </td>
                       <td class="CDT-image">
                         @if ($item->series->hasFile('image'))
-                        <img src="{{ $item->series->fileUrl('image') }}?v={{ uniqid() }}">
+                        <img src="{{ $item->series->fileUrl('image') }}?v={{ uniqid() }}" class="list-image">
                         @endif
                       </td>
                       <td class="CDT-is_new">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_new_ids[]',
                           'id'          => 'is_new-'.$item->id,
@@ -33,7 +33,7 @@
                         ])
                       </td>
                       <td class="CDT-is_end">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_end_ids[]',
                           'id'          => 'is_end-'.$item->id,
@@ -42,7 +42,7 @@
                         ])
                       </td>
                       <td class="CDT-is_publish">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_publish_ids[]',
                           'id'          => 'is_publish-'.$item->id,
@@ -51,7 +51,7 @@
                         ])
                       </td>
                       <td class="CDT-is_lend">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
                           'name'        => 'is_lend_ids[]',
                           'id'          => 'is_lend-'.$item->id,
@@ -132,7 +132,7 @@
                         {{ $item->memo }}
                       </td>
                       <td class="CDT-delete">
-                        @include('admin.parts.block_checkbox', [
+                        @include('admin.parts.custom_checkbox', [
                           'name'        => 'removes[]',
                           'id'          => 'removes-'.$item->id,
                           'form_value'  => $item->id,

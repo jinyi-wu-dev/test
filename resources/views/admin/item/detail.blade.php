@@ -4,8 +4,6 @@
 @section('content')
   <section class="content">
     <div class="container-fluid">
-      @yield('form')
-        @csrf
         <input type="hidden" name="category" value="{{ $category }}">
 
         <div class="row">
@@ -20,75 +18,75 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'id',
                   'label'     => 'ID',
                   'valiable'  => 'item',
                   'disabled'  => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'is_new',
                   'label'       => 'NEW',
                   'valiable'    => 'item',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'is_publish',
                   'label'       => '公開',
                   'valiable'    => 'item',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'is_end',
                   'label'       => '生産終了',
                   'valiable'    => 'item',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_checkbox', [
+                @include('admin.parts.custom_checkbox', [
                   'switch'      => true,
                   'name'        => 'is_lend',
                   'label'       => '貸出可能',
                   'valiable'    => 'item',
                   'empty_value' => true,
                 ])
-                @include('admin.parts.block_select', [
+                @include('admin.parts.form_select', [
                   'name'      => 'series_id',
                   'label'     => 'シリーズ型式',
                   'value'     => $item->series_id ?? '',
                   'empty'     => true,
                   'options'   => $series,
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'model',
                   'label'     => '個別型式',
                   'valiable'  => 'item',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'product_number',
                   'label'     => '品番',
                   'valiable'  => 'item',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'operating_temperature',
                   'label'     => '使用温度',
                   'valiable'  => 'item',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'operating_humidity',
                   'label'     => '使用温度',
                   'valiable'  => 'item',
                 ])
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'name'      => 'weight',
                   'label'     => '器具重量',
                   'valiable'  => 'item',
                 ])
                 <div class="row">
                   <div class="col-2">
-                    @include('admin.parts.block_radio', [
+                    @include('admin.parts.form_radio', [
                       'name'      => 'cs_rohs',
                       'label'     => '適合規格1',
                       'value'     => isset($item) ?  ($item->is_RoHS ? 'RoHS' : ($item->is_RoHS2 ? 'RoHS2' : '')) : '',
@@ -100,7 +98,7 @@
                     ])
                   </div>
                   <div class="col-3">
-                    @include('admin.parts.block_radio', [
+                    @include('admin.parts.form_radio', [
                       'name'      => 'cs_crohs',
                       'label'     => '適合規格2',
                       'value'     => isset($item) ? ($item->is_CN_RoHSe1 ? 'e_1' : ($item->is_CN_RoHS102 ? '10_2' : '')) : '',
@@ -112,7 +110,7 @@
                     ])
                   </div>
                   <div class="col-3">
-                    @include('admin.parts.block_radio', [
+                    @include('admin.parts.form_radio', [
                       'name'      => 'cs_ce',
                       'label'     => '適合規格3',
                       'value'     => isset($item) ? ($item->is_CE_IEC ? 'iec' : ($item->is_CE_EN ? 'en' : '')) : '',
@@ -124,7 +122,7 @@
                     ])
                   </div>
                   <div class="col-2">
-                    @include('admin.parts.block_radio', [
+                    @include('admin.parts.form_radio', [
                       'name'      => 'cs_ukca',
                       'label'     => '適合規格4',
                       'value'     => isset($item) ? ($item->is_UKCA ? 'ukca' : '') : '',
@@ -135,7 +133,7 @@
                     ])
                   </div>
                   <div class="col-2">
-                    @include('admin.parts.block_radio', [
+                    @include('admin.parts.form_radio', [
                       'name'      => 'cs_pse',
                       'label'     => '適合規格5',
                       'value'     => isset($item) ? ($item->is_PSE ? 'pse' : '') : '',
@@ -146,14 +144,11 @@
                     ])
                   </div>
                 </div>
-                @include('admin.parts.block_textarea', [
+                @include('admin.parts.form_textarea', [
                   'name'      => 'memo',
                   'label'     => '備考欄',
                   'valiable'  => 'item',
                 ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>
@@ -221,14 +216,11 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => '3d_model_step',
                   'label'       => '3Dモデル（STEP）',
                   'file_label'  => isset($item)&&$item->hasFile('3d_model_step') ? '○' : '-',
                 ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>
@@ -246,19 +238,16 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'ja:external_view_pdf',
                   'label'       => '外観図（PDF）',
                   'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_pdf') ? '○' : '-',
                 ])
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'ja:external_view_dxf',
                   'label'       => '外観図（DXF）',
                   'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_dxf') ? '○' : '-',
                 ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>
@@ -273,19 +262,16 @@
                 </div>
               </div>
               <div class="card-body">
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'en:external_view_pdf',
                   'label'       => '外観図（PDF）',
                   'file_label'  => isset($details['en'])&&$details['en']->hasFile('external_view_pdf') ? '○' : '-',
                 ])
-                @include('admin.parts.block_file', [
+                @include('admin.parts.form_file', [
                   'name'        => 'en:external_view_dxf',
                   'label'       => '外観図（DXF）',
                   'file_label'  => isset($details['en'])&&$details['en']->hasFile('external_view_dxf') ? '○' : '-',
                 ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>
@@ -344,7 +330,6 @@
           </div>
         @endif
 
-      </form>
     </div>
   </section>
 @endsection
@@ -359,7 +344,7 @@
         $keyword = $(this).val();
         $('[name="options\\[\\]"] option').each(function() {
           if ($(this).text().indexOf($keyword)>-1) {
-            $(this).css('display', 'block');
+            $(this).css('display', 'form');
           } else {
             $(this).css('display', 'none');
           }

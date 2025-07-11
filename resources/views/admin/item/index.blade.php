@@ -18,6 +18,21 @@
 @endsection
 
 
+@section('form')
+  <form method="get" action="{{ route('admin.item.index') }}"> 
+  @csrf
+@endsection
+
+
+@section('footer')
+  <footer class="main-footer fixed-bottom">
+    <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
+    <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
+  </footer>
+  </form>
+@endsection
+
+
 @section('content')
   @include('admin.parts.modal', [
     'id'      => 'conformModal',
@@ -26,8 +41,6 @@
     'on_ok'   => 'doDelete();',
   ])
   <section class="content">
-  <form method="get" action="{{ route('admin.item.index') }}"> 
-    @csrf
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -65,7 +78,7 @@
             </div>
             <div class="card-body">
               <div class="callout callout-secondary">
-                @include('admin.parts.block_text', [
+                @include('admin.parts.form_text', [
                   'label' => '名前',
                   'name'  => 'keyword',
                   'value' => request('keyword'),
@@ -106,15 +119,10 @@
                 {{ $items->links('admin.parts.pagination') }}
               </div>
             </div>
-            <div class="card-footer">
-              <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
-              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
   </section>
 @endsection
 
@@ -130,6 +138,7 @@
       initAllCheck('input[name=is_publish_all]', 'input[name=is_publish_ids\\[\\]]');
       initAllCheck('input[name=is_lend_all]', 'input[name=is_lend_ids\\[\\]]');
       initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
+      initImageRange('.custom-range', '.list-image');
     })
     function doUpdate() {
       $('form').attr('method', 'post').attr('action', '{{ route('admin.item.update_multiple') }}').submit();

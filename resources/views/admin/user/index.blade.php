@@ -1,11 +1,14 @@
 @extends('admin/base')
 
-@section('title', 'ユーザ一覧')
-@section('header', 'ユーザ')
+
+@section('title', '会員一覧')
+@section('header', '会員')
+
 
 @section('breadcrumb')
-  <li class="breadcrumb-item active">ユーザ一覧</li>
+  <li class="breadcrumb-item active">会員一覧</li>
 @endsection
+
 
 @section('content')
   <section class="content">
@@ -20,7 +23,7 @@
               <form method="get" action="{{ route('admin.user.index') }}"> 
                 @csrf
                 <div class="callout callout-secondary">
-                  @include('admin.parts.block_text', [
+                  @include('admin.parts.form_text', [
                     'label' => '名前',
                     'name'  => 'name',
                     'value' => request('name'),
