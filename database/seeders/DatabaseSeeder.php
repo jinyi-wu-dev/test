@@ -305,6 +305,23 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        for ($i=1; $i<=10; $i++) {
+            DB::table('lend_items')->insert([
+                'user_id' => fake()->numberBetween(1, 50),
+                'remarks' => fake()->realText(20),
+                'requested_at' => fake()->dateTime(),
+            ]);
+            for ($j=1; $j<=fake()->numberBetween(1, 2); $j++) {
+                DB::table('lend_item')->insert([
+                    'lend_id' => $i,
+                    'item_id' => fake()->numberBetween(1, 200),
+                    'num_of_item' => fake()->numberBetween(1, 10),
+                ]);
+            }
+        }
+
+
     }
 
     protected function insertFeature($layout, $title, $body) {

@@ -16,8 +16,6 @@
   ])
   <section class="content">
     <div class="container-fluid">
-      @yield('form')
-        @csrf
 
         <div class="row">
           <div class="col-12">
@@ -118,9 +116,6 @@
                 ])
                 --}}
               </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
             </div>
           </div>
         </div>
@@ -168,9 +163,6 @@
                   'value'     => $details['ja']->note ?? '',
                 ])
               </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
             </div>
           </div>
           <div class="col-6">
@@ -214,9 +206,6 @@
                   'label'     => '注意書き',
                   'value'     => $details['en']->note ?? '',
                 ])
-              </div>
-              <div class="card-footer">
-                @yield('form_button')
               </div>
             </div>
           </div>
@@ -318,14 +307,10 @@
                 @endif
               </div>
               </div>
-              <div class="card-footer">
-                @yield('form_button')
-              </div>
             </div>
           </div>
         </div>
 
-      </form>
     </div>
   </section>
 @endsection

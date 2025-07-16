@@ -390,15 +390,16 @@
               </div>
               <div class="card-body">
                 <div class="d-flex flex-row flex-wrap justify-content-start">
-                  @foreach($icon_options as $icon_id => $icon_label)
+                  @foreach($icons as $icon)
                     <div class="pl-4" style="width:25%">
                       @include('admin.parts.custom_checkbox', [
                         'name'        => 'icons[]',
-                        'id'          => 'icons-'.$icon_id,
-                        'label'       => $icon_label,
-                        'form_value'  => $icon_id,
+                        'id'          => 'icons-'.$icon->id,
+                        'label'       => $icon->title,
+                        'image'       => $icon->fileUrl('image'),
+                        'form_value'  => $icon->id,
                         'checked'     => old('icons') ? in_array($icon_id, old('icons'))
-                                          : (isset($icon_checked) ? in_array($icon_id, $icon_checked) : false),
+                                          : (isset($icon_checked) ? in_array($icon->id, $icon_checked) : false),
                       ])
                     </div>
                   @endforeach

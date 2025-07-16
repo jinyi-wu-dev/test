@@ -13,12 +13,30 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class UserController extends Controller
 {
+    protected function validate($request, $create=false)
+    {
+        $request->validate([
+            'name'      => 'required',
+            'email'     => 'required',
+            'password'  => $create ? 'required' : '',
+        ]);
+    }
+
+    public function query(Request $request) {
+        return User::query()
+            ->when($request->filled('keywords'), function($query) use($request) {
+                $keys = preg_split('/[\s]+/', mb_convert_kana($request->keywords, 's'), -1, PREG_SPLIT_NO_EMPTY);
+                foreach ($keys as $key) {
+                    $query->orWhere('id', '=', $key);
+                    $query->orWhere('name', 'LIKE', '%'.$key.'%');
+                    $query->orWhere('email', 'LIKE', '%'.$key.'%');
+                }
+            });
+    }
+
     public function index(Request $request)
     {
-        $users = User::query()
-            ->when($request->filled('name'), function($query) use($request) {
-                $query->whereLike('name', '%'.$request->name.'%');
-            })
+        $users = $this->query($request)
             ->paginate(config('pagination.num_of_item'))
             ->withQueryString();
         return view('admin/user/index', [
@@ -26,8 +44,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function csv() {
-        $users = User::get();
+    public function csv(Request $request) {
+        $users = $this->query($request)->get();
         return new StreamedResponse(function () use ($users) {
             $fh = fopen('php://output', 'w');
 
@@ -74,15 +92,6 @@ class UserController extends Controller
         }, 200, [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="users.csv"',
-        ]);
-    }
-
-    protected function validate($request, $create=false)
-    {
-        $request->validate([
-            'name'      => 'required',
-            'email'     => 'required',
-            'password'  => $create ? 'required' : '',
         ]);
     }
 

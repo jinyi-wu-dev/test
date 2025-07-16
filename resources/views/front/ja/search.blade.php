@@ -159,7 +159,7 @@
                                 @if ($series->show_model)                     <td class="format
                                                                                 @if($item->is_new) is-new @endif
                                                                                 @if($item->is_end) is-discontinued @endif
-                                                                              "><a href="{{ route('item', $item) }}">{{ $item->model }}</a></td> @endif
+                                                                              "><a href="{{ route('item', $item) }}" target="_blank">{{ $item->model }}</a> </td> @endif
                                 @if ($series->show_product_number)            <td>{{ $item->product_number }}</td> @endif
                                 @if ($series->show_weight)                    <td>{{ $item->weight }}</td> @endif
                                 @if ($series->show_other)                     <td></td> @endif
@@ -254,9 +254,9 @@
                 </div>
                 <div class="aside-section">
                   <h2 class="aside-head">
-                    <button class="aside-head-btn" type="button">照明器具</button>
+                    <button class="aside-head-btn is-active" type="button">照明器具</button>
                   </h2>
-                  <div class="aside-body">
+                  <div class="aside-body" style="display:block">
                     <div class="aside-body-inner">
                       <div class="aside-body-list">
                         <div class="aside-body-item">
@@ -444,9 +444,9 @@
                 </div>
                 <div class="aside-section">
                   <h2 class="aside-head">
-                    <button class="aside-head-btn" type="button">コントローラ</button>
+                    <button class="aside-head-btn is-active" type="button">コントローラ</button>
                   </h2>
-                  <div class="aside-body">
+                  <div class="aside-body" style="display:block">
                     <div class="aside-body-inner">
                       <div class="aside-body-list">
                         <div class="aside-body-item">
@@ -620,9 +620,9 @@
                 </div>
                 <div class="aside-section">
                   <h2 class="aside-head">
-                    <button class="aside-head-btn" type="button">オプショナルパーツ</button>
+                    <button class="aside-head-btn is-active" type="button">オプショナルパーツ</button>
                   </h2>
-                  <div class="aside-body">
+                  <div class="aside-body" style="display:block">
                     <div class="aside-body-inner">
                       <div class="aside-body-list">
                         <div class="aside-body-item">

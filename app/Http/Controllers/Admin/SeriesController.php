@@ -47,7 +47,7 @@ class SeriesController extends Controller
     public function create()
     {
         return view('admin/series/create', [
-            'icon_options'      => Icon::all()->pluck('title', 'id'),
+            'icons'      => Icon::all(),
             'feature_options'   => Feature::all()->pluck('title', 'id'),
         ]);
     }
@@ -80,7 +80,7 @@ class SeriesController extends Controller
             'details'           => $series->details->keyBy('language'),
             'categories'        => Category::keyLabel(),
             'genres'            => Genre::keyLabel(),
-            'icon_options'      => Icon::all()->pluck('title', 'id'),
+            'icons'      => Icon::all(),
             'icon_checked'      => $series->icons()->pluck('icon_id')->toArray(),
             'feature_options'   => Feature::all()->pluck('title', 'id'),
             'feature_checked'   => $series->features()->pluck('feature_id')->toArray(),

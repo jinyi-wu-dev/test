@@ -1,5 +1,15 @@
 @extends('admin/base')
 
+
+@section('title', '貸出実績一覧')
+@section('header', '貸出実績')
+
+
+@section('breadcrumb')
+  <li class="breadcrumb-item active">貸出実績一覧</li>
+@endsection
+
+
 @section('content')
   <script>
     function onOK() {
@@ -60,7 +70,7 @@
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->requested_at }}</td>
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->prefecture }}</td>
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->company }}</td>
-                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->name1 }}</td>
+                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->name }}</td>
                           @endif
                         </tr>
                       @endforeach

@@ -75,10 +75,16 @@
                 </p>
               </div>
               <div class="tab-area tab-common">
+                @php
+                  $has_feature = count($series->features)>0;
+                @endphp
+                @if($has_feature)
                 <input type="radio" name="tabneme01" id="tab01" checked>
                 <label for="tab01">特 徴 / 特 性</label>
-                <input type="radio" name="tabneme01" id="tab02">
+                @endif
+                <input type="radio" name="tabneme01" id="tab02" @if(!$has_feature) checked @endif>
                 <label for="tab02">シリーズ型式一覧 / 各種資料DL / デモ機貸出</label>
+                @if($has_feature)
                 <div class="tab-block series-block" data-tab-group="tabneme01">
                   <div class="tab-block__inner">
                     <div class="article-block">
@@ -108,6 +114,7 @@
                     </div>
                   </div>
                 </div>
+                @endif
                 <div class="tab-block series-block" data-tab-group="tabneme01">
                   <div class="tab-block__inner">
                     <div class="article-block">
@@ -135,7 +142,7 @@
                                 @if ($series->show_total_capacity)          <th>合計容量</th> @endif
                                 @if ($series->show_ct_num_of_ch)            <th>CH数</th> @endif
                                 @if ($series->show_input)                   <th>入力</th> @endif
-                                @if ($series->show_output)                  <th>出力</th> @endif
+                               @if ($series->show_output)                  <th>出力</th> @endif
                                 @if ($series->show_external_onoff)          <th>外部ON/OFF</th> @endif
                                 @if ($series->show_external_diming_control) <th>外部調光制御</th> @endif
                               @endif
@@ -153,7 +160,10 @@
                             @foreach ($series->items as $item)
                               <tr>
                                 @if ($series->show_type)                      <td>{{ $item->type }}</td> @endif
-                                @if ($series->show_model)                     <td class="format is-new"><a href="{{ route('item', $item) }}">{{ $item->model }}</a></td> @endif
+                                @if ($series->show_model)                     <td class="format
+                                                                                @if($item->is_new) is-new @endif
+                                                                                @if($item->is_end) is-discontinued @endif
+                                                                              "><a href="{{ route('item', $item) }}">{{ $item->model }}</a> </td> @endif
                                 @if ($series->show_product_number)            <td>{{ $item->product_number }}</td> @endif
                                 @if ($series->show_weight)                    <td>{{ $item->weight }}</td> @endif
                                 @if ($series->show_other)                     <td></td> @endif

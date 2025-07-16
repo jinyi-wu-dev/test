@@ -33,6 +33,8 @@
       value="{{ $form_value }}"
       @if($data_value==$form_value || (isset($checked) && $checked)) checked @endif
     >
-    <label class="custom-control-label" for="{{ $id ?? $name }}">{{ $label ?? '' }}</label>
+    <label class="custom-control-label" for="{{ $id ?? $name }}">{{ $label ?? '' }}
+      @if(isset($image)) <br/><img src="{{ $image }}" /> @endif
+    </label>
   </div>
 </div>

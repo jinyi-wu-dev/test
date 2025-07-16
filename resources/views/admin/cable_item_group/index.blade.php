@@ -10,6 +10,21 @@
 @endsection
 
 
+@section('form')
+  <form method="get" action="{{ route('admin.group.index') }}"> 
+  @csrf
+@endsection
+
+
+@section('footer')
+  <footer class="main-footer fixed-bottom">
+              <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
+              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
+  </footer>
+  </form>
+@endsection
+
+
 @section('content')
   @include('admin.parts.modal', [
     'id'      => 'conformModal',
@@ -18,8 +33,6 @@
     'on_ok'   => 'doDelete();',
   ])
   <section class="content">
-  <form method="get" action="{{ route('admin.group.index') }}"> 
-    @csrf
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
@@ -324,7 +337,9 @@
                       <th class="CDT-series_name"></th>
                       <th class="CDT-series_model"></th>
                       <th class="CDT-model"></th>
-                      <th class="CDT-image"></th>
+                      <th class="CDT-image">
+                        <input type="range" class="custom-range" value="20">
+                      </th>
                       <th class="CDT-is_new">
                         @include('admin.parts.custom_checkbox', [
                           'switch'      => true,
@@ -379,163 +394,188 @@
                   </thead>
                   <tbody>
                     @foreach ($groups as $g)
-                    @php
-                      $first_item = $g->first_item();
-                      $series = $first_item->series;
-                    @endphp
-                    <tr>
-                      <td>
-                        <a href="{{ route('admin.group.edit', $g->id) }}">{{ $g->id }}</a>
-                        <input type="hidden" name="group_ids[]" value="{{ $g->id }}">
-                      </td>
-                      <td class="CDT-series_category">
-                        {{ $series->category->label() }}
-                      </td>
-                      <td class="CDT-series_genre">
-                        {{ $series->genre->label() }}
-                      </td>
-                      <td class="CDT-series_name">
-                        {{ $series->japanese_detail->name ?? '' }}
-                      </td>
-                      <td class="CDT-series_model">
-                        {{ $series->japanese_detail->model ?? '' }}
-                      </td>
-                      <td class="CDT-model">
-                        @foreach ($g->items() as $item)
-                          {{ $item->model }}<br/>
-                        @endforeach
-                      </td>
-                      <td class="CDT-image">
-                        @if ($series->hasFile('image'))
-                        <img src="{{ $series->fileUrl('image') }}?v={{ uniqid() }}">
-                        @endif
-                      </td>
-                      <td class="CDT-is_new">
-                        @include('admin.parts.custom_checkbox', [
-                          'switch'      => true,
-                          'name'        => 'is_new_group_ids[]',
-                          'id'          => 'is_new-'.$g->id,
-                          'value'       => $first_item->is_new ? $g->id : '',
-                          'form_value'  => $g->id,
-                        ])
-                      </td>
-                      <td class="CDT-is_end">
-                        @include('admin.parts.custom_checkbox', [
-                          'switch'      => true,
-                          'name'        => 'is_end_group_ids[]',
-                          'id'          => 'is_end-'.$g->id,
-                          'value'       => $first_item->is_end ? $g->id : '',
-                          'form_value'  => $g->id,
-                        ])
-                      </td>
-                      <td class="CDT-is_publish">
-                        @include('admin.parts.custom_checkbox', [
-                          'switch'      => true,
-                          'name'        => 'is_publish_group_ids[]',
-                          'id'          => 'is_publish-'.$g->id,
-                          'value'       => $first_item->is_publish ? $g->id : '',
-                          'form_value'  => $g->id,
-                        ])
-                      </td>
-                      <td class="CDT-is_lend">
-                        @foreach ($g->items() as $item)
+                      @php
+                        $first_item = $g->first_item();
+                        $series = $first_item->series;
+                        $num_of_items = count($g->items());
+                      @endphp
+                      <tr>
+                        <td
+                          rowspan="{{ $num_of_items }}"
+                          >
+                          <a href="{{ route('admin.group.edit', $g->id) }}">{{ $g->id }}</a>
+                          <input type="hidden" name="group_ids[]" value="{{ $g->id }}">
+                        </td>
+                        <td class="CDT-series_category" rowspan="{{ $num_of_items }}">
+                          {{ $series->category->label() }}
+                        </td>
+                        <td class="CDT-series_genre" rowspan="{{ $num_of_items }}">
+                          {{ $series->genre->label() }}
+                        </td>
+                        <td class="CDT-series_name" rowspan="{{ $num_of_items }}">
+                          {{ $series->japanese_detail->name ?? '' }}
+                        </td>
+                        <td class="CDT-series_model" rowspan="{{ $num_of_items }}">
+                          {{ $series->japanese_detail->model ?? '' }}
+                        </td>
+                        <td class="CDT-model">
+                          @foreach ($g->items() as $item)
+                            {{ $item->model }}
+                            @break
+                          @endforeach
+                        </td>
+                        <td class="CDT-image" rowspan="{{ $num_of_items }}">
+                          @if ($series->hasFile('image'))
+                            <img src="{{ $series->fileUrl('image') }}?v={{ uniqid() }}" class="list-image">
+                          @endif
+                        </td>
+                        <td class="CDT-is_new" rowspan="{{ $num_of_items }}">
                           @include('admin.parts.custom_checkbox', [
                             'switch'      => true,
-                            'name'        => 'is_lend_item_ids[]',
-                            'id'          => 'is_lend-'.$item->id,
-                            'value'       => $item->is_lend ? $item->id : '',
-                            'form_value'  => $item->id,
+                            'name'        => 'is_new_group_ids[]',
+                            'id'          => 'is_new-'.$g->id,
+                            'value'       => $first_item->is_new ? $g->id : '',
+                            'form_value'  => $g->id,
                           ])
-                        @endforeach
-                      </td>
-                      <td class="CDT-product_number">
-                        @foreach ($g->items() as $item)
-                          {{ $item->product_number }}<br/>
-                        @endforeach
-                      </td>
-                      <td class="CDT-operating_temperature">
-                        {{ $first_item->operating_temperature }}<br/>
-                      </td>
-                      <td class="CDT-operating_humidity">
-                        {{ $first_item->operating_humidity }}<br/>
-                      </td>
-                      <td class="CDT-weight">
-                        @foreach ($g->items() as $item)
-                          {{ $item->weight }}<br/>
-                        @endforeach
-                      </td>
-                      <td class="CDT-is_RoHS">
-                        @if ($first_item->is_RoHS) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
-                      </td>
-                      <td class="CDT-is_RoHS2">
-                        @if ($first_item->is_RoHS2) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
-                      </td>
-                      <td class="CDT-is_CN_RoHSe1">
-                        @if ($first_item->is_CN_RoHSe1) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
-                      </td>
-                      <td class="CDT-is_CN_RoHS102">
-                        @if ($first_item->is_CN_RoHS102) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
-                      </td>
-                      <td class="CDT-description1">
-                        {{ $g->japanese_detail->description1 }}
-                      </td>
-                      <td class="CDT-description2">
-                        {{ $g->japanese_detail->description2 }}
-                      </td>
-                      <td class="CDT-description3">
-                        {{ $g->japanese_detail->description3 }}
-                      </td>
-                      <td class="CDT-description4">
-                        {{ $g->japanese_detail->description4 }}
-                      </td>
-                      <td class="CDT-description5">
-                        {{ $g->japanese_detail->description5 }}
-                      </td>
-                      <td class="CDT-exterior_image">
-                        @if ($first_item->hasFile('exterior_image')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
-                      </td>
-                      <td class="CDT-exterior_pdf">
-                        @if ($first_item->hasFile('exterior_pdf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
-                      </td>
-                      <td class="CDT-exterior_dxf">
-                        @if ($first_item->hasFile('exterior_dxf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
-                      </td>
-                      <td class="CDT-model_stl">
-                        @if ($first_item->hasFile('model_stl')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
-                      </td>
-                      <td class="CDT-model_step">
-                        @if ($first_item->hasFile('model_step')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
-                      </td>
-                      <td class="CDT-note">
-                        {{ $g->japanese_detail->note }}
-                      </td>
-                      <td class="CDT-memo">
-                        {{ $first_item->memo }}
-                      </td>
-                      <td class="CDT-delete">
-                        @include('admin.parts.custom_checkbox', [
-                          'name'        => 'removes[]',
-                          'id'          => 'removes-'.$g->id,
-                          'form_value'  => $g->id,
-                          'type'        => 'danger',
-                        ])
-                      </td>
-                    </tr>
+                        </td>
+                        <td class="CDT-is_end" rowspan="{{ $num_of_items }}">
+                          @include('admin.parts.custom_checkbox', [
+                            'switch'      => true,
+                            'name'        => 'is_end_group_ids[]',
+                            'id'          => 'is_end-'.$g->id,
+                            'value'       => $first_item->is_end ? $g->id : '',
+                            'form_value'  => $g->id,
+                          ])
+                        </td>
+                        <td class="CDT-is_publish" rowspan="{{ $num_of_items }}">
+                          @include('admin.parts.custom_checkbox', [
+                            'switch'      => true,
+                            'name'        => 'is_publish_group_ids[]',
+                            'id'          => 'is_publish-'.$g->id,
+                            'value'       => $first_item->is_publish ? $g->id : '',
+                            'form_value'  => $g->id,
+                          ])
+                        </td>
+                        <td class="CDT-is_lend">
+                          @foreach ($g->items() as $item)
+                            @include('admin.parts.custom_checkbox', [
+                              'switch'      => true,
+                              'name'        => 'is_lend_item_ids[]',
+                              'id'          => 'is_lend-'.$item->id,
+                              'value'       => $item->is_lend ? $item->id : '',
+                              'form_value'  => $item->id,
+                            ])
+                            @break
+                          @endforeach
+                        </td>
+                        <td class="CDT-product_number">
+                          @foreach ($g->items() as $item)
+                            {{ $item->product_number }}
+                            @break
+                          @endforeach
+                        </td>
+                        <td class="CDT-operating_temperature" rowspan="{{ $num_of_items }}">
+                          {{ $first_item->operating_temperature }}
+                        </td>
+                        <td class="CDT-operating_humidity" rowspan="{{ $num_of_items }}">
+                          {{ $first_item->operating_humidity }}
+                        </td>
+                        <td class="CDT-weight">
+                          @foreach ($g->items() as $item)
+                            {{ $item->weight }}
+                            @break
+                          @endforeach
+                        </td>
+                        <td class="CDT-is_RoHS" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->is_RoHS) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                        </td>
+                        <td class="CDT-is_RoHS2" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->is_RoHS2) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                        </td>
+                        <td class="CDT-is_CN_RoHSe1" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->is_CN_RoHSe1) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                        </td>
+                        <td class="CDT-is_CN_RoHS102" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->is_CN_RoHS102) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                        </td>
+                        <td class="CDT-description1" rowspan="{{ $num_of_items }}">
+                          {{ $g->japanese_detail->description1 }}
+                        </td>
+                        <td class="CDT-description2" rowspan="{{ $num_of_items }}">
+                          {{ $g->japanese_detail->description2 }}
+                        </td>
+                        <td class="CDT-description3" rowspan="{{ $num_of_items }}">
+                          {{ $g->japanese_detail->description3 }}
+                        </td>
+                        <td class="CDT-description4" rowspan="{{ $num_of_items }}">
+                          {{ $g->japanese_detail->description4 }}
+                        </td>
+                        <td class="CDT-description5" rowspan="{{ $num_of_items }}">
+                          {{ $g->japanese_detail->description5 }}
+                        </td>
+                        <td class="CDT-exterior_image" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->hasFile('exterior_image')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                        </td>
+                        <td class="CDT-exterior_pdf" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->hasFile('exterior_pdf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                        </td>
+                        <td class="CDT-exterior_dxf" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->hasFile('exterior_dxf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                        </td>
+                        <td class="CDT-model_stl" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->hasFile('model_stl')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                        </td>
+                        <td class="CDT-model_step" rowspan="{{ $num_of_items }}">
+                          @if ($first_item->hasFile('model_step')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                        </td>
+                        <td class="CDT-note" rowspan="{{ $num_of_items }}">
+                          {{ $g->japanese_detail->note }}
+                        </td>
+                        <td class="CDT-memo" rowspan="{{ $num_of_items }}">
+                          {{ $first_item->memo }}
+                        </td>
+                        <td class="CDT-delete" rowspan="{{ $num_of_items }}">
+                          @include('admin.parts.custom_checkbox', [
+                            'name'        => 'removes[]',
+                            'id'          => 'removes-'.$g->id,
+                            'form_value'  => $g->id,
+                            'type'        => 'danger',
+                          ])
+                        </td>
+                      </tr>
+                      @foreach ($g->items() as $key => $item)
+                        @if($key==0) @continue @endif
+                        <tr>
+                          <td class="CDT-model">
+                            {{ $item->model }}
+                          </td>
+                          <td class="CDT-is_lend">
+                            @include('admin.parts.custom_checkbox', [
+                              'switch'      => true,
+                              'name'        => 'is_lend_item_ids[]',
+                              'id'          => 'is_lend-'.$item->id,
+                              'value'       => $item->is_lend ? $item->id : '',
+                              'form_value'  => $item->id,
+                            ])
+                          </td>
+                          <td class="CDT-product_number">
+                            {{ $item->product_number }}
+                          </td>
+                          <td class="CDT-weight">
+                            {{ $item->weight }}
+                          </td>
+                        </tr>
+                      @endforeach
                     @endforeach
                   </tbody>
                 </table>
                 {{ $groups->links('admin.parts.pagination') }}
               </div>
             </div>
-            <div class="card-footer">
-              <button type="button" class="btn btn-primary" onClick="doUpdate()">　変　更　</button>  
-              <button type="button" class="btn btn-danger btn-sm float-right do_remove" data-toggle="modal" data-target="#conformModal" disabled>　削　除　</button>
-            </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
   </section>
 @endsection
 
@@ -551,6 +591,7 @@
       initAllCheck('input[name=is_publish_all]', 'input[name=is_publish_group_ids\\[\\]]');
       initAllCheck('input[name=is_lend_all]', 'input[name=is_lend_item_ids\\[\\]]');
       initAllCheck('input[name=is_delete_all]', 'input[name=removes\\[\\]]');
+      initImageRange('.custom-range', '.list-image');
     })
     function doUpdate() {
       $('form').attr('method', 'post').attr('action', '{{ route('admin.group.update_multiple') }}').submit();

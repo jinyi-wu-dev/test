@@ -24,9 +24,17 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name' => str_replace(' ', '', fake()->name()),
+            'kana' => str_replace(' ', '', fake()->kanaName()),
             'email' => fake()->unique()->safeEmail(),
-            //'email_verified_at' => now(),
+            'postal_code' => fake()->postcode(),
+            'prefecture' => fake()->randomElement(\App\Enums\Prefecture::cases()),
+            'city' => fake()->city(),
+            'area' => fake()->streetAddress(),
+            'building' => fake()->secondaryAddress(),
+            'phone_number' => fake()->phoneNumber(),
+            'company' => fake()->company(),
+            'department' => fake()->realText(10),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

@@ -24,9 +24,9 @@
                 @csrf
                 <div class="callout callout-secondary">
                   @include('admin.parts.form_text', [
-                    'label' => '名前',
-                    'name'  => 'name',
-                    'value' => request('name'),
+                    'label' => 'キーワード',
+                    'name'  => 'keywords',
+                    'value' => request('keywords'),
                   ])
                   <button type="submit" class="btn btn-secondary">　検　索　</button>  
                   <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="

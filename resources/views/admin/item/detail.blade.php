@@ -116,7 +116,7 @@
                       'value'     => isset($item) ? ($item->is_CE_IEC ? 'iec' : ($item->is_CE_EN ? 'en' : '')) : '',
                       'list'      => [
                         'iec'     => 'CE(IEC62471)',
-                        'en'      => 'CE(EN55011, EN61000-6-2)',
+                        'en'      => 'CE(EN61010-1,EN55011,EN61000-6-2)',
                         ''        => 'なし',
                       ],
                     ])
@@ -344,7 +344,7 @@
         $keyword = $(this).val();
         $('[name="options\\[\\]"] option').each(function() {
           if ($(this).text().indexOf($keyword)>-1) {
-            $(this).css('display', 'form');
+            $(this).css('display', 'block');
           } else {
             $(this).css('display', 'none');
           }

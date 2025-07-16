@@ -9,22 +9,28 @@
                 </div>
               </div>
               <div class="card-body">
-                @foreach ($relateds as $series)
-                  @include('admin.parts.form_select', [
-                    'name'      => 'cables[]',
-                    'value'     => $series->id,
-                    'empty'     => true,
-                    'options'   => $options,
-                  ])
-                @endforeach
-                @for ($series=count($relateds); $series<20; $series++)
-                  @include('admin.parts.form_select', [
-                    'name'      => 'cables[]',
-                    'value'     => '',
-                    'empty'     => true,
-                    'options'   => $options,
-                  ])
-                @endfor
+                <div class="d-flex flex-row flex-wrap justify-content-start">
+                  @foreach ($relateds as $series)
+                    <div class="pr-4" style="width:25%">
+                      @include('admin.parts.form_select', [
+                        'name'      => 'cables[]',
+                        'value'     => $series->id,
+                        'empty'     => true,
+                        'options'   => $options,
+                      ])
+                    </div>
+                  @endforeach
+                  @for ($series=count($relateds); $series<20; $series++)
+                    <div class="pr-4" style="width:25%">
+                      @include('admin.parts.form_select', [
+                        'name'      => 'cables[]',
+                        'value'     => '',
+                        'empty'     => true,
+                        'options'   => $options,
+                      ])
+                    </div>
+                  @endfor
+                </div>
               </div>
             </div>
           </div>
