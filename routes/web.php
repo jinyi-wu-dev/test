@@ -47,8 +47,8 @@ Route::get( '/item/{id}',       [ProductController::class, 'item'])         ->na
 Route::get( '/page/{page}',     [PageController::class, 'index'])           ->name('page');
 
 Route::middleware('auth')->group(function() {
-    Route::get( '/cart',            [ProductController::class, 'cart'])         ->name('cart');
-    Route::post( '/cart',           [ProductController::class, 'cart_complete'])->name('cart.complete');
+    Route::get( '/cart',        [ProductController::class, 'cart'])         ->name('cart');
+    Route::post( '/cart',       [ProductController::class, 'cart_complete'])->name('cart.complete');
 
 });
 
@@ -57,28 +57,30 @@ Route::middleware('auth')->group(function() {
 Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('guest:admin')->group(function() {
-        Route::get(     '/login',                   [AdminAuthController::class, 'login'])->name('login');
+        Route::get(     '/login',                   [AdminAuthController::class, 'login'])          ->name('login');
         Route::post(    '/login',                   [AdminAuthController::class, 'authenticate']);
     });
 
     Route::middleware('auth:admin')->group(function() {
-        Route::get(     '/top', function() { return view('/admin/top'); })->name('top');
+        Route::get(     '/top', function() { return view('/admin/top'); })                          ->name('top');
 
-        Route::get(     '/logout',                  [AdminAuthController::class, 'logout'])->name('logout');
+        Route::get(     '/logout',                  [AdminAuthController::class, 'logout'])         ->name('logout');
 
-        //Route::resource('user', UserController::class)->except(['create', 'store', 'show']);
-        Route::resource('user',                     UserController::class);
-        Route::post(    'user/csv',                 [UserController::class, 'csv'])->name('user.csv');
+        Route::resource('user', UserController::class)->except(['create', 'store', 'show']);
+        Route::post(    'user/csv',                 [UserController::class, 'csv'])                 ->name('user.csv');
+        
+        Route::get(     'lend',                     [LendItemController::class, 'index'])           ->name('lend.index');
+        Route::post(    'lend/csv',                 [LendItemController::class, 'csv'])             ->name('lend.csv');
 
         Route::resource('icon',                     IconController::class)->except('show');
-        Route::post(    'icon/destroy_multiple',    [IconController::class, 'destroy_multiple'])->name('icon.destroy_multiple');
+        Route::post(    'icon/destroy_multiple',    [IconController::class, 'destroy_multiple'])    ->name('icon.destroy_multiple');
 
         Route::resource('feature',                  FeatureController::class)->except('show');
-        Route::post(    'feature/destroy_multiple', [FeatureController::class, 'destroy_multiple'])->name('feature.destroy_multiple');
+        Route::post(    'feature/destroy_multiple', [FeatureController::class, 'destroy_multiple']) ->name('feature.destroy_multiple');
         
-        Route::resource('series', SeriesController::class)->except('show');
-        Route::post(    'series/update_multiple', [SeriesController::class, 'update_multiple'])->name('series.update_multiple');
-        Route::post(    'series/destroy_multiple', [SeriesController::class, 'destroy_multiple'])->name('series.destroy_multiple');
+        Route::resource('series',                   SeriesController::class)->except('show');
+        Route::post(    'series/update_multiple',   [SeriesController::class, 'update_multiple'])->name('series.update_multiple');
+        Route::post(    'series/destroy_multiple',  [SeriesController::class, 'destroy_multiple'])->name('series.destroy_multiple');
 
         Route::resource('item', ItemController::class)->except('show');
         Route::post('item/update_multiple', [ItemController::class, 'update_multiple'])->name('item.update_multiple');
@@ -92,6 +94,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('csv', [CsvController::class, 'index'])->name('csv.index');
         Route::post('csv/upload', [CsvController::class, 'upload'])->name('csv.upload');
-        Route::get('lend', [LendItemController::class, 'index'])->name('lend.index');
+
     });
 });

@@ -32,6 +32,27 @@
               <h3 class="card-title">貸出実績</h3>
             </div>
             <div class="card-body">
+              <form method="get" action="{{ route('admin.lend.index') }}"> 
+                @csrf
+
+                <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+                <div class="callout callout-secondary">
+                  @include('admin.parts.form_text', [
+                    'label' => '期間始まり',
+                    'name'  => 'start',
+                    'value' => request('start'),
+                  ])
+                  @include('admin.parts.form_text', [
+                    'label' => '期間終わり',
+                    'name'  => 'end',
+                    'value' => request('end'),
+                  ])
+                  <button type="submit" class="btn btn-secondary">　検　索　</button>  
+                  <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                    $('form').attr('action', '{{ route('admin.lend.csv') }}').attr('target', '_blank').attr('method', 'post');
+                  ">　CSV出力　</button>  
+                </div>
+              </form>
               <div class="row">
                 <table class="table table-bordered table-striped">
                   <thead>
@@ -63,12 +84,16 @@
                           <td>{{ $item->series->japanese_detail->name ?? '' }}</td>
                           <td>{{ $item->series->model }}</td>
                           <td>{{ $item->model }}</td>
-                          <td><img src="{{ $item->series->fileUrl('image') }}" width="200px"></td>
+                          <td>
+                            @if($item->series->hasFile('image'))
+                            <img src="{{ $item->series->fileUrl('image') }}" width="200px">
+                            @endif
+                          </td>
                           <td>{{ $item->pivot->num_of_item }}</td>
                           @if($key==0)
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->remarks }}</td>
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->requested_at }}</td>
-                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->prefecture }}</td>
+                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->prefecture->label() }}</td>
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->company }}</td>
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->name }}</td>
                           @endif
@@ -77,6 +102,7 @@
                     @endforeach
                   </tbody>
                 </table>
+                {{ $lend_items->links('admin.parts.pagination') }}
               </div>
             </div>
           </div>
@@ -84,4 +110,22 @@
       </div>
     </div>
   </section>
+@endsection
+
+
+@section('footer_script')
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ja.min.js"></script>
+  <script>
+    $(function() {
+      $('#start').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'ja',
+      });
+      $('#end').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'ja',
+      });
+    });
+  </script>
 @endsection

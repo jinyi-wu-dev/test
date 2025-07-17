@@ -306,7 +306,7 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        for ($i=1; $i<=10; $i++) {
+        for ($i=1; $i<=100; $i++) {
             DB::table('lend_items')->insert([
                 'user_id' => fake()->numberBetween(1, 50),
                 'remarks' => fake()->realText(20),

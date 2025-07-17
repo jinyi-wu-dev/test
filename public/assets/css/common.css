@@ -5111,13 +5111,21 @@ a.ud {
   width: 72rem;
   padding: 4rem;
   position: relative;
+  overflow: auto;
+}
+.site-header .gnav-lending-inner::-webkit-scrollbar {
+  display: none;
+}
+@media only screen and (min-width: 768px) {
+  .site-header .gnav-lending-inner {
+    max-height: calc(100dvh - 15rem);
+    overflow: auto;
+  }
 }
 @media only screen and (max-width: 767px) {
   .site-header .gnav-lending-inner {
     width: calc(100vw - 4rem);
-    max-height: calc(100dvh - 10rem);
     padding: 2rem;
-    overflow: auto;
   }
 }
 .site-header .gnav-lending.is-active {

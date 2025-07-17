@@ -182,6 +182,7 @@
   z-index: 999; /* メニューの下、他の要素の上に */
   opacity: 0;
   visibility: hidden;
+  z-index: 99999;
 }
 .overlay.is-active {
   opacity: 1;
@@ -551,15 +552,26 @@
 
 .tab-block {
   width: 100%;
-  display: none;
   border-top: 0.3rem solid #afafaf;
   margin-top: -0.3rem;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.tab-block.is-active {
+  opacity: 1;
+  visibility: inherit;
+  position: static;
+  z-index: 1;
 }
 .tab-area {
   display: flex;
   flex-flow: row wrap;
   justify-content: stretch;
   align-items: stretch;
+  position: relative;
+  overflow: hidden;
 }
 .tab-area input[type=radio] {
   display: none;
@@ -832,7 +844,6 @@
 }
 @media only screen and (min-width: 768px) {
   .column-item.full {
-    flex: 1;
     max-width: 100%;
   }
 }
@@ -849,7 +860,9 @@
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 #canvasBox::before {
@@ -1108,9 +1121,9 @@
   }
 }
 .lending-request-button.is-active {
-  /* pointer-events: none; */
+  pointer-events: none;
   background: var(--themeColor);
-  /* cursor: not-allowed; */
+  cursor: not-allowed;
 }
 .lending-request-button.is-disabled {
   opacity: 0.2;
@@ -1141,7 +1154,7 @@
   border: 0.1rem solid #000;
   position: relative;
   resize: vertical;
-  background: #f1f1f1;
+  background: #fff;
   max-height: 80rem;
 }
 @media only screen and (max-width: 767px) {
@@ -1744,6 +1757,16 @@
 }
 .article-technorogy .technorogy-block {
   padding-top: 8rem;
+  width: 100%;
+  border-top: 0.3rem solid #afafaf;
+  margin-top: -0.3rem;
+  opacity: 1;
+  visibility: inherit;
+  position: static;
+  display: none;
+}
+.article-technorogy .technorogy-block.is-active {
+  display: block;
 }
 @media only screen and (max-width: 767px) {
   .article-technorogy .technorogy-block {
@@ -2160,7 +2183,7 @@
 .checkbox-label input[type=checkbox]:checked + span::before {
   opacity: 1;
 }
-.checkbox-label span {
+.checkbox-label span.checkbox-text {
   display: block;
   width: 2rem;
   height: 2rem;
@@ -2169,7 +2192,7 @@
   top: 0.6rem;
   left: 0;
 }
-.checkbox-label span::before {
+.checkbox-label span.checkbox-text::before {
   content: "";
   display: block;
   width: 1.2rem;
@@ -2185,7 +2208,7 @@
 
 .show-password {
   position: absolute;
-  top: 50%;
+  top: 2.3rem;
   right: 0;
   transform: translate(0%, -50%);
   background-image: url(../img/common/eye.png);
@@ -2298,6 +2321,11 @@
   font-family: inherit;
   font-size: 1em;
 }
+.article-block .mailform .error {
+  color: red;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 .article-block .mailform-table {
   width: 100%;
   border-collapse: collapse;
@@ -2344,6 +2372,7 @@
 .article-block .mailform-table tbody td {
   padding-bottom: 2.4rem;
   min-height: 5rem;
+  position: relative;
 }
 @media only screen and (min-width: 768px) {
   .article-block .mailform-table tbody td {
@@ -2354,6 +2383,19 @@
   .article-block .mailform-table tbody td {
     display: block;
     font-size: 1.6rem;
+  }
+}
+.article-block .mailform-table tbody td .input-error {
+  border: 0.1rem solid red !important;
+}
+.article-block .mailform-table tbody td .name-wrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+}
+@media only screen and (max-width: 767px) {
+  .article-block .mailform-table tbody td .name-wrap {
+    flex: 1;
   }
 }
 .article-block .mailform-table tbody td select,
@@ -2379,6 +2421,9 @@
   max-width: 50rem;
   width: 100%;
 }
+.article-block .mailform-table tbody td .select ~ * {
+  vertical-align: top;
+}
 @media only screen and (min-width: 768px) {
   .article-block .mailform-table tbody td .select.pref {
     max-width: 19rem;
@@ -2392,7 +2437,7 @@
   width: 1rem;
   height: 1rem;
   position: absolute;
-  top: 50%;
+  top: 2.3rem;
   right: 1rem;
   transform: translate(-50%, -75%) rotate(45deg);
   border-right: 1px solid #afafaf;
@@ -2405,6 +2450,7 @@
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: center;
+    gap: 1rem;
   }
 }
 .article-block .mailform-table tbody td.name input[type=text] {
@@ -2476,6 +2522,13 @@
   margin-bottom: 4rem;
   margin-top: 2rem;
   font-size: 1.4rem;
+  position: relative;
+}
+.article-block .mailform .agree .error {
+  position: absolute;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 100%);
 }
 .article-block .mailform .agree > span {
   display: block;
@@ -2488,14 +2541,14 @@
   align-items: center;
   cursor: pointer;
 }
-.article-block .mailform .agree label span {
+.article-block .mailform .agree label .agree-text {
   display: inline-flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
   position: relative;
 }
-.article-block .mailform .agree label span::before {
+.article-block .mailform .agree label .agree-text::before {
   content: "";
   width: 3.6rem;
   height: 3.6rem;
@@ -2504,12 +2557,12 @@
   margin-right: 1rem;
 }
 @media only screen and (max-width: 767px) {
-  .article-block .mailform .agree label span::before {
+  .article-block .mailform .agree label .agree-text::before {
     width: 2.4rem;
     height: 2.4rem;
   }
 }
-.article-block .mailform .agree label span::after {
+.article-block .mailform .agree label .agree-text::after {
   content: "";
   display: block;
   width: 2rem;
@@ -2522,14 +2575,14 @@
   transform: translate(-50%, -66%) rotate(-45deg);
 }
 @media only screen and (max-width: 767px) {
-  .article-block .mailform .agree label span::after {
+  .article-block .mailform .agree label .agree-text::after {
     width: 1.3rem;
     height: 0.8rem;
     left: 1.2rem;
     border-width: 0.3rem;
   }
 }
-.article-block .mailform .agree input:checked + span::before {
+.article-block .mailform .agree input:checked ~ .agree-text::before {
   background: var(--themeColor);
   border-color: var(--themeColor);
 }
@@ -2758,8 +2811,6 @@
 }
 .login-block .login-data-list dd .input input {
   width: 100%;
-  min-height: 3.6rem;
-  padding: 0;
   border: none;
   border-radius: 0;
   outline: none;
@@ -2767,7 +2818,7 @@
   font-family: inherit;
   font-size: 1em;
   border: 0.1rem solid #4d4d4d;
-  padding: 0.3rem 1rem;
+  padding: 1rem;
 }
 @media only screen and (max-width: 767px) {
   .login-block .login-data-list dd .input input {
@@ -3564,9 +3615,6 @@
   left: 1.8rem;
   transform: translate(-50%, -75%) rotate(45deg);
 }
-.aside-search .aside-head + .aside-body {
-  display: none;
-}
 .aside-search .aside-body {
   font-weight: bold;
   font-size: 1.4rem;
@@ -4032,6 +4080,10 @@
   }
 }
 
+.index-thumbnail img {
+  filter: drop-shadow(0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.15));
+}
+
 .section-fv-product-detail {
   padding-top: 5rem;
 }
@@ -4419,7 +4471,8 @@
   width: 100%;
   border-bottom: 0.1rem solid #8d8d8d;
 }
-.article-product-detail .dl-data {
+
+.dl-data {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -4430,39 +4483,39 @@
   border-top: 0.1rem solid #8d8d8d;
 }
 @media only screen and (max-width: 767px) {
-  .article-product-detail .dl-data {
+  .dl-data {
     gap: 2rem;
     padding: 2rem 0;
   }
 }
-.article-product-detail .dl-data dl {
+.dl-data dl {
   font-size: 1.3rem;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: center;
 }
-.article-product-detail .dl-data dl dt {
+.dl-data dl dt {
   margin-right: 2rem;
   font-weight: bold;
 }
-.article-product-detail .dl-data dl dd.download {
+.dl-data dl dd.download {
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   align-items: center;
   gap: 2rem;
 }
-.article-product-detail .dl-data dl dd.download img {
+.dl-data dl dd.download img {
   width: 3.5rem;
 }
 @media only screen and (max-width: 767px) {
-  .article-product-detail .dl-data dl dd.download img {
+  .dl-data dl dd.download img {
     width: 2.4rem;
   }
 }
 @media only screen and (min-width: 768px) {
-  .article-product-detail .dl-data dl dd.download a:hover {
+  .dl-data dl dd.download a:hover {
     opacity: 0.7;
   }
 }

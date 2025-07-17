@@ -36,11 +36,8 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->query($request)
-            ->paginate(config('pagination.num_of_item'))
-            ->withQueryString();
         return view('admin/user/index', [
-            'users' => $users,
+            'users' => $this->query($request)->paginate(config('pagination.num_of_item'))->withQueryString(),
         ]);
     }
 
