@@ -39,7 +39,13 @@
                   {{ $item->locale_lighting_item->description5 }}<br/>
                 </p>
               </div>
-              <button class="lending-request-button">デモ機貸出依頼</button>
+              <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
+                @if(!$item->is_lend) disabled @endif
+                item_id="{{ $item->id }}"
+                item_name1="{{ $item->model }}"
+                item_name2="{{ $item->model }}"
+                item_url="{{ $item->series->fileUrl('image') }}"
+              >デモ機貸出依頼</button>
             </div>
           </div>
         </div>
@@ -135,7 +141,9 @@
                   </div>
                   <div class="column-item">
                     <h2 class="c-title square">3Dビュー</h2>
-                    <div id="canvasBox" data-stl-path="{{ asset('/assets/stl/stlitem.STL') }}"></div>
+                    @if($item->hasFile('3d_model_stl'))
+                    <div id="canvasBox" data-stl-path="{{ $item->fileUrl('3d_model_stl') }}"></div>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -516,4 +524,18 @@
       <!-- End - article-page-->
     </main>
     <!-- End Site Main-->
+@endsection
+
+
+@section('footer_script')
+  <script type="importmap">
+    {
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+			}
+		}
+
+	</script>
+  <script type="module" src="{{ asset('assets/js/main.js') }}"></script>
 @endsection

@@ -156,7 +156,7 @@
 
         @if ($category==App\Enums\Category::CONTROLLER)
           <div class="row">
-            @include('admin/item/detail_c_controller', [
+            @include('admin/item/detail_common_controller', [
               'title'   => '共通項目',
               'detail'  => $details['ja'] ?? null,
             ])
@@ -165,12 +165,12 @@
 
         @if ($category==App\Enums\Category::LIGHTING)
           <div class="row">
-            @include('admin/item/detail_d_lighting', [
+            @include('admin/item/detail_lang_lighting', [
               'title'   => '日本語項目',
               'lang'    => 'ja',
               'detail'  => $details['ja'] ?? null,
             ])
-            @include('admin/item/detail_d_lighting', [
+            @include('admin/item/detail_lang_lighting', [
               'title'   => '英語項目',
               'lang'    => 'en',
               'detail'  => $details['en'] ?? null,
@@ -178,12 +178,12 @@
           </div>
         @elseif ($category==App\Enums\Category::CONTROLLER)
           <div class="row">
-            @include('admin/item/detail_d_controller', [
+            @include('admin/item/detail_lang_controller', [
               'title'   => '日本語項目',
               'lang'    => 'ja',
               'detail'  => $details['ja'] ?? null,
             ])
-            @include('admin/item/detail_d_controller', [
+            @include('admin/item/detail_lang_controller', [
               'title'   => '英語項目',
               'lang'    => 'en',
               'detail'  => $details['en'] ?? null,
@@ -191,12 +191,12 @@
           </div>
         @elseif ($category==App\Enums\Category::OPTION)
           <div class="row">
-            @include('admin/item/detail_d_option', [
+            @include('admin/item/detail_lang_option', [
               'title'   => '日本語項目',
               'lang'    => 'ja',
               'detail'  => $details['ja'] ?? null,
             ])
-            @include('admin/item/detail_d_option', [
+            @include('admin/item/detail_lang_option', [
               'title'   => '英語項目',
               'lang'    => 'en',
               'detail'  => $details['en'] ?? null,
@@ -288,7 +288,7 @@
 
         @if ($category==App\Enums\Category::LIGHTING)
           <div class="row">
-            @include('admin/item/detail_r_controller', [
+            @include('admin/item/detail_relation_controller', [
               'title'     => '関連製品（コントローラ）',
               'col'       => '12',
               'relateds'  => $item->related_controllers ?? [],
@@ -296,7 +296,7 @@
             ])
           </div>
           <div class="row">
-            @include('admin/item/detail_r_cable', [
+            @include('admin/item/detail_relation_cable', [
               'title'     => '関連製品（ケーブル）',
               'col'       => '12',
               'relateds'  => $item->related_cables ?? [],
@@ -304,7 +304,7 @@
             ])
           </div>
           <div class="row">
-            @include('admin/item/detail_r_option', [
+            @include('admin/item/detail_relation_option', [
               'title'     => '関連製品（オプション）',
               'col'       => '12',
               'relateds'  => $item->related_options ?? [],
@@ -313,7 +313,7 @@
           </div>
         @elseif ($category==App\Enums\Category::CONTROLLER)
           <div class="row">
-            @include('admin/item/detail_r_cable', [
+            @include('admin/item/detail_relation_cable', [
               'title'     => '関連製品（ケーブル）',
               'col'       => '12',
               'relateds'  => $item->related_cables ?? [],
@@ -321,7 +321,7 @@
             ])
           </div>
           <div class="row">
-            @include('admin/item/detail_r_option', [
+            @include('admin/item/detail_relation_option', [
               'title'     => '関連製品（オプション）',
               'col'       => '12',
               'relateds'  => $item->related_options ?? [],
@@ -330,7 +330,7 @@
           </div>
         @elseif ($category==App\Enums\Category::OPTION)
           <div class="row">
-            @include('admin/item/detail_r_option', [
+            @include('admin/item/detail_relation_option', [
               'title'     => '関連製品（オプション）',
               'col'       => '12',
               'relateds'  => $item->related_options ?? [],

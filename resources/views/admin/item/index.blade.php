@@ -55,13 +55,11 @@
             </div>
             <div class="card-body">
               @if ($category==App\Enums\Category::LIGHTING)
-                @include('admin.item.index_show_lighting')
+                @include('admin.item.index_column_lighting')
               @elseif ($category==App\Enums\Category::CONTROLLER)
-                @include('admin.item.index_show_lighting')
-                {{--@include('admin.item.index_show_controller')--}}
+                @include('admin.item.index_column_controller')
               @elseif ($category==App\Enums\Category::OPTION)
-                @include('admin.item.index_show_lighting')
-                {{--@include('admin.item.index_show_option')--}}
+                @include('admin.item.index_column_option')
               @endif
             </div>
           </div>
@@ -92,29 +90,25 @@
                 <table class="table table-bordered table-striped">
                   <thead>
                     @if ($category==App\Enums\Category::LIGHTING)
-                      @include('admin.item.index_thead_lighting')
+                      @include('admin.item.index_list_head_lighting')
                     @elseif ($category==App\Enums\Category::CONTROLLER)
-                      @include('admin.item.index_thead_lighting')
-                      {{--@include('admin.item.index_thead_controller')--}}
+                      @include('admin.item.index_list_head_controller')
                     @elseif ($category==App\Enums\Category::OPTION)
-                      @include('admin.item.index_thead_lighting')
-                      {{--@include('admin.item.index_thead__option')--}}
+                      @include('admin.item.index_list_head_option')
                     @endif
                   </thead>
                   <tbody>
                     @if ($category==App\Enums\Category::LIGHTING)
                       @foreach ($items as $i)
-                        @include('admin.item.index_tbody_lighting', ['item'=>$i])
+                        @include('admin.item.index_list_body_lighting', ['item'=>$i])
                       @endforeach
                     @elseif ($category==App\Enums\Category::CONTROLLER)
                       @foreach ($items as $i)
-                        @include('admin.item.index_tbody_lighting', ['item'=>$i])
-                        {{--@include('admin.item.index_tbody_controller', ['item'=>$i])--}}
+                        @include('admin.item.index_list_body_controller', ['item'=>$i])
                       @endforeach
                     @elseif ($category==App\Enums\Category::OPTION)
                       @foreach ($items as $i)
-                        @include('admin.item.index_tbody_lighting', ['item'=>$i])
-                        {{--@include('admin.item.index_tbody_option', ['item'=>$i])--}}
+                        @include('admin.item.index_list_body_option', ['item'=>$i])
                       @endforeach
                     @endif
                   </tbody>
