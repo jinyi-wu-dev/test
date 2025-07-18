@@ -13,11 +13,7 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
+    protected function query(Request $request) {
         $keyword = $request->keyword ? $request->keyword : old('keyword');
         $query = Series::query();
         if ($keyword) {
@@ -35,10 +31,39 @@ class SeriesController extends Controller
             }
             $query->groupBy('series.id');
         }
-        $series = $query->paginate(config('system.pagination.num_of_item'));
-        return view('admin/series/index', compact(
-            'series'
-        ));
+        return $query;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        return view('admin/series/index', [
+            'series'    => $this->query($request)->paginate(config('system.pagination.num_of_item')),
+        ]);
+    }
+
+    public function csv(Request $request)
+    {
+        $list = $this->query($request)->get();
+        return new StreamedResponse(function() use ($list) {
+            $fh = fopen('php://output', 'w');
+
+            fputcsv($fh, mb_convert_encoding([
+                'ID',
+            ], 'cp932', 'utf8'));
+            foreach ($list as $series) {
+                fputcsv($fh, mb_convert_encoding([
+                    $series->id,
+                ], 'cp932', 'utf8'));
+            }
+
+            fclose($fh);
+        }, 200, [
+            'Content-Type'          => 'text/csv',
+            'Content-Disposition'   => sprintf('attachment; filename="leimac_series_%s.csv"', date('Ymd')),
+        ]);
     }
 
     /**
@@ -47,7 +72,7 @@ class SeriesController extends Controller
     public function create()
     {
         return view('admin/series/create', [
-            'icons'      => Icon::all(),
+            'icons'             => Icon::all(),
             'feature_options'   => Feature::all()->pluck('title', 'id'),
         ]);
     }

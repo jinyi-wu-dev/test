@@ -29,7 +29,7 @@
                     'value' => request('keywords'),
                   ])
                   <button type="submit" class="btn btn-secondary">　検　索　</button>  
-                  <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                  <button type="submit" class="btn btn-success btn-sm float-right" onClick="
                     $('form').attr('action', '{{ route('admin.user.csv') }}').attr('target', '_blank').attr('method', 'post');
                   ">　CSV出力　</button>  
                 </div>

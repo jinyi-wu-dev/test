@@ -10,10 +10,10 @@
                         {{ $item->series->genre->label() }}
                       </td>
                       <td class="CDT-series_name">
-                        {{ $item->series->default_detail->name ?? '' }}
+                        {{ $item->series->japanese_detail->name ?? '' }}
                       </td>
                       <td class="CDT-series_model">
-                        {{ $item->series->default_detail->model ?? '' }}
+                        {{ $item->series->japanese_detail->model ?? '' }}
                       </td>
                       <td class="CDT-model">
                         {{ $item->model }}

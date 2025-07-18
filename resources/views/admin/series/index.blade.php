@@ -47,105 +47,105 @@
             </div>
             <div class="card-body">
               <div class="d-flex flex-row flex-wrap justify-content-center">
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-category',
                     'label'     => '品目タイプ',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-genre',
                     'label'     => 'ジャンル',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-name',
                     'label'     => '名称',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-model',
                     'label'     => '型式',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-num_of_model',
                     'label'     => '型式数',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-image',
                     'label'     => '画像',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_new',
                     'label'     => 'NEW',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_end',
                     'label'     => '生産終了',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-is_publish',
                     'label'     => '公開',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-pamphlet',
                     'label'     => 'パンフレット',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-catalogue',
                     'label'     => 'カタログ',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-manual',
                     'label'     => '取説',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-note',
                     'label'     => '注意書き',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-memo',
                     'label'     => '備考欄',
                   ])
                 </div>
-                <div class="p-2">
+                <div class="pr-4">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
                     'name'      => 'CDC-delete',
@@ -174,6 +174,9 @@
                   'value' => request('keyword'),
                 ])
                 <button type="submit" class="btn btn-secondary">　検　索　</button>  
+                <button type="submit" class="btn btn-success btn-sm float-right" onClick="
+                  $('form').attr('action', '{{ route('admin.series.csv') }}').attr('target', '_blank').attr('method', 'post');
+                ">　CSV出力　</button>  
               </div>
               <div class="row">
                 <table class="table table-bordered table-striped">

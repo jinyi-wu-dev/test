@@ -84,6 +84,9 @@
                   'value' => request('keyword'),
                 ])
                 <button type="submit" class="btn btn-secondary">　検　索　</button>  
+                <button type="submit" class="btn btn-success btn-sm float-right" onClick="
+                  $('form').attr('action', '{{ route('admin.item.csv') }}').attr('target', '_blank').attr('method', 'post');
+                ">　CSV出力　</button>  
               </div>
               <div class="row">
                 <table class="table table-bordered table-striped">
@@ -131,7 +134,13 @@
   <script src="{{ asset('/admin/js/index.js') }}"></script>
   <script>
     $(function() {
-      initCheckDisplayControll('admin.item_lighting_hides', 'CDC-', 'CDT-');
+      @if ($category==App\Enums\Category::LIGHTING)
+        initCheckDisplayControll('admin.item_lighting_hides', 'CDC-', 'CDT-');
+      @elseif ($category==App\Enums\Category::CONTROLLER)
+        initCheckDisplayControll('admin.item_controller_hides', 'CDC-', 'CDT-');
+      @elseif ($category==App\Enums\Category::OPTION)
+        initCheckDisplayControll('admin.item_option_hides', 'CDC-', 'CDT-');
+      @endif
       initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
       initAllCheck('input[name=is_new_all]', 'input[name=is_new_ids\\[\\]]');
       initAllCheck('input[name=is_end_all]', 'input[name=is_end_ids\\[\\]]');

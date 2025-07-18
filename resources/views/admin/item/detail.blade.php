@@ -217,9 +217,16 @@
               </div>
               <div class="card-body">
                 @include('admin.parts.form_file', [
+                  'name'        => '3d_model_stl',
+                  'label'       => '3Dモデル（STL）',
+                  'file_label'  => isset($item)&&$item->hasFile('3d_model_stl')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
+                ])
+                @include('admin.parts.form_file', [
                   'name'        => '3d_model_step',
                   'label'       => '3Dモデル（STEP）',
-                  'file_label'  => isset($item)&&$item->hasFile('3d_model_step') ? '○' : '-',
+                  'file_label'  => isset($item)&&$item->hasFile('3d_model_step')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
                 ])
               </div>
             </div>
@@ -241,12 +248,14 @@
                 @include('admin.parts.form_file', [
                   'name'        => 'ja:external_view_pdf',
                   'label'       => '外観図（PDF）',
-                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_pdf') ? '○' : '-',
+                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_pdf')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
                 ])
                 @include('admin.parts.form_file', [
                   'name'        => 'ja:external_view_dxf',
                   'label'       => '外観図（DXF）',
-                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_dxf') ? '○' : '-',
+                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_dxf')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
                 ])
               </div>
             </div>

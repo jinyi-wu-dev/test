@@ -17,27 +17,14 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        $request->validate([
-            'category' => 'required',
-        ]);
-        $query = match ($request->category) {
+    protected function query($request) {
+        return match ($request->category) {
             'lighting' => $this->lightingItemQuery($request),
             'controller' => $this->controllerItemQuery($request),
             'option' => $this->optionItemQuery($request),
         };
-        $items = $query->paginate(config('system.pagination.num_of_item'));
-        $items->appends(['category'=>$request->category]);
-        return view('admin/item/index', [
-            'items'     => $items,
-            'category'  => Category::from($request->category),
-        ]);
     }
-
+    
     protected function lightingItemQuery($request) {
         $query = Item::lightings();
         $keyword = $request->keyword ? $request->keyword : old('keyword');
@@ -105,6 +92,31 @@ class ItemController extends Controller
         }
          */
         return $query;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+        ]);
+
+        $query = $this->query($request);
+        $items = $query->paginate(config('system.pagination.num_of_item'));
+        $items->appends(['category'=>$request->category]);
+        return view('admin/item/index', [
+            'items'     => $items,
+            'category'  => Category::from($request->category),
+        ]);
+    }
+
+    public function csv(Request $request)
+    {
+        $request->validate([
+            'category' => 'required',
+        ]);
     }
 
     /**
@@ -236,6 +248,7 @@ class ItemController extends Controller
         $item->is_PSE = $request->cs_pse=='pse';
         $item->save();
 
+        $item->uploadFile('3d_model_stl', $request->file('3d_model_stl'));
         $item->uploadFile('3d_model_step', $request->file('3d_model_step'));
 
         $commons = [];

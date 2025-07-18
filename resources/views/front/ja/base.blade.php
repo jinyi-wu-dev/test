@@ -465,6 +465,16 @@
   </div>
   <script src="{{ asset('assets/js/libs.js') }}"></script>
   <script src="{{ asset('assets/js/app.js') }}"></script>
+  <script type="importmap">
+    {
+			"imports": {
+				"three": "https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js",
+				"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.1/examples/jsm/"
+			}
+		}
+
+	</script>
+  <script src="{{ asset('assets/js/main.js') }}"></script>
   @if(!isset($disabled_cart))
   <script src="{{ asset('assets/js/cart.js') }}"></script>
   @endif

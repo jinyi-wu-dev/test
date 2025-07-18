@@ -22,7 +22,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function query(Request $request) {
+    protected function query(Request $request) {
         return User::query()
             ->when($request->filled('keywords'), function($query) use($request) {
                 $keys = preg_split('/[\s]+/', mb_convert_kana($request->keywords, 's'), -1, PREG_SPLIT_NO_EMPTY);
@@ -87,8 +87,8 @@ class UserController extends Controller
 
             fclose($fh);
         }, 200, [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="users.csv"',
+            'Content-Type'          => 'text/csv',
+            'Content-Disposition'   => sprintf('attachment; filename="leimac_user_%s.csv"', date('Ymd')),
         ]);
     }
 

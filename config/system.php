@@ -47,7 +47,7 @@ return [
         'item' => [
             /* ex: storage/models/1/ */
             'directory'         => 'items',
-            '3d_view_stl'       => '3d_view_stl',
+            '3d_model_stl'      => '3d_model_stl',
             '3d_model_step'     => '3d_model_step',
             'external_view_pdf' => 'external_view_pdf_{language}',
             'external_view_dxf' => 'external_view_dxf_{language}',
