@@ -1,12 +1,39 @@
 
-var save_page = '';
-function initCheckDisplayControll($page_name, $check_prefix, $target_prefix) {
-    $save_page = $page_name+'.';
+var storage_label = '';
+var hide_list;
+function loadHideList($label) {
+    $storage_label = $label;
+    $load = localStorage.getItem($label);
+    if ($load) {
+        $hide_list = JSON.parse($load);
+    } else {
+        $hide_list = [1];
+    }
+}
+function saveHideList() {
+    localStorage.setItem($storage_label, JSON.stringify($hide_list));
+}
+function addHideList($key) {
+    if ($hide_list.indexOf($key)==-1) {
+        $hide_list.push($key);
+    }
+    saveHideList();
+}
+function delHideList($key) {
+    $pos = $hide_list.indexOf($key);
+    if ($pos>-1) {
+        $hide_list.splice($pos, 1);
+    }
+    saveHideList();
+}
+
+function initCheckDisplayControll($label, $check_prefix, $target_prefix) {
+    loadHideList($label);
+
     $("[name^='"+$check_prefix+"']").each(function() {
         $name = $(this).attr('name');
         $target = $name.substr($check_prefix.length);
-        $val = localStorage.getItem($save_page+$target);
-        if ($val=='0') {
+        if ($hide_list.indexOf($target)>-1) {
             $(this).prop('checked', false);
             $("."+$target_prefix+$target).each(function() {
                 $(this).hide();
@@ -24,12 +51,12 @@ function initCheckDisplayControll($page_name, $check_prefix, $target_prefix) {
         if ($name.indexOf($check_prefix)===0) {
             $target = $name.substr($check_prefix.length);
             if ($(this).prop('checked')) {
-                localStorage.setItem($save_page+$target, 1);
+                delHideList($target);
                 $("."+$target_prefix+$target).each(function() {
                     $(this).show();
                 });
             } else {
-                localStorage.setItem($save_page+$target, 0);
+                addHideList($target);
                 $("."+$target_prefix+$target).each(function() {
                     $(this).hide();
                 });

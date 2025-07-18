@@ -239,7 +239,7 @@
                 <div class="aside-section">
                   <label class="checkbox-label">
                     <input type="checkbox" name="">
-                    <span></span>生産終了品を結果に含める
+                    <span class="checkbox-text"></span>生産終了品を結果に含める
                   </label>
                 </div>
                 <div class="aside-section">
@@ -247,7 +247,7 @@
                     <div class="aside-body-inner">
                       <label class="checkbox-label new">
                         <input type="checkbox" name="">
-                        <span></span>新製品
+                        <span class="checkbox-text"></span>新製品
                       </label>
                     </div>
                   </div>
@@ -262,55 +262,55 @@
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>ライン照明
+                            <span class="checkbox-text"></span>ライン照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>リング照明
+                            <span class="checkbox-text"></span>リング照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>バー照明
+                            <span class="checkbox-text"></span>バー照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>透過・面照明
+                            <span class="checkbox-text"></span>透過・面照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>ドーム照明
+                            <span class="checkbox-text"></span>ドーム照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>同軸・スポット照明
+                            <span class="checkbox-text"></span>同軸・スポット照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>その他照明
+                            <span class="checkbox-text"></span>その他照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>物流向け照明
+                            <span class="checkbox-text"></span>物流向け照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>提携企業製品
+                            <span class="checkbox-text"></span>提携企業製品
                           </label>
                         </div>
                       </div>
@@ -323,53 +323,53 @@
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>白
+                              <span class="checkbox-text"></span>白
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>青
+                              <span class="checkbox-text"></span>青
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>緑
+                              <span class="checkbox-text"></span>緑
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>黄
+                              <span class="checkbox-text"></span>黄
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>赤
-                            </label>
-                          </div>
-                          <div class="aside-body-item">
-                            <label class="checkbox-label">
-                              <input type="checkbox" name="">
-                              <span></span>フルカラーRGB
-                            </label>
-                            <label class="checkbox-label">
-                              <input type="checkbox" name="">
-                              <span></span>7色マルチカラー
+                              <span class="checkbox-text"></span>赤
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>IR（～1000nm）
+                              <span class="checkbox-text"></span>フルカラーRGB
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>IR（1000nm～）
+                              <span class="checkbox-text"></span>7色マルチカラー
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>UV
+                              <span class="checkbox-text"></span>IR（～1000nm）
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>UV（深紫外）
+                              <span class="checkbox-text"></span>IR（1000nm～）
+                            </label>
+                          </div>
+                          <div class="aside-body-item">
+                            <label class="checkbox-label">
+                              <input type="checkbox" name="">
+                              <span class="checkbox-text"></span>UV
+                            </label>
+                            <label class="checkbox-label">
+                              <input type="checkbox" name="">
+                              <span class="checkbox-text"></span>UV（深紫外）
                             </label>
                           </div>
                         </div>
@@ -382,29 +382,29 @@
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>DC12V
+                              <span class="checkbox-text"></span>DC12V
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>DC24V
+                              <span class="checkbox-text"></span>DC24V
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>DC48V
+                              <span class="checkbox-text"></span>DC48V
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>350mA
+                              <span class="checkbox-text"></span>350mA
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>700mA
+                              <span class="checkbox-text"></span>700mA
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>1000mA
+                              <span class="checkbox-text"></span>1000mA
                             </label>
                           </div>
                         </div>
@@ -416,11 +416,11 @@
                         <div class="input-text-wrap">
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>W以上～</span>
+                            <span class="checkbox-text">W以上～</span>
                           </div>
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>W以下</span>
+                            <span class="checkbox-text">W以下</span>
                           </div>
                         </div>
                       </div>
@@ -431,11 +431,11 @@
                         <div class="input-text-wrap">
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>ｇ以上～</span>
+                            <span class="checkbox-text">ｇ以上～</span>
                           </div>
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>ｇ以下</span>
+                            <span class="checkbox-text">ｇ以下</span>
                           </div>
                         </div>
                       </div>
@@ -452,25 +452,25 @@
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>AC入力コントローラ
+                            <span class="checkbox-text"></span>AC入力コントローラ
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>DC入力コントローラ
+                            <span class="checkbox-text"></span>DC入力コントローラ
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>PoE入力コントローラ
+                            <span class="checkbox-text"></span>PoE入力コントローラ
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>専用/特殊コントローラ
+                            <span class="checkbox-text"></span>専用/特殊コントローラ
                           </label>
                         </div>
                       </div>
@@ -483,25 +483,25 @@
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>PWM方式
+                              <span class="checkbox-text"></span>PWM方式
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>電流可変方式
+                              <span class="checkbox-text"></span>電流可変方式
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>電圧可変方式
+                              <span class="checkbox-text"></span>電圧可変方式
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>オーバードライブ
+                              <span class="checkbox-text"></span>オーバードライブ
                             </label>
                           </div>
                         </div>
@@ -512,29 +512,29 @@
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>DC12V
+                              <span class="checkbox-text"></span>DC12V
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>DC24V
+                              <span class="checkbox-text"></span>DC24V
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>DC48V
+                              <span class="checkbox-text"></span>DC48V
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>350mA
+                              <span class="checkbox-text"></span>350mA
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>700mA
+                              <span class="checkbox-text"></span>700mA
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>1000mA
+                              <span class="checkbox-text"></span>1000mA
                             </label>
                           </div>
                         </div>
@@ -545,35 +545,35 @@
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>外部ON/OFF制御
+                              <span class="checkbox-text"></span>外部ON/OFF制御
                             </label>
                           </div>
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="">
-                              <span></span>外部調光制御
+                              <span class="checkbox-text"></span>外部調光制御
                             </label>
                             <div class="aside-body-list">
                               <div class="aside-body-item">
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="">
-                                  <span></span>LAN通信
+                                  <span class="checkbox-text"></span>LAN通信
                                 </label>
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="">
-                                  <span></span>RS-232C通信
+                                  <span class="checkbox-text"></span>RS-232C通信
                                 </label>
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="">
-                                  <span></span>8bitパラレル通信
+                                  <span class="checkbox-text"></span>8bitパラレル通信
                                 </label>
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="">
-                                  <span></span>10bitパラレル通信
+                                  <span class="checkbox-text"></span>10bitパラレル通信
                                 </label>
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="">
-                                  <span></span>アナログ0～5V
+                                  <span class="checkbox-text"></span>アナログ0～5V
                                 </label>
                               </div>
                             </div>
@@ -585,7 +585,7 @@
                         <div class="input-text-wrap">
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>CH以上</span>
+                            <span class="checkbox-text">CH以上</span>
                           </div>
                         </div>
                       </div>
@@ -594,11 +594,11 @@
                         <div class="input-text-wrap">
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>W以上～</span>
+                            <span class="checkbox-text">W以上～</span>
                           </div>
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>W以下</span>
+                            <span class="checkbox-text">W以下</span>
                           </div>
                         </div>
                       </div>
@@ -607,11 +607,11 @@
                         <div class="input-text-wrap">
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>ｇ以上～</span>
+                            <span class="checkbox-text">ｇ以上～</span>
                           </div>
                           <div class="input-text">
                             <input type="text" name="">
-                            <span>ｇ以下</span>
+                            <span class="checkbox-text">ｇ以下</span>
                           </div>
                         </div>
                       </div>
@@ -628,25 +628,25 @@
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>照明用ケーブル
+                            <span class="checkbox-text"></span>照明用ケーブル
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>外部制御用ケーブル
+                            <span class="checkbox-text"></span>外部制御用ケーブル
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>照明オプション
+                            <span class="checkbox-text"></span>照明オプション
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
                             <input type="checkbox" name="">
-                            <span></span>その他オプション
+                            <span class="checkbox-text"></span>その他オプション
                           </label>
                         </div>
                       </div>

@@ -1121,9 +1121,7 @@
   }
 }
 .lending-request-button.is-active {
-  pointer-events: none;
   background: var(--themeColor);
-  cursor: not-allowed;
 }
 .lending-request-button.is-disabled {
   opacity: 0.2;

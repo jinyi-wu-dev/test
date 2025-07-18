@@ -46,7 +46,7 @@
               </div>
             </div>
             <div class="card-body">
-              <div class="d-flex justify-content-center">
+              <div class="d-flex flex-row flex-wrap justify-content-center">
                 <div class="p-2">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
@@ -110,8 +110,6 @@
                     'label'     => '公開',
                   ])
                 </div>
-              </div>
-              <div class="d-flex justify-content-center">
                 <div class="p-2">
                   @include('admin.parts.custom_checkbox', [
                     'checked'   => true,
@@ -348,7 +346,7 @@
   <script src="{{ asset('/admin/js/index.js') }}"></script>
   <script>
     $(function() {
-      initCheckDisplayControll('series', 'CDC-', 'CDT-');
+      initCheckDisplayControll('admin.series_hides', 'CDC-', 'CDT-');
       initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
       initAllCheck('input[name=is_new_all]', 'input[name=is_new_ids\\[\\]]');
       initAllCheck('input[name=is_end_all]', 'input[name=is_end_ids\\[\\]]');

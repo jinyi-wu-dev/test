@@ -131,7 +131,7 @@
   <script src="{{ asset('/admin/js/index.js') }}"></script>
   <script>
     $(function() {
-      initCheckDisplayControll('lighting', 'CDC-', 'CDT-');
+      initCheckDisplayControll('admin.item_lighting_hides', 'CDC-', 'CDT-');
       initCheckDelete('input[name="removes\\[\\]"]', '.do_remove');
       initAllCheck('input[name=is_new_all]', 'input[name=is_new_ids\\[\\]]');
       initAllCheck('input[name=is_end_all]', 'input[name=is_end_ids\\[\\]]');
