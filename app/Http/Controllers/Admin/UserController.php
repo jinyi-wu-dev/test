@@ -25,7 +25,7 @@ class UserController extends Controller
     protected function query(Request $request) {
         return User::query()
             ->when($request->filled('keywords'), function($query) use($request) {
-                $keys = preg_split('/[\s]+/', mb_convert_kana($request->keywords, 's'), -1, PREG_SPLIT_NO_EMPTY);
+                $keys = $this->splitKeywords($request->keywords);
                 foreach ($keys as $key) {
                     $query->orWhere('id', '=', $key);
                     $query->orWhere('name', 'LIKE', '%'.$key.'%');

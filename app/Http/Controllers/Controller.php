@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 abstract class Controller
 {
+    protected function splitKeywords($keywords) {
+        return preg_split('/[\s]+/', mb_convert_kana($keywords, 's'), -1, PREG_SPLIT_NO_EMPTY);
+    }
+
     protected function splitMultiParameters($params) {
         $single_params = array();
         $multi_params = array();

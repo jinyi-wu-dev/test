@@ -408,24 +408,24 @@
             <div class="fnav">
               <ul class="fnav-list">
                 <li class="fnav-list__item">
-                  <a href="./search">製品検索</a>
+                  <a href="{{ route('search') }}">製品検索</a>
                 </li>
                 <li class="fnav-list__item">
-                  <a href="./catalog">カタログ閲覧・ダウンロード</a>
+                  <a href="{{ route('page', 'catalog') }}">カタログ閲覧・ダウンロード</a>
                 </li>
                 <li class="fnav-list__item">
-                  <a href="./technorogy_quality">技術・品質情報</a>
+                  <a href="{{ route('page', 'technorogy_quality') }}">技術・品質情報</a>
                 </li>
                 <li class="fnav-list__item">
-                  <a href="./optera">ＯＰＴＥＲＡ</a>
+                  <a href="{{ route('page', 'optera') }}">ＯＰＴＥＲＡ</a>
                 </li>
               </ul>
               <ul class="fnav-list">
                 <li class="fnav-list__item">
-                  <a href="./news">ＮＥＷＳ </a>
+                  <a href="{{ route('news') }}">ＮＥＷＳ </a>
                 </li>
                 <li class="fnav-list__item">
-                  <a href="./search">生産終了品 </a>
+                  <a href="{{ route('search', ['only_end'=>1]) }}">生産終了品 </a>
                 </li>
               </ul>
             </div>
@@ -447,7 +447,7 @@
                 <span>（平日8：45－17：30）</span>
               </div>
               <div class="fnav__btn btn--slide--color">
-                <a href="./">
+                <a href="{{ route('contact') }}">
                   <svg id="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.5 25">
                     &lt;<path class="cta-icon" d="M25.12,0H5.39C2.41,0,0,2.41,0,5.39v10.14c0,2.97,2.41,5.39,5.39,5.39h9.62l5.82,4.09v-4.09h4.29c2.97,0,5.39-2.41,5.39-5.39V5.39c0-2.97-2.41-5.39-5.39-5.39ZM7.73,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM15.25,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM22.78,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12Z"></path>
                   </svg>

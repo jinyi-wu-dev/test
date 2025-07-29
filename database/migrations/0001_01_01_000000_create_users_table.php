@@ -89,7 +89,7 @@ return new class extends Migration
             $table->enum('category', ['lighting', 'controller', 'cable', 'option'])->nullable();
             $table->enum('genre', [
                 'lt_line', 'lt_ring', 'lt_transmission', 'lt_flatsurface', 'lt_dome', 'lt_coaxial-spot', 'lt_other',
-                'cr_pwm', 'cr_v_current', 'cr_v_voltage', 'cr_overdrive',
+                'cr_ac_input', 'cr_dc_input', 'cr_poe_input', 'cr_ex_and_sp',
                 'cb_lighting', 'cb_external',
                 'op_lighting', 'op_other'
             ])->nullable();
@@ -97,6 +97,9 @@ return new class extends Migration
             $table->boolean('is_new')->default(false);
             $table->boolean('is_end')->default(false);
             $table->boolean('is_publish')->default(false);
+
+            $table->boolean('is_logistics')->default(false);
+            $table->boolean('is_partner')->default(false);
 
             $table->boolean('show_type')->default(false);
             $table->boolean('show_model')->default(false);
@@ -167,9 +170,9 @@ return new class extends Migration
             $table->bigInteger('item_id')->unsigned();
             $table->enum('language', ['ja', 'en'])->default('ja');
             $table->string('type')->default('');
+            $table->enum('color', ['white', 'blue', 'green', 'yellow', 'red', 'full_color', 'multi_color', 'ir_u1000', 'ir_o1000', 'uv', 'uv_duv']);
             $table->string('color1')->default('');
             $table->string('color2')->default('');
-            $table->string('color3')->default('');
             $table->string('power_consumption')->default('');
             $table->string('num_of_ch')->default('');
             $table->string('input')->default('');
@@ -193,7 +196,7 @@ return new class extends Migration
             $table->string('input')->default('');
             $table->string('output')->default('');
             $table->enum('dimmable_control', ['pwm', 'variable_current', 'variable_voltage', 'overdrive'])->nullable();
-            $table->boolean('external_control');
+            $table->boolean('is_external_switch');
             $table->boolean('is_ethernet');
             $table->boolean('is_8bit_parallel');
             $table->boolean('is_10bit_parallel');

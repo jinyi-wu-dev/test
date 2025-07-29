@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\FileUploadable;
+use App\Enums\Color;
 
 class LightingItem extends Model
 {
@@ -17,9 +18,9 @@ class LightingItem extends Model
         'item_id',
         'language',
         'type',
+        'color',
         'color1',
         'color2',
-        'color3',
         'power_consumption',
         'num_of_ch',
         'input',
@@ -30,6 +31,10 @@ class LightingItem extends Model
         'description4',
         'description5',
         'note',
+    ];
+
+    protected $casts = [
+        'color'  => Color::class,
     ];
 
     public function __construct($attributes = []) {

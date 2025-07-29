@@ -23,7 +23,7 @@ class ControllerItem extends Model
         'input',
         'output',
         'dimmable_control',
-        'external_control',
+        'is_external_switch',
         'is_ethernet',
         'is_8bit_parallel',
         'is_10bit_parallel',

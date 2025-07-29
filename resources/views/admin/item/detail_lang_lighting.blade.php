@@ -14,20 +14,22 @@
                   'label'     => 'タイプ',
                   'value'     => $detail->type ?? '',
                 ])
+                @include('admin.parts.form_select', [
+                  'name'      => $lang.':color',
+                  'label'     => '発光色',
+                  'value'     => $detail->color->value ?? '',
+                  'empty'     => true,
+                  'options'   => App\Enums\Color::keyLabel(),
+                ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':color1',
-                  'label'     => '発光色',
+                  'label'     => '発光色記号',
                   'value'     => $detail->color1 ?? '',
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':color2',
-                  'label'     => '発光色記号',
-                  'value'     => $detail->color2 ?? '',
-                ])
-                @include('admin.parts.form_text', [
-                  'name'      => $lang.':color3',
                   'label'     => '色温度/ピーク波長',
-                  'value'     => $detail->color3 ?? '',
+                  'value'     => $detail->color2 ?? '',
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':power_consumption',

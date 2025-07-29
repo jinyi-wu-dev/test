@@ -64,6 +64,20 @@
                   'empty'     => true,
                   'options'   => App\Enums\Genre::keyLabel(),
                 ])
+                @include('admin.parts.custom_checkbox', [
+                  'switch'      => true,
+                  'name'        => 'is_logistics',
+                  'label'       => '物流向け',
+                  'valiable'    => 'series',
+                  'empty_value' => true,
+                ])
+                @include('admin.parts.custom_checkbox', [
+                  'switch'      => true,
+                  'name'        => 'is_partner',
+                  'label'       => '提携企業製品',
+                  'valiable'    => 'series',
+                  'empty_value' => true,
+                ])
                 @include('admin.parts.form_file', [
                   'name'        => 'image',
                   'label'       => '商品画像',
