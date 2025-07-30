@@ -21,6 +21,7 @@ class SignupController extends Controller
             'kana2' => 'required',
             'postal_code' => 'required',
             'prefecture' => 'required',
+            'country' => 'required_if:prefecture,foreign',
             'city' => 'required',
             'area' => 'required',
             'building' => 'required',
@@ -30,11 +31,9 @@ class SignupController extends Controller
             'positions' => 'required',
             'industries' => 'required',
             'occupationes' => 'required',
-            'email' => 'required',
-            //'email_confirm' => 'required',
-            'password' => 'required',
-            //'password_confirm' => 'required',
-            //'agree' => 'required',
+            'email' => ['required','confirmed'],
+            'password' => ['required','confirmed'],
+            'agree' => 'required',
         ]);
     }
 

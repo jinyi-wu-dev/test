@@ -47,7 +47,7 @@
                         <dt>Emailアドレス</dt>
                         <dd>
                           <div class="input">
-                            <input type="text" name="email" required>
+                            <input type="text" name="email" value="{{ old('email') }}" required>
                           </div>
                         </dd>
                       </dl>
@@ -61,14 +61,16 @@
                         </dd>
                       </dl>
                       <div class="login-block-text text-right">
+                        {{--
                         <p>
                           <label class="checkbox-label">
                             <input type="checkbox">
-                            <span></span>ログイン情報を記録
+                            <span class="checkbox-text"></span>ログイン情報を記録
                           </label>
                         </p>
                         <p>※パスワードを再設定は<a href="../">コチラ</a>
                         </p>
+                        --}}
                       </div>
                       <div class="btn--slide text-center">
                         <button type="submit" value="送信">ログイン</button>
@@ -81,10 +83,10 @@
                 <h2 class="c-title square border">新規会員登録</h2>
                 <div class="login-block-wrap">
                   <div class="btn--slide text-center">
-                    <a href="../register">新規会員登録</a>
+                    <a href="{{ route('signup') }}">新規会員登録</a>
                   </div>
                   <p>会員情報の変更・会員の退会について
-                    <br>会員情報の変更ならびに会員の退会につきましては、会員ログインの後に<a href="../contact">お問い合せフォーム</a>よりご連絡ください。
+                    <br>会員情報の変更ならびに会員の退会につきましては、会員ログインの後に<a href="{{ route('contact') }}">お問い合せフォーム</a>よりご連絡ください。
                   </p>
                 </div>
               </div>
@@ -99,7 +101,7 @@
                 <p class="cta-title">お気軽にご相談くださいませ</p>
                 <div class="cta-contact">
                   <div class="btn--cta">
-                    <a href="../mail">
+                    <a href="{{ route('contact') }}">
                       <svg id="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.5 25">
                         <<path class="cta-icon" d="M25.12,0H5.39C2.41,0,0,2.41,0,5.39v10.14c0,2.97,2.41,5.39,5.39,5.39h9.62l5.82,4.09v-4.09h4.29c2.97,0,5.39-2.41,5.39-5.39V5.39c0-2.97-2.41-5.39-5.39-5.39ZM7.73,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM15.25,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM22.78,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12Z" />
                       </svg>

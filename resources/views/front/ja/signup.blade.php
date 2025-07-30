@@ -50,9 +50,11 @@
                   <form class="mailform" method="post" action="{{ route('signup.confirm') }}">
                     @csrf
 
+                    {{--
                     @foreach ($errors->all() as $error)
                       <div>{{ $error }}</div>
                     @endforeach
+                    --}}
 
                     <table class="mailform-table">
                       <thead>
@@ -64,8 +66,22 @@
                             <span>お名前</span>
                           </th>
                           <td class="name">
-                            <input type="text" name="name1" value="{{ old('name1') }}" equired>
-                            <input type="text" name="name2" value="{{ old('name2') }}" equired>
+                            <span class="name-wrap">
+                              <input type="text" name="name1" value="{{ old('name1') }}"
+                                @if($errors->has('name1')) class="input-error" @endif
+                              >
+                              @if($errors->has('name1'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('name1') }}</span>
+                              @endif
+                            </span>
+                            <span class="name-wrap">
+                              <input type="text" name="name2" value="{{ old('name2') }}"
+                                @if($errors->has('name2')) class="input-error" @endif
+                              >
+                              @if($errors->has('name2'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('name2') }}</span>
+                              @endif
+                            </span>
                           </td>
                         </tr>
                         <tr>
@@ -73,8 +89,22 @@
                             <span>フリガナ</span>
                           </th>
                           <td class="name">
-                            <input type="text" name="kana1" value="{{ old('kana1') }}" equired>
-                            <input type="text" name="kana2" value="{{ old('kana2') }}" equired>
+                            <span class="name-wrap">
+                              <input type="text" name="kana1" value="{{ old('kana1') }}"
+                                @if($errors->has('kana1')) class="input-error" @endif
+                              >
+                              @if($errors->has('kana1'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('kana1') }}</span>
+                              @endif
+                            </span>
+                            <span class="name-wrap">
+                              <input type="text" name="kana2" value="{{ old('kana2') }}"
+                                @if($errors->has('kana2')) class="input-error" @endif
+                              >
+                              @if($errors->has('kana2'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('kana2') }}</span>
+                              @endif
+                            </span>
                           </td>
                         </tr>
                         <tr>
@@ -82,7 +112,12 @@
                             <span>郵便番号</span>
                           </th>
                           <td>
-                            <input type="text" name="postal_code" value="{{ old('postal_code') }}" equired>
+                            <input type="text" name="postal_code" value="{{ old('postal_code') }}"
+                              @if($errors->has('postal_code')) class="input-error" @endif
+                            >
+                            @if($errors->has('postal_code'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('postal_code') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -91,17 +126,26 @@
                           </th>
                           <td>
                             <div class="select pref">
-                              <select class="mailform_text" name="prefecture">
+                              <select name="prefecture" class="mailform_text
+                                @if($errors->has('prefecture')) input-error @endif
+                              ">
                                 <option value="" selected>都道府県を選択する</option>
                                 @foreach(\App\Enums\Prefecture::cases() as $pref)
                                   <option value="{{ $pref->value }}" @if(old('prefecture')==$pref->value) selected @endif >{{ $pref->label() }}</option>
                                 @endforeach
-                                <option value="_foreign" @if(old('prefecture')=='_foreign') selected @endif >海外</option>
                               </select>
+                              @if($errors->has('prefecture'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('prefecture') }}</span>
+                              @endif
                               <span class="arrow"></span>
                             </div>
                             <span>
-                              <input class="comment" type="text" name="country" placeholder="海外選択の場合は国名をご記入ください" value="{{ old('country') }}">
+                              <input type="text" name="country" placeholder="海外選択の場合は国名をご記入ください" value="{{ old('country') }}" class="comment
+                                @if($errors->has('country')) input-error @endif
+                              ">
+                              @if($errors->has('country'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('country') }}</span>
+                              @endif
                             </span>
                           </td>
                         </tr>
@@ -110,7 +154,12 @@
                             <span>市町村区</span>
                           </th>
                           <td>
-                            <input type="text" name="city" value="{{ old('city') }}" equired>
+                            <input type="text" name="city" value="{{ old('city') }}"
+                              @if($errors->has('city')) class="input-error" @endif
+                            >
+                            @if($errors->has('city'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('city') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -118,7 +167,12 @@
                             <span>番地</span>
                           </th>
                           <td>
-                            <input type="text" name="area" value="{{ old('area') }}" equired>
+                            <input type="text" name="area" value="{{ old('area') }}"
+                              @if($errors->has('area')) class="input-error" @endif
+                            >
+                            @if($errors->has('area'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('area') }}</span>
+                            @endif
                           </td> 
                         </tr>
                         <tr>
@@ -126,7 +180,12 @@
                             <span>ビル名</span>
                           </th>
                           <td>
-                            <input type="text" name="building" value="{{ old('building') }}">
+                            <input type="text" name="building" value="{{ old('building') }}"
+                              @if($errors->has('building')) class="input-error" @endif
+                            >
+                            @if($errors->has('building'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('building') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -134,7 +193,12 @@
                             <span>電話番号</span>
                           </th>
                           <td>
-                            <input type="text" name="phone_number" value="{{ old('phone_number') }}" equired>
+                            <input type="text" name="phone_number" value="{{ old('phone_number') }}"
+                              @if($errors->has('phone_number')) class="input-error" @endif
+                            >
+                            @if($errors->has('phone_number'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('phone_number') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -142,7 +206,12 @@
                             <span>会社名</span>
                           </th>
                           <td>
-                            <input type="text" name="company" value="{{ old('company') }}" equired>
+                            <input type="text" name="company" value="{{ old('company') }}"
+                              @if($errors->has('company')) class="input-error" @endif
+                            >
+                            @if($errors->has('company'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('company') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -150,7 +219,12 @@
                             <span>部署</span>
                           </th>
                           <td>
-                            <input type="text" name="department" value="{{ old('department') }}" equired>
+                            <input type="text" name="department" value="{{ old('department') }}"
+                              @if($errors->has('department')) class="input-error" @endif
+                            >
+                            @if($errors->has('department'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('department') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -162,9 +236,12 @@
                               @foreach (config('enums.ja.position') as $val => $label)
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="positions[]" value="{{ $val }}" @if(in_array($val, old('positions')??[])) checked @endif equired>
-                                  <span></span>{{ $label }}
+                                  <span class="checkbox-text"></span>{{ $label }}
                                 </label>
                               @endforeach
+                              @if($errors->has('positions'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('positions') }}</span>
+                              @endif
                             </div>
                           </td>
                         </tr>
@@ -177,9 +254,12 @@
                               @foreach (config('enums.ja.industry') as $val => $label)
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="industries[]" value="{{ $val }}" @if(in_array($val, old('industries')??[])) checked @endif equired>
-                                  <span></span>{{ $label }}
+                                  <span class="checkbox-text"></span>{{ $label }}
                                 </label>
                               @endforeach
+                              @if($errors->has('industries'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('industries') }}</span>
+                              @endif
                             </div>
                           </td>
                         </tr>
@@ -192,9 +272,12 @@
                               @foreach (config('enums.ja.occupation') as $val => $label)
                                 <label class="checkbox-label">
                                   <input type="checkbox" name="occupationes[]" value="{{ $val }}" @if(in_array($val, old('occupationes')??[])) checked @endif equired>
-                                  <span></span>{{ $label }}
+                                  <span class="checkbox-text"></span>{{ $label }}
                                 </label>
                               @endforeach
+                              @if($errors->has('occupationes'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('occupationes') }}</span>
+                              @endif
                             </div>
                           </td>
                         </tr>
@@ -203,7 +286,12 @@
                             <span>Emailアドレス</span>
                           </th>
                           <td>
-                            <input type="text" name="email" value="{{ old('email') }}" equired>
+                            <input type="text" name="email" value="{{ old('email') }}"
+                              @if($errors->has('email')) class="input-error" @endif
+                            >
+                            @if($errors->has('email'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('email') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -211,7 +299,12 @@
                             <span>Emailアドレス（確認用）</span>
                           </th>
                           <td>
-                            <input type="text" name="email_confirm" equired>
+                            <input type="text" name="email_confirmation"
+                              @if($errors->has('email_confirm')) class="input-error" @endif
+                            >
+                            @if($errors->has('email_confirm'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('email_confirm') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -220,8 +313,13 @@
                           </th>
                           <td>
                             <div class="input show-password-wrap">
-                              <input type="password" name="password" value="{{ old('password') }}" equired>
+                              <input type="password" name="password" value="{{ old('password') }}"
+                                @if($errors->has('password')) class="input-error" @endif
+                              >
                               <span class="show-password"></span>
+                              @if($errors->has('password'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('password') }}</span>
+                              @endif
                             </div>
                           </td>
                         </tr>
@@ -231,8 +329,13 @@
                           </th>
                           <td>
                             <div class="input show-password-wrap">
-                              <input type="password" name="password_confirm" equired>
+                              <input type="password" name="password_confirmation"
+                                @if($errors->has('password_confirm')) class="input-error" @endif
+                              >
                               <span class="show-password"></span>
+                              @if($errors->has('password_confirm'))
+                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('password_confirm') }}</span>
+                              @endif
                             </div>
                           </td>
                         </tr>
@@ -241,8 +344,13 @@
                     <div class="agree">
                       <span>
                         <label>
-                          <input type="checkbox" name="agree" value="agree">
-                          <span>個人情報保護方針に同意します</span>
+                          <input type="checkbox" name="agree" value="agree"
+                            @if($errors->has('agree')) class="input-error" @endif
+                          >
+                          <span class="agree-text">個人情報保護方針に同意します</span>
+                          @if($errors->has('agree'))
+                            <span class="error" style="color: red; display: block;">▲{{ $errors->first('agree') }}</span>
+                          @endif
                         </label>
                       </span>
                     </div>
