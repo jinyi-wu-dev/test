@@ -1,4 +1,4 @@
-eextends('front/ja/base')
+@extends('front/ja/base')
 
 @section('title') Leimac | {{ $series->model }} @endsection
 
