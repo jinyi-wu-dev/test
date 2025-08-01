@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class SignupController extends Controller
 {
-    public function index()
-    {
-        return $this->languageView("signup");
-    }
-
     protected function validate(Request $request, $confirm=false) {
         $request->validate([
             'name1' => 'required',
@@ -35,6 +30,11 @@ class SignupController extends Controller
             'password' => ['required','confirmed'],
             'agree' => 'required',
         ]);
+    }
+
+    public function index()
+    {
+        return $this->languageView("signup");
     }
 
     public function confirm(Request $request)

@@ -34,6 +34,25 @@ return new class extends Migration
             $table->softDeletes()->nullable();
         });
 
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->id();
+            $table->string('email')->default('');
+            $table->string('name')->default('');
+            $table->string('kana')->default('');
+            $table->string('postal_code', 7)->default('');
+            $table->string('prefecture')->nullable('');
+            $table->string('country')->nullable('');
+            $table->string('city')->default('');
+            $table->string('area')->default('');
+            $table->string('building')->default('');
+            $table->string('phone_number', 11)->default('');
+            $table->string('company')->default('');
+            $table->string('department')->default('');
+            $table->string('type')->default('');
+            $table->string('contents')->default('');
+            $table->timestamps();
+        });
+
         /*
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

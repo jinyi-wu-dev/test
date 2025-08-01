@@ -25,30 +25,31 @@ Route::get('/test', function () {
 });
 
 
-Route::get( '/',                [TopController::class, 'index'])            ->name('index');
+Route::get( '/',                    [TopController::class, 'index'])            ->name('index');
 
-Route::get( '/signup',          [SignupController::class, 'index'])         ->name('signup');
-Route::post('/signup/confirm',  [SignupController::class, 'confirm'])       ->name('signup.confirm');
-Route::post('/signup/complete', [SignupController::class, 'complete'])      ->name('signup.complete');
+Route::get( '/signup',              [SignupController::class, 'index'])         ->name('signup');
+Route::post('/signup/confirm',      [SignupController::class, 'confirm'])       ->name('signup.confirm');
+Route::post('/signup/complete',     [SignupController::class, 'complete'])      ->name('signup.complete');
 
-Route::get( '/signin',          [SigninController::class, 'index'])         ->name('signin');
-Route::post('/signin',          [SigninController::class, 'authenticate'])  ->name('signin.do');
-Route::get ('/signout',         [SigninController::class, 'logout'])        ->name('signout');
+Route::get( '/signin',              [SigninController::class, 'index'])         ->name('signin');
+Route::post('/signin',              [SigninController::class, 'authenticate'])  ->name('signin.do');
+Route::get ('/signout',             [SigninController::class, 'logout'])        ->name('signout');
 
-Route::get( '/contact',         [ContactController::class, 'index'])        ->name('contact');
-Route::post('/contact',         [ContactController::class, 'do'])           ->name('contact.do');
+Route::get( '/contact',             [ContactController::class, 'index'])        ->name('contact');
+Route::post('/contact/confirm',     [ContactController::class, 'confirm'])      ->name('contact.confirm');
+Route::post('/contact/complete',    [ContactController::class, 'complete'])     ->name('contact.complete');
 
-Route::get( '/news',            [NewsController::class, 'index'])           ->name('news');
+Route::get( '/news',                [NewsController::class, 'index'])           ->name('news');
 
-Route::get( '/search',          [ProductController::class, 'search'])       ->name('search');
-Route::get( '/series/{id}',     [ProductController::class, 'series'])       ->name('series');
-Route::get( '/item/{id}',       [ProductController::class, 'item'])         ->name('item');
+Route::get( '/search',              [ProductController::class, 'search'])       ->name('search');
+Route::get( '/series/{id}',         [ProductController::class, 'series'])       ->name('series');
+Route::get( '/item/{id}',           [ProductController::class, 'item'])         ->name('item');
 
-Route::get( '/page/{page}',     [PageController::class, 'index'])           ->name('page');
+Route::get( '/page/{page}',         [PageController::class, 'index'])           ->name('page');
 
 Route::middleware('auth')->group(function() {
-    Route::get( '/cart',        [ProductController::class, 'cart'])         ->name('cart');
-    Route::post( '/cart',       [ProductController::class, 'cart_complete'])->name('cart.complete');
+    Route::get( '/cart',            [ProductController::class, 'cart'])         ->name('cart');
+    Route::post( '/cart',           [ProductController::class, 'cart_complete'])->name('cart.complete');
 
 });
 
