@@ -12,8 +12,18 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function search(Request $request)
-    {
+    protected function makeQuery(Request $request) {
+        $has_lighting = false;
+        $has_controller = false;
+        foreach ($request->all() as $k => $v) {
+            if (str_contains($k, 'lighting_')) {
+                $this->has_lighting = true;
+            }
+            if (str_contains($k, 'lighting_')) {
+                $this->has_lighting = true;
+            }
+        }
+
         $q = Series::query();
         $q = DB::table('series');
         $q->join('items', 'series.id', '=', 'items.series_id');
@@ -152,11 +162,16 @@ class ProductController extends Controller
         }
 
         //$q->dd();
-        
+        return $q;
+    }
+
+    public function search(Request $request)
+    {
+        $query = $this->makeQuery($request);
         $list = [];
         $count_series = 0;
         $count_item = 0;
-        foreach ($q->get() as $info) {
+        foreach ($query->get() as $info) {
             if (!isset($list[$info->series_id])) {
                 $count_series++;
                 $list[$info->series_id] = [];

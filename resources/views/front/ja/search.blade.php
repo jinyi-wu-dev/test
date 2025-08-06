@@ -267,63 +267,63 @@
                       <div class="aside-body-list">
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_LINE->value }}"
-                              @if(in_array(App\Enums\Genre::LT_LINE->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_LINE->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>ライン照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_RING->value }}"
-                              @if(in_array(App\Enums\Genre::LT_RING->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_RING->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>リング照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_TRANSMISSION->value }}"
-                              @if(in_array(App\Enums\Genre::LT_TRANSMISSION->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_TRANSMISSION->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>バー照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_FLATSURFACE->value }}"
-                              @if(in_array(App\Enums\Genre::LT_FLATSURFACE->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_FLATSURFACE->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>透過・面照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_DOME->value }}"
-                              @if(in_array(App\Enums\Genre::LT_DOME->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_DOME->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>ドーム照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_COAXIAL_SPOT->value }}"
-                              @if(in_array(App\Enums\Genre::LT_COAXIAL_SPOT->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_COAXIAL_SPOT->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>同軸・スポット照明
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::LT_OTHER->value }}"
-                              @if(in_array(App\Enums\Genre::LT_OTHER->value, request('lighting_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::LT_OTHER->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>その他照明
                           </label>
@@ -511,36 +511,36 @@
                       <div class="aside-body-list">
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="controller_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::CR_AC_INPUT->value }}"
-                              @if(in_array(App\Enums\Genre::CR_AC_INPUT->value, request('controller_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::CR_AC_INPUT->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>AC入力コントローラ
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="controller_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::CR_DC_INPUT->value }}"
-                              @if(in_array(App\Enums\Genre::CR_DC_INPUT->value, request('controller_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::CR_DC_INPUT->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>DC入力コントローラ
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="controller_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::CR_PoE_INPUT->value }}"
-                              @if(in_array(App\Enums\Genre::CR_PoE_INPUT->value, request('controller_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::CR_PoE_INPUT->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>PoE入力コントローラ
                           </label>
                         </div>
                         <div class="aside-body-item">
                           <label class="checkbox-label">
-                            <input type="checkbox" name="controller_genres[]"
+                            <input type="checkbox" name="genres[]"
                               value="{{ App\Enums\Genre::CR_EX_AND_SP->value }}"
-                              @if(in_array(App\Enums\Genre::CR_EX_AND_SP->value, request('controller_genres')??[])) checked @endif
+                              @if(in_array(App\Enums\Genre::CR_EX_AND_SP->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>専用/特殊コントローラ
                           </label>

@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class TopController extends Controller
+class NewsController extends Controller
 {
     public function index()
     {
@@ -22,8 +22,8 @@ class TopController extends Controller
             ->orderBy('wp_posts.post_date', 'DESC')
             ->select(['post_title', 'post_date', 'post_name', 'wp_terms.name'])
             ->limit(config('system.news.num_of_top'))
-            ->get();
-        return $this->languageView('index', [
+            ->paginate(config('system.news.num_of_news'));
+        return $this->languageView('news', [
             'news' => $news,
         ]);
     }

@@ -23,6 +23,13 @@ return [
         'not_exist' => '-',
     ],
 
+    'news' => [
+        'target_terms'  => ['LED'],
+        'num_of_top'    => 5,
+        'num_of_news'   => 20,
+        'link_url'      => 'https://leimac.co.jp/news/',
+    ],
+
     'file' => [
         'public_storage'        => 'storage',
 

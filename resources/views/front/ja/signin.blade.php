@@ -1,5 +1,11 @@
 @extends('front/ja/base')
 
+
+@section('title')
+  <title>Leimac | ログイン</title>
+@endsection
+
+
 @section('main')
     <!-- Site Main-->
     <main class="site-main" id="site-main">

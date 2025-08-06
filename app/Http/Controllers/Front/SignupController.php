@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Validator;
 
 class SignupController extends Controller
 {
-    protected function validate(Request $request, $confirm=false) {
-        $request->validate([
-            'name1' => 'required',
-            'name2' => 'required',
-            'kana1' => 'required',
-            'kana2' => 'required',
+    protected function rules($confirm=false) {
+        return [
+            'name' => 'required',
+            'kana' => 'required',
             'postal_code' => 'required',
             'prefecture' => 'required',
             'country' => 'required_if:prefecture,foreign',
@@ -26,10 +25,10 @@ class SignupController extends Controller
             'positions' => 'required',
             'industries' => 'required',
             'occupationes' => 'required',
-            'email' => ['required','confirmed'],
-            'password' => ['required','confirmed'],
-            'agree' => 'required',
-        ]);
+            'email' => $confirm ? ['required','confirmed'] : 'required',
+            'password' => $confirm ? ['required','confirmed'] : 'required',
+            'agree' => $confirm ? 'required' : '',
+        ];
     }
 
     public function index()
@@ -39,21 +38,19 @@ class SignupController extends Controller
 
     public function confirm(Request $request)
     {
-        $this->validate($request);
-
+        $request->validate($this->rules(true));
         return $this->languageView("signup_confirm");
     }
 
     public function complete(Request $request)
     {
-        $this->validate($request);
-        if ($request->back) {
+        $v = Validator::make($request->all(), $this->rules(false));
+        if ($v->fails() || $request->back) {
+            dd($v);
             return redirect()->route('signup')->withInput();
         }
 
         $user = new User($request->all());
-        $user->name = $request->name1 . $request->name2;
-        $user->kana = $request->kana1 . $request->kana2;
         $user->save();
 
         return $this->languageView("signup_complete");

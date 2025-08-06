@@ -1,6 +1,11 @@
 @extends('front/ja/base')
 
 
+@section('title')
+  <title>Leimac | お問合せ</title>
+@endsection
+
+
 @section('main')
     <!-- Site Main-->
     <main class="site-main" id="site-main">
@@ -84,23 +89,13 @@
                           <th class="required">
                             <span>お名前</span>
                           </th>
-                          <td class="name">
-                            <span class="name-wrap">
-                              <input type="text" name="name1" value="{{ old('name1', $user->name??'') }}"
-                                @if($errors->has('name1')) class="input-error" @endif
-                              >
-                              @if($errors->has('name1'))
-                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('name1') }}</span>
-                              @endif
-                            </span>
-                            <span class="name-wrap">
-                              <input type="text" name="name2" value="{{ old('name2', $user->name??'') }}"
-                                @if($errors->has('name2')) class="input-error" @endif
-                              >
-                              @if($errors->has('name2'))
-                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('name2') }}</span>
-                              @endif
-                            </span>
+                          <td>
+                            <input type="text" name="name" value="{{ old('name', $user->name??'') }}"
+                              @if($errors->has('name')) class="input-error" @endif
+                            >
+                            @if($errors->has('name'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('name') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>
@@ -108,22 +103,12 @@
                             <span>フリガナ</span>
                           </th>
                           <td class="name">
-                            <span class="name-wrap">
-                              <input type="text" name="kana1" value="{{ old('kana1', $user->kana??'') }}"
-                                @if($errors->has('kana1')) class="input-error" @endif
-                              >
-                              @if($errors->has('kana1'))
-                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('kana1') }}</span>
-                              @endif
-                            </span>
-                            <span class="name-wrap">
-                              <input type="text" name="kana2" value="{{ old('kana2', $user->kana??'') }}"
-                                @if($errors->has('kana2')) class="input-error" @endif
-                              >
-                              @if($errors->has('kana2'))
-                                <span class="error" style="color: red; display: block;">▲{{ $errors->first('kana2') }}</span>
-                              @endif
-                            </span>
+                            <input type="text" name="kana" value="{{ old('kana', $user->kana??'') }}"
+                              @if($errors->has('kana')) class="input-error" @endif
+                            >
+                            @if($errors->has('kana'))
+                              <span class="error" style="color: red; display: block;">▲{{ $errors->first('kana') }}</span>
+                            @endif
                           </td>
                         </tr>
                         <tr>

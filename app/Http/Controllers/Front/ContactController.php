@@ -18,10 +18,8 @@ class ContactController extends Controller
     protected function rules($confirm=false) {
         return [
             'type' => 'required',
-            'name1' => 'required',
-            'name2' => 'required',
-            'kana1' => 'required',
-            'kana2' => 'required',
+            'name' => 'required',
+            'kana' => 'required',
             'postal_code' => 'required',
             'prefecture' => 'required',
             'country' => 'required_if:prefecture,foreign',
@@ -142,8 +140,6 @@ class ContactController extends Controller
         }
 
         $contact = new Contact($request->all());
-        $contact->name = $request->name1 . $request->name2;
-        $contact->kana = $request->kana1 . $request->kana2;
         $contact->save();
 
         $this->sendMailToUser($contact);

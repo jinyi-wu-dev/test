@@ -16,7 +16,7 @@ enum Category: string
     public function label(): string {
         return match($this) {
             Category::LIGHTING      => '照明',
-            Category::CONTROLLER    => 'コントロラー',
+            Category::CONTROLLER    => 'コントローラー',
             Category::CABLE         => 'ケーブル',
             Category::OPTION        => 'オプション',
         };

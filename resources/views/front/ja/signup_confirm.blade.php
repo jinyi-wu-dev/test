@@ -1,6 +1,11 @@
 @extends('front/ja/base')
 
 
+@section('title')
+  <title>Leimac | 新規会員登録</title>
+@endsection
+
+
 @section('main')
     <!-- Site Main-->
     <main class="site-main" id="site-main">
@@ -44,17 +49,15 @@
                           <th class="required">
                             <span>お名前</span>
                           </th>
-                          <td class="name">{{ request('name1') }} {{ request('name2')}}</td>
-                          <input type="hidden" name="name1" value="{{ request('name1') }}">
-                          <input type="hidden" name="name2" value="{{ request('name2') }}">
+                          <td class="name">{{ request('name') }}</td>
+                          <input type="hidden" name="name" value="{{ request('name') }}">
                         </tr>
                         <tr>
                           <th class="required">
                             <span>フリガナ</span>
                           </th>
-                          <td class="name">{{ request('kana1') }} {{ request('kana2')}}</td>
-                          <input type="hidden" name="kana1" value="{{ request('kana1') }}">
-                          <input type="hidden" name="kana2" value="{{ request('kana2') }}">
+                          <td class="name">{{ request('kana') }}</td>
+                          <input type="hidden" name="kana" value="{{ request('kana') }}">
                         </tr>
                         <tr>
                           <th class="required">

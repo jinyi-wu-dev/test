@@ -1,9 +1,14 @@
 @extends('front/ja/base')
 
 
-@section('title') Leimac @endsection
+@section('title')
+  <title>Leimac</title>
+@endsection
 
-@section('body_class') page--top @endsection
+
+@section('body_class')
+  page--top
+@endsection
 
 
 @section('main')
@@ -26,44 +31,18 @@
                 </span>
               </h2>
               <ul class="news-list--top">
-                <li class="news-list--top__item">
-                  <div class="meta">
-                    <time datetime="0000-00-00">2023年12月01日</time>
-                    <span class="category">イベント情報</span>
-                  </div>
-                  <a href="https://leimac.co.jp/news/led_20240902_iwdv-idbc-re-h_idba-hms/" target="_blank" rel="noopener">「国際画像機器展2023」出展のご案内</a>
-                </li>
-                <li class="news-list--top__item">
-                  <div class="meta">
-                    <time datetime="0000-00-00">2023年11月22日</time>
-                    <span class="category">新製品</span>
-                  </div>
-                  <a href="https://leimac.co.jp/news/20250207_ac_adapter/" target="_blank" rel="noopener">ブライバックライン照明III IDBC-REシリーズ販売開始のお知らせ</a>
-                </li>
-                <li class="news-list--top__item">
-                  <div class="meta">
-                    <time datetime="0000-00-00">2023年10月13日</time>
-                    <span class="category">イベント情報</span>
-                  </div>
-                  <a href="https://leimac.co.jp/news/led_20241217_w_awseries/" target="_blank" rel="noopener">「第6回[名古屋] ロボデックス」出展のご案内</a>
-                </li>
-                <li class="news-list--top__item">
-                  <div class="meta">
-                    <time datetime="0000-00-00">2023年10月02日</time>
-                    <span class="category">重要</span>
-                  </div>
-                  <a href="https://leimac.co.jp/news/2024_winter_business_days/" target="_blank" rel="noopener">赤色砲弾型LED（660nm)照明Rシリーズの生産終了および代替推奨品のご案内</a>
-                </li>
-                <li class="news-list--top__item">
-                  <div class="meta">
-                    <time datetime="0000-00-00">2023年09月27日</time>
-                    <span class="category">重要</span>
-                  </div>
-                  <a href="https://leimac.co.jp/news/led_20241215_phlox/" target="_blank" rel="noopener">Smart Vision Lightsとの業務提携のお知らせ</a>
-                </li>
+                @foreach($news as $n)
+                  <li class="news-list--top__item">
+                    <div class="meta">
+                      <time datetime="0000-00-00">{{ date('Y年m月d日', strtotime($n->post_date)) }}</time>
+                      <span class="category">{{ $n->name }}</span>
+                    </div>
+                    <a href="{{ config('system.news.link_url') }}{{ $n->post_name }}" target="_blank" rel="noopener">{{ $n->post_title }}</a>
+                  </li>
+                @endforeach
               </ul>
               <div class="news-link">
-                <a href="./news">NEWS 一覧へ</a>
+                <a href="{{ route('news') }}">NEWS 一覧へ</a>
               </div>
             </div>
           </div>
@@ -151,7 +130,7 @@
                     <div class="product-item">
                       <a href="{{ route('search', ['lighting_partner' => '1']) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product008.jpg') }}" alt="提携製品">
-                          <figcaption>提携製品</figcaption>
+                            figcaption>提携製品</figcaption>
                         </figure>
                       </a>
                     </div>

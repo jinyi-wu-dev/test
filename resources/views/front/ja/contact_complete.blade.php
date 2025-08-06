@@ -1,6 +1,11 @@
 @extends('front/ja/base')
 
 
+@section('title')
+  <title>Leimac | お問合せ</title>
+@endsection
+
+
 @section('main')
     <!-- Site Main-->
     <main class="site-main" id="site-main">

@@ -1,6 +1,14 @@
 @extends('front/ja/base')
 
-@section('body_class') page--technorogy @endsection
+
+@section('title')
+  <title>Leimac | 技術・品質情報</title>
+@endsection
+
+@section('body_class')
+  page--technorogycw
+@endsection
+
 
 @section('main')
     <!-- Site Main-->

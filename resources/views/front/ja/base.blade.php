@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
 
-  <title>@yield('title')</title>
+  @yield('title')
 
   <meta name="viewport" content="width=device-width">
   <meta name="description" content="">
