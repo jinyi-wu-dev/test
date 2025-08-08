@@ -1,6 +1,53 @@
 <?php
 
 return [
+    'system' => [
+        'category' => [
+            'lighting'      => '照明',
+            'controller'    => 'コントローラー',
+            'cable'         => 'ケーブル',
+            'option'        => 'オプション',
+        ],
+        'genre' => [
+            'lt_line'           => 'ライン照明',
+            'lt_ring'           => 'リング照明',
+            'lt_transmission'   => 'バー照明',
+            'lt_flatsurface'    => '透過・面照明',
+            'lt_dome'           => 'ドーム照明',
+            'lt_coaxial'        => '同軸・スポット照明',
+            'lt_other'          => 'その他照明',
+            'cr_ac_input'       => 'AC入力コントローラ',
+            'cr_dc_input'       => 'DC入力コントローラ',
+            'cr_poe_input'      => 'PoE入力コントローラ',
+            'cr_ex_and_sp'      => '専用/特殊コントローラ',
+            'cb_lighting'       => '照明用ケーブル',
+            'cb_external'       => '外部制御用ケーブル',
+            'op_lighting'       => '照明用オプション',
+            'op_other'          => 'その他オプション',
+        ],
+        'series_show' => [
+            'show_type'                     => 'タイプ',
+            'show_model'                    => '型式',
+            'show_product_number'           => '品番',
+            'show_weight'                   => '器具重量',
+            'show_other'                    => 'その他',
+            'show_compatible_standards'     => '適合規格',
+            'show_luminous_color'           => '発光色',
+            'show_lt_num_of_ch'             => 'CH数',
+            'show_power_consumption'        => '消費電力',
+            'show_seg'                      => 'SEG値',
+            'show_input_voltage'            => '入力電圧',
+            'show_diming_controll'          => '調光制御',
+            'show_total_capacity'           => '合計容量',
+            'show_ct_num_of_ch'             => 'CH数',
+            'show_input'                    => '入力',
+            'show_output'                   => '出力',
+            'show_external_onoff'           => '外部ON/OFF',
+            'show_external_diming_control'  => '外部調光制御',
+            'show_throughput'               => '透過率',
+        ],
+    ],
+
     'ja' => [
         /* 役職 */
         'position' => [

@@ -10,6 +10,7 @@ use App\Models\Feature;
 use App\Enums\Category;
 use App\Enums\Genre;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SeriesController extends Controller
 {
@@ -44,7 +45,7 @@ class SeriesController extends Controller
         ]);
     }
 
-    public function csv(Request $request)
+    public function export_csv(Request $request)
     {
         $list = $this->query($request)->get();
         return new StreamedResponse(function() use ($list) {
@@ -52,11 +53,64 @@ class SeriesController extends Controller
 
             fputcsv($fh, mb_convert_encoding([
                 'ID',
+                'シリーズ型式',
+                '品目タイプ',
+                'ジャンル',
+                'NEWステータス',
+                '公開ステータス',
+                '生産終了ステータス',
+                '物流向け',
+                '提携企業製品',
+                '型式一覧表に表示する項目',
+                '備考欄',
+                'アイコン',
+                '特徴・特性',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '言語',
+                'シリーズ名',
+                '本文１',
+                '本文２',
+                '本文３',
+                '注意書き',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '',
             ], 'cp932', 'utf8'));
             foreach ($list as $series) {
+                $shows = [];
+                foreach (config('enums.system.series_show') as $k => $v) {
+                    if ($series->{$k}) {
+                        $shows[] = $v;
+                    }
+                }
                 fputcsv($fh, mb_convert_encoding([
                     $series->id,
+                    $series->japanese_detail->model,
+                    $series->category->label(),
+                    $series->genre->label(),
+                    $series->is_new ? '1' : '0',
+                    $series->is_publish ? '1' : '0',
+                    $series->is_end ? '1' : '0',
+                    $series->is_logistics ? '1' : '0',
+                    $series->is_partner ? '1' : '0',
+                    implode(',', $shows),
+                    $series->memo,
+                    implode(',', $series->icons()->pluck('icon_id')->toArray()),
+                    implode(',', $series->features()->pluck('feature_id')->toArray()),
                 ], 'cp932', 'utf8'));
+                foreach (config('system.language.list') as $lang) {
+                    $detail = $series->details()->where('language', $lang)->first();
+                    fputcsv($fh, mb_convert_encoding([
+                        $lang,
+                        $detail->name,
+                        $detail->body1,
+                        $detail->body2,
+                        $detail->body3,
+                        $detail->note,
+                    ], 'cp932', 'utf8'));
+
+                }
             }
 
             fclose($fh);
@@ -64,6 +118,108 @@ class SeriesController extends Controller
             'Content-Type'          => 'text/csv',
             'Content-Disposition'   => sprintf('attachment; filename="leimac_series_%s.csv"', date('Ymd')),
         ]);
+    }
+
+    public function import_csv(Request $request) {
+        $file = $request->file('csv');
+        if ($file) {
+            $inserts = [];
+            $updates = [];
+            $error = null;
+            $fp = fopen($file->getRealPath(), 'r');
+            fgetcsv($fp);
+            fgetcsv($fp);
+            fgetcsv($fp);
+            $no = 3;
+            try {
+                $series = null;
+                $model = '';
+                while(($line=fgetcsv($fp))!==false) {
+                    $no++;
+                    $line = mb_convert_encoding($line, 'utf8', 'cp932');
+                    if (in_array($line[0], config('system.language.list'))) {
+                        if (!$series) {
+                            throw new \Exception('シリーズが不明です');
+                        }
+                        if (!in_array($line[0], config('system.language.list'))) {
+                            throw new \Exception('シリーズが不明です');
+                        }
+                        $detail = $series->details()->where('language', $line[0])->first();
+                        if (!$detail) {
+                            $detail = new SeriesDetail([
+                                'series_id' => $series->id,
+                                'language'  => $line[0],
+                            ]);
+                        }
+                        $detail->name       = $line[1];
+                        $detail->model      = $model;
+                        $detail->body1      = $line[2];
+                        $detail->body2      = $line[3];
+                        $detail->body3      = $line[4];
+                        $detail->note       = $line[5];
+                        $detail->save();
+                    } else {
+                        $s = null;
+                        if (is_numeric($line[0])) {
+                            $s = Series::find($line[0]);
+                            if (!$s) {
+                                throw new \Exception('シリーズが存在しません');
+                            }
+                        } else if ($line[0]=='') {
+                            $s = new Series();
+                        } else {
+                            throw new \Exception('"ID" が不正です');
+                        }
+                        if ($s) {
+                            $tmp = array_search($line[2], config('enums.system.category'));
+                            if ($tmp===false) {
+                                throw new \Exception('"品目タイプ" が不正です');
+                            }
+                            $s->category = $tmp;
+
+                            $tmp = array_search($line[3], config('enums.system.genre'));
+                            if ($tmp===false) {
+                                throw new \Exception('"ジャンル" が不正です');
+                            }
+                            $s->genre = $tmp;
+                            
+                            $s->is_new          = $line[4];
+                            $s->is_publish      = $line[5];
+                            $s->is_end          = $line[6];
+                            $s->is_logistics    = $line[7];
+                            $s->is_partner      = $line[8];
+                            $s->memo            = $line[10];
+
+                            $on_shows = explode(',', $line[9]);
+                            foreach (config('enums.system.series_show') as $k => $v) {
+                                $s->{$k} = in_array($v, $on_shows);
+                            }
+
+                            $new = $s->id ? false : true;
+                            $s->save();
+                            if ($new) {
+                                $inserts[] = $s->id;
+                            } else {
+                                $updates[] = $s->id;
+                            }
+
+                            $s->icons()->sync(explode(',', $line[11]));
+                            $s->features()->sync(explode(',', $line[12]));
+
+                            $model = $line[1];
+                            $series = $s;
+                            continue;
+                        }
+                    }
+                    throw new \Exception('未知の不正です');
+                }
+            } catch (\Exception $e) {
+                $error = $no . '行目：' . $e->getMessage();
+            }
+
+            echo $error;
+            exit;
+        }
     }
 
     /**

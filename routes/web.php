@@ -82,7 +82,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('series',                   SeriesController::class)->except('show');
         Route::post(    'series/update_multiple',   [SeriesController::class, 'update_multiple'])   ->name('series.update_multiple');
         Route::post(    'series/destroy_multiple',  [SeriesController::class, 'destroy_multiple'])  ->name('series.destroy_multiple');
-        Route::post(    'series/csv',               [SeriesController::class, 'csv'])               ->name('series.csv');
+        Route::post(    'series/export_csv',        [SeriesController::class, 'export_csv'])        ->name('series.export_csv');
+        Route::post(    'series/import_csv',        [SeriesController::class, 'import_csv'])        ->name('series.import_csv');
 
         Route::resource('item',                     ItemController::class)->except('show');
         Route::post(    'item/update_multiple',     [ItemController::class, 'update_multiple'])     ->name('item.update_multiple');
@@ -96,8 +97,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post(    'group/{group}/destroy_items',  [CableItemGroupController::class, 'destroy_items'])     ->name('group.destroy_items');
         Route::post(    'group/csv',                    [CableItemGroupController::class, 'csv'])               ->name('group.csv');
 
-        Route::get(     'csv',                          [CsvController::class, 'index'])                        ->name('csv.index');
-        Route::post(    'csv/upload',                   [CsvController::class, 'upload'])                       ->name('csv.upload');
+        Route::get(     'csv',                          [CsvController::class, 'index'])                        ->name('csv');
 
     });
 });

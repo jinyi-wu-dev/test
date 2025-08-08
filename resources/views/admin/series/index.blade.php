@@ -34,7 +34,9 @@
   ])
   <section class="content">
     <div class="container-fluid">
+      
       <div class="row">
+
         <div class="col-12">
           <div class="card card-primary card-outline collapsed-card">
             <div class="card-header">
@@ -156,6 +158,32 @@
             </div>
           </div>
         </div>
+
+        <div class="col-12">
+          <div class="card card-primary card-outline collapsed-card">
+            <div class="card-header">
+              <h3 class="card-title">CSVアップロード</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="callout callout-secondary">
+                @include('admin.parts.form_file', [
+                  'name'        => 'catalogue',
+                  'label'       => 'CSV',
+                ])
+                <button type="submit" class="btn btn-info">　検　索　</button>  
+                <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                  $('form').attr('action', '{{ route('admin.series.export_csv') }}').attr('target', '_blank').attr('method', 'post');
+                ">　CSV出力　</button>  
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="col-md-12 mx-auto">
           <div class="card card-primary card-outline">
             <div class="card-header">
@@ -173,9 +201,9 @@
                   'name'  => 'keyword',
                   'value' => request('keyword'),
                 ])
-                <button type="submit" class="btn btn-secondary">　検　索　</button>  
-                <button type="submit" class="btn btn-success btn-sm float-right" onClick="
-                  $('form').attr('action', '{{ route('admin.series.csv') }}').attr('target', '_blank').attr('method', 'post');
+                <button type="submit" class="btn btn-info">　検　索　</button>  
+                <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                  $('form').attr('action', '{{ route('admin.series.export_csv') }}').attr('target', '_blank').attr('method', 'post');
                 ">　CSV出力　</button>  
               </div>
               <div class="row">

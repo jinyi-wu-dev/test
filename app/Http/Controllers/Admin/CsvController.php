@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -10,9 +11,6 @@ class CsvController extends Controller
 {
     public function index()
     {
-    }
-
-    public function upload(Request $request)
-    {
+        return view('admin/csv');
     }
 }

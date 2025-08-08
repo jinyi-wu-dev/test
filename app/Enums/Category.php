@@ -15,10 +15,10 @@ enum Category: string
 
     public function label(): string {
         return match($this) {
-            Category::LIGHTING      => '照明',
-            Category::CONTROLLER    => 'コントローラー',
-            Category::CABLE         => 'ケーブル',
-            Category::OPTION        => 'オプション',
+            Category::LIGHTING      => config('enums.system.category.lighting'),
+            Category::CONTROLLER    => config('enums.system.category.controller'),
+            Category::CABLE         => config('enums.system.category.cable'),
+            Category::OPTION        => config('enums.system.category.option'),
         };
     }
 }

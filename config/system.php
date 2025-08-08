@@ -60,5 +60,6 @@ return [
             'external_view_dxf' => 'external_view_dxf_{language}',
         ],
     ],
+
 ];
 

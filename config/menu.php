@@ -112,7 +112,7 @@ return [
     ], [
         'type'  => 'item',
         'label' => 'CSVアップロード',
-        'route' => 'admin.csv.index',
+        'route' => 'admin.csv',
         'icon'  => 'fa-user',
     ],
 ];
