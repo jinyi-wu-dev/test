@@ -93,9 +93,9 @@
                           @if($key==0)
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->remarks }}</td>
                             <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->requested_at }}</td>
-                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->prefecture->label() }}</td>
-                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->company }}</td>
-                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user->name }}</td>
+                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user ? $lend_item->user->prefecture->label() : '' }}</td>
+                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user ? $lend_item->user->company : '' }}</td>
+                            <td rowspan="{{ count($lend_item->items) }}">{{ $lend_item->user ? $lend_item->user->name : '(削除会員)' }}</td>
                           @endif
                         </tr>
                       @endforeach

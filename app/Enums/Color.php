@@ -36,6 +36,20 @@ enum Color: string
                 self::IR_OVER_1000  => 'IR（1000nm～）',
                 self::UV_UNDER_280  => 'UV（〜280nm）',
                 self::UV_OVER_280   => 'UV（280nm〜）',
+            },
+            'en' => match($this) {
+                self::NONE          => '',
+                self::WHITE         => '白',
+                self::BLUE          => '青',
+                self::GREEN         => '緑',
+                self::YELLOW        => '黄',
+                self::RED           => '赤',
+                self::FULL_COLOR    => 'フルカラーRGB',
+                self::MULTI_COLOR   => '7色マルチカラー',
+                self::IR_UNDER_1000 => 'IR（～1000nm）',
+                self::IR_OVER_1000  => 'IR（1000nm～）',
+                self::UV_UNDER_280  => 'UV（〜280nm）',
+                self::UV_OVER_280   => 'UV（280nm〜）',
             }
         };
     }

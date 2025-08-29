@@ -13,36 +13,49 @@
                   'name'      => $lang.':type',
                   'label'     => 'タイプ',
                   'value'     => $detail->type ?? '',
+                  'disabled'  => $lang!='ja' && in_array('type', config('system.common_columns.option')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':throughput',
                   'label'     => '透過率',
                   'value'     => $detail->throughput ?? '',
+                  'disabled'  => $lang!='ja' && in_array('throughput', config('system.common_columns.option')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':description1',
                   'label'     => '欄外記述1',
                   'value'     => $detail->description1 ?? '',
+                  'disabled'  => $lang!='ja' && in_array('description1', config('system.common_columns.option')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':description2',
                   'label'     => '欄外記述2',
                   'value'     => $detail->description2 ?? '',
+                  'disabled'  => $lang!='ja' && in_array('description2', config('system.common_columns.option')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':description3',
                   'label'     => '欄外記述3',
                   'value'     => $detail->description3 ?? '',
+                  'disabled'  => $lang!='ja' && in_array('description3', config('system.common_columns.option')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':description4',
                   'label'     => '欄外記述4',
                   'value'     => $detail->description4 ?? '',
+                  'disabled'  => $lang!='ja' && in_array('description4', config('system.common_columns.option')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => $lang.':description5',
                   'label'     => '欄外記述5',
                   'value'     => $detail->description5 ?? '',
+                  'disabled'  => $lang!='ja' && in_array('description5', config('system.common_columns.option')),
+                ])
+                @include('admin.parts.form_text', [
+                  'name'      => $lang.':note',
+                  'label'     => '注意書き',
+                  'value'     => $detail->note ?? '',
+                  'disabled'  => $lang!='ja' && in_array('note', config('system.common_columns.option')),
                 ])
               </div>
             </div>

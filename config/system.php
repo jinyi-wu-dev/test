@@ -30,6 +30,19 @@ return [
         'link_url'      => 'https://leimac.co.jp/news/',
     ],
 
+    'common_columns' => [
+        'series' => [
+            'model',
+        ],
+        'lighting' => [
+            'color',
+        ],
+        'cable' => [
+        ],
+        'option' => [
+        ],
+    ],
+
     'csv' => [
         'series' => [
             'identifier'    => '[series]',

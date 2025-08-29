@@ -71,8 +71,10 @@ class CableItemGroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CableItemGroup $group)
+    public function update(Request $request, $id)
     {
+        $group = CableItemGroup::find($id);
+
         $request->validate([
         ]);
         list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
@@ -93,8 +95,8 @@ class CableItemGroupController extends Controller
         list($single_params, $cable_params) = $this->splitMultiParameters($multi_params['cable']);
         $shape_cable_params = [];
         foreach ($single_params['cable_ids'] as $pos => $id) {
-            $params = [];
             foreach ($cable_params as $label => $values) {
+                $params = [];
                 if (in_array($label, ['common2'])) {
                     continue;
                 }
@@ -107,11 +109,18 @@ class CableItemGroupController extends Controller
         foreach ($group->items() as $item) {
             $item->fill($multi_params['item']);
             $item->fill($shape_cable_params[$item->id]['common']);
-            $item->is_lend = in_array($item->id, $cable_params['common2']['is_lend']);
+            $item->is_lend      = in_array($item->id, $cable_params['common2']['is_lend']);
+            $item->is_RoHS      = $multi_params['item']['cs_rohs']=='RoHS';
+            $item->is_RoHS2     = $multi_params['item']['cs_rohs']=='RoHS2';
+            $item->is_CN_RoHSe1     = $multi_params['item']['cs_crohs']=='e_1';
+            $item->is_CN_RoHS102    = $multi_params['item']['cs_crohs']=='10_2';
             $item->save();
 
             unset($shape_cable_params[$item->id]['common']);
             foreach ($shape_cable_params[$item->id] as $lang => $values) {
+                if ($lang!='ja') {
+                    $values = $values + $shape_cable_params[$item->id]['ja'];
+                }
                 CableItem::updateOrInsert([
                     'item_id'   => $item->id,
                     'language'  => $lang,
@@ -130,9 +139,10 @@ class CableItemGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CableItemGroup $group)
+    public function destroy($id)
     {
-        $id = $group->id;
+        $group = CableItemGroup::find($id);
+
         $group->delete();
         return redirect()
             ->route('admin.cable.index')
@@ -168,8 +178,10 @@ class CableItemGroupController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
     }
 
-    public function add_item(Request $request, CableItemGroup $group)
+    public function add_item(Request $request, $id)
     {
+        $group = CableItemGroup::find($id);
+
         $item = new Item();
         $item->save();
 
@@ -181,7 +193,9 @@ class CableItemGroupController extends Controller
             ->with('message', sprintf(config('system.messages.create_succeeded'), $item->id));
     }
     
-    public function destroy_items(Request $request, CableItemGroup $group) {
+    public function destroy_items(Request $request, $id) {
+        $group = CableItemGroup::find($id);
+
         $group->removeItems($request->removes);
         $group->save();
 

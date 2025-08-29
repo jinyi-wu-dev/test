@@ -191,7 +191,7 @@
                     <div class="p-2">
                       @include('admin.parts.custom_checkbox', [
                         'switch'    => true,
-                        'name'      => 'show_seg',
+                        'name'      => 'show_sag',
                         'label'     => 'SAG値',
                         'valiable'  => 'series',
                         'empty_value' => true,
@@ -360,31 +360,37 @@
                   'name'      => 'en:name',
                   'label'     => 'シリーズ名',
                   'value'     => $details['en']->name ?? '',
+                  'disabled'  => in_array('name', config('system.common_columns.series')),
                 ])
                 @include('admin.parts.form_text', [
                   'name'      => 'en:model',
                   'label'     => 'シリーズ型式',
-                  'disabled'  => true,
+                  'value'     => $details['en']->model ?? '',
+                  'disabled'  => in_array('model', config('system.common_columns.series')),
                 ])
                 @include('admin.parts.form_textarea', [
                   'name'      => 'en:body1',
                   'label'     => '本文１',
                   'value'     => $details['en']->body1 ?? '',
+                  'disabled'  => in_array('body1', config('system.common_columns.series')),
                 ])
                 @include('admin.parts.form_textarea', [
                   'name'      => 'en:body2',
                   'label'     => '本文２',
                   'value'     => $details['en']->body2 ?? '',
+                  'disabled'  => in_array('body2', config('system.common_columns.series')),
                 ])
                 @include('admin.parts.form_textarea', [
                   'name'      => 'en:body3',
                   'label'     => '本文３',
                   'value'     => $details['en']->body3 ?? '',
+                  'disabled'  => in_array('body3', config('system.common_columns.series')),
                 ])
                 @include('admin.parts.form_textarea', [
                   'name'      => 'en:note',
                   'label'     => '注意書き',
                   'value'     => $details['en']->note ?? '',
+                  'disabled'  => in_array('note', config('system.common_columns.series')),
                 ])
               </div>
             </div>

@@ -319,6 +319,9 @@ class ItemController extends Controller
         foreach ($multi_params as $lang => $values) {
             unset($values['external_view_pdf']);
             unset($values['external_view_dxf']);
+            if ($lang!='ja') {
+                $values = $values + $multi_params['ja'];
+            }
             LightingItem::updateOrInsert([
                 'item_id'   => $item->id,
                 'language'  => $lang,
@@ -336,6 +339,9 @@ class ItemController extends Controller
         foreach ($multi_params as $lang => $values) {
             unset($values['external_view_pdf']);
             unset($values['external_view_dxf']);
+            if ($lang!='ja') {
+                $values = $values + $multi_params['ja'];
+            }
             ControllerItem::updateOrInsert([
                 'item_id'   => $item->id,
                 'language'  => $lang,
@@ -353,6 +359,9 @@ class ItemController extends Controller
         foreach ($multi_params as $lang => $values) {
             unset($values['external_view_pdf']);
             unset($values['external_view_dxf']);
+            if ($lang!='ja') {
+                $values = $values + $multi_params['ja'];
+            }
             OptionItem::updateOrInsert([
                 'item_id'   => $item->id,
                 'language'  => $lang,

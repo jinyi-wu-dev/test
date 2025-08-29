@@ -83,6 +83,32 @@
                   'label'     => '使用湿度',
                   'value'     => $first_item->operating_humidity ?? '',
                 ])
+                <div class="row">
+                  <div class="col-2">
+                    @include('admin.parts.form_radio', [
+                      'name'      => 'item:cs_rohs',
+                      'label'     => '適合規格1',
+                      'value'     => isset($first_item) ?  ($first_item->is_RoHS ? 'RoHS' : ($first_item->is_RoHS2 ? 'RoHS2' : '')) : '',
+                      'list'      => [
+                        'RoHS'    => 'RoHS',
+                        'RoHS2'   => 'RoHS2',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                  <div class="col-3">
+                    @include('admin.parts.form_radio', [
+                      'name'      => 'item:cs_crohs',
+                      'label'     => '適合規格2',
+                      'value'     => isset($first_item) ? ($first_item->is_CN_RoHSe1 ? 'e_1' : ($first_item->is_CN_RoHS102 ? '10_2' : '')) : '',
+                      'list'      => [
+                        'e_1'     => '中国RoHS e-1',
+                        '10_2'    => '中国RoHS 10-2',
+                        ''        => 'なし',
+                      ],
+                    ])
+                  </div>
+                </div>
                 @include('admin.parts.form_textarea', [
                   'name'      => 'item:memo',
                   'label'     => '備考欄',

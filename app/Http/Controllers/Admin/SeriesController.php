@@ -169,6 +169,9 @@ class SeriesController extends Controller
         $series->uploadFile('manual', $request->file('manual'));
 
         foreach ($multi_params as $lang => $values) {
+            if ($lang!='ja') {
+                $values = $values + $multi_params['ja'];
+            }
             SeriesDetail::updateOrInsert([
                 'series_id' => $series->id,
                 'language'  => $lang,
