@@ -123,6 +123,15 @@ class Item extends Model
         return $this->hasOne(OptionItem::class, 'item_id')->where('language', config('system.language.default'));
     }
 
+    public function locale_item() {
+        return match($this->series->category) {
+            Category::LIGHTING => $this->locale_lighting_item(),
+            Category::CONTROLLER => $this->locale_controller_item(),
+            Category::CABLE => $this->locale_cable_Item(),
+            Category::OPTION => $this->locale_option_item(),
+        };
+    }
+
     public function locale_lighting_item() {
         return $this->hasOne(LightingItem::class, 'item_id')->where('language', app()->getLocale());
     }

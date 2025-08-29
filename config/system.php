@@ -37,6 +37,8 @@ return [
         'lighting' => [
             'color',
         ],
+        'controller' => [
+        ],
         'cable' => [
         ],
         'option' => [

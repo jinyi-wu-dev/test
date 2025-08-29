@@ -29,6 +29,7 @@
 @section('footer')
   <footer class="main-footer fixed-bottom">
     <button type="submit" class="btn btn-primary">　変　更　</button>  
+    <button type="button" class="btn btn-sm btn-info ml-5" onclick="window.open('{{ route('item', $item) }}', '_blank')">　ページ表示　</button>  
     <button type="button" class="btn btn-danger btn-sm float-right" data-toggle="modal" data-target="#conformModal">　削　除　</button>
   </footer>
   </form>

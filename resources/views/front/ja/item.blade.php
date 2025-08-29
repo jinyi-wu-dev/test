@@ -37,11 +37,11 @@
               <h2 class="detail-title">{{ $item->model }}</h2>
               <div class="index-textarea">
                 <p>
-                  {{ $item->locale_lighting_item->description1 }}<br/>
-                  {{ $item->locale_lighting_item->description2 }}<br/>
-                  {{ $item->locale_lighting_item->description3 }}<br/>
-                  {{ $item->locale_lighting_item->description4 }}<br/>
-                  {{ $item->locale_lighting_item->description5 }}<br/>
+                  {{ $item->locale_item->description1 }}<br/>
+                  {{ $item->locale_item->description2 }}<br/>
+                  {{ $item->locale_item->description3 }}<br/>
+                  {{ $item->locale_item->description4 }}<br/>
+                  {{ $item->locale_item->description5 }}<br/>
                 </p>
               </div>
               <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
@@ -74,7 +74,7 @@
                       <tbody>
                         <tr>
                           <th>タイプ</th>
-                          <td>{{ $item->locale_lighting_item->type }}</td>
+                          <td>{{ $item->locale_item->type }}</td>
                         </tr>
                         <tr>
                           <th>型　式</th>
