@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasCompositePrimaryKey;
 
 class CableItem extends Model
 {
+    use HasCompositePrimaryKey;
+
     protected $primaryKey = ['item_id', 'language'];
 
     public $incrementing = false;
@@ -13,7 +16,8 @@ class CableItem extends Model
     protected $fillable = [
         'item_id',
         'language',
-        'type',
+        'conditions',
+        'length',
     ];
 
 }

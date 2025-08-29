@@ -87,12 +87,12 @@ return [
     ], [
         'type'  => 'item',
         'label' => '個別（ｹｰﾌﾞﾙ）一覧',
-        'route' => 'admin.group.index',
+        'route' => 'admin.cable.index',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',
         'label' => '個別（ｹｰﾌﾞﾙ）登録',
-        'route' => 'admin.group.create',
+        'route' => 'admin.cable.create',
         'icon'  => 'fa-user',
     ], [
         'type'  => 'item',

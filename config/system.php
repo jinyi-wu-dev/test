@@ -30,6 +30,29 @@ return [
         'link_url'      => 'https://leimac.co.jp/news/',
     ],
 
+    'csv' => [
+        'series' => [
+            'identifier'    => '[series]',
+            'filename'      => sprintf('leimac_series_%s.csv', date('Ymd')),
+        ],
+        'lighting' => [
+            'identifier'    => '[led]',
+            'filename'      => sprintf('leimac_led_%s.csv', date('Ymd')),
+        ],
+        'controller' => [
+            'identifier'    => '[controller]',
+            'filename'      => sprintf('leimac_controller_%s.csv', date('Ymd')),
+        ],
+        'cable' => [
+            'identifier'    => '[cable]',
+            'filename'      => sprintf('leimac_cable_%s.csv', date('Ymd')),
+        ],
+        'option' => [
+            'identifier'    => '[option]',
+            'filename'      => sprintf('leimac_option_%s.csv', date('Ymd')),
+        ],
+    ],
+
     'file' => [
         'public_storage'        => 'storage',
 

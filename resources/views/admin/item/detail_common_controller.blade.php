@@ -16,6 +16,18 @@
                   'options'   => App\Enums\DimmableControl::keyLabel(),
                 ])
                 <div class="form-group">
+                  <label>外部ON/OFF制御</label>
+                  <div>
+                    @include('admin.parts.custom_checkbox', [
+                      'switch'      => true,
+                      'name'        => '_c:is_external_switch',
+                      'label'       => 'ON',
+                      'value'       => $detail->is_external_switch ?? '',
+                      'empty_value' => true,
+                    ])
+                  </div>
+                </div>
+                <div class="form-group">
                   <label>外部調光制御</label>
                   <div>
                     @include('admin.parts.custom_checkbox', [

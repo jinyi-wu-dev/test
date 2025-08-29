@@ -26,6 +26,7 @@ Route::get('/test', function () {
 
 
 Route::get( '/',                    [TopController::class, 'index'])            ->name('index');
+Route::get( '/lang/{lang}',         [TopController::class, 'lang'])             ->name('lang');
 
 Route::get( '/signup',              [SignupController::class, 'index'])         ->name('signup');
 Route::post('/signup/confirm',      [SignupController::class, 'confirm'])       ->name('signup.confirm');
@@ -85,17 +86,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post(    'series/export_csv',        [SeriesController::class, 'export_csv'])        ->name('series.export_csv');
         Route::post(    'series/import_csv',        [SeriesController::class, 'import_csv'])        ->name('series.import_csv');
 
-        Route::resource('item',                     ItemController::class)->except('show');
-        Route::post(    'item/update_multiple',     [ItemController::class, 'update_multiple'])     ->name('item.update_multiple');
-        Route::post(    'item/destroy_multiple',    [ItemController::class, 'destroy_multiple'])    ->name('item.destroy_multiple');
-        Route::post(    'item/csv',                 [ItemController::class, 'csv'])                 ->name('item.csv');
+        Route::resource('item',                         ItemController::class)->except('show');
+        Route::post(    'item/update_multiple',         [ItemController::class, 'update_multiple'])             ->name('item.update_multiple');
+        Route::post(    'item/destroy_multiple',        [ItemController::class, 'destroy_multiple'])            ->name('item.destroy_multiple');
+        Route::post(    'item/export_lighting_csv',     [ItemController::class, 'export_lighting_csv'])         ->name('item.export_lighting_csv');
+        Route::post(    'item/export_controller_csv',   [ItemController::class, 'export_controller_csv'])       ->name('item.export_controller_csv');
+        Route::post(    'item/export_option_csv',       [ItemController::class, 'export_option_csv'])           ->name('item.export_option_csv');
+        Route::post(    'item/import_lighting_csv',     [ItemController::class, 'import_lighting_csv'])         ->name('item.import_lighting_csv');
+        Route::post(    'item/import_controller_csv',   [ItemController::class, 'import_controller_csv'])       ->name('item.import_controller_csv');
+        Route::post(    'item/import_option_csv',       [ItemController::class, 'import_option_csv'])           ->name('item.import_option_csv');
 
-        Route::resource('group',                        CableItemGroupController::class)->except('show');
-        Route::post(    'group/update_multiple',        [CableItemGroupController::class, 'update_multiple'])   ->name('group.update_multiple');
-        Route::post(    'group/destroy_multiple',       [CableItemGroupController::class, 'destroy_multiple'])  ->name('group.destroy_multiple');
-        Route::post(    'group/{group}/add_item',       [CableItemGroupController::class, 'add_item'])          ->name('group.add_item');
-        Route::post(    'group/{group}/destroy_items',  [CableItemGroupController::class, 'destroy_items'])     ->name('group.destroy_items');
-        Route::post(    'group/csv',                    [CableItemGroupController::class, 'csv'])               ->name('group.csv');
+        Route::resource('cable',                        CableItemGroupController::class)->except('show');
+        Route::post(    'cable/update_multiple',        [CableItemGroupController::class, 'update_multiple'])   ->name('cable.update_multiple');
+        Route::post(    'cable/destroy_multiple',       [CableItemGroupController::class, 'destroy_multiple'])  ->name('cable.destroy_multiple');
+        Route::post(    'cable/{group}/add_item',       [CableItemGroupController::class, 'add_item'])          ->name('cable.add_item');
+        Route::post(    'cable/{group}/destroy_items',  [CableItemGroupController::class, 'destroy_items'])     ->name('cable.destroy_items');
+        Route::post(    'cable/import_csv',             [CableItemGroupController::class, 'import_csv'])        ->name('cable.import_csv');
+        Route::post(    'cable/export_csv',             [CableItemGroupController::class, 'export_csv'])        ->name('cable.export_csv');
 
         Route::get(     'csv',                          [CsvController::class, 'index'])                        ->name('csv');
 

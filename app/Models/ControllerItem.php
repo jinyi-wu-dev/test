@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Enums\DimmableControl;
 use App\Traits\FileUploadable;
+use App\Traits\HasCompositePrimaryKey;
 
 class ControllerItem extends Model
 {
     use FileUploadable;
+    use HasCompositePrimaryKey;
 
     protected $primaryKey = ['item_id', 'language'];
 

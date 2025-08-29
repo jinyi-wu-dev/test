@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\FileUploadable;
+use App\Traits\HasCompositePrimaryKey;
 use App\Enums\Color;
 
 class LightingItem extends Model
 {
     use FileUploadable;
+    use HasCompositePrimaryKey;
 
     protected $primaryKey = ['item_id', 'language'];
 

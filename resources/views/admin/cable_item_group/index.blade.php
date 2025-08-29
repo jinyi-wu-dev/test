@@ -11,7 +11,7 @@
 
 
 @section('form')
-  <form method="get" action="{{ route('admin.group.index') }}"> 
+  <form method="get" action="{{ route('admin.cable.index') }}"> 
   @csrf
 @endsection
 
@@ -285,7 +285,10 @@
                   'name'  => 'keyword',
                   'value' => request('keyword'),
                 ])
-                <button type="submit" class="btn btn-secondary">　検　索　</button>  
+                <button type="submit" class="btn btn-info">　検　索　</button>  
+                <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                  $('form').attr('action', '{{ route('admin.cable.export_csv') }}').attr('target', '_blank').attr('method', 'post');
+                ">　CSV出力　</button>  
               </div>
               <div class="row">
                 <table class="table table-bordered table-striped">
@@ -397,7 +400,7 @@
                         <td
                           rowspan="{{ $num_of_items }}"
                           >
-                          <a href="{{ route('admin.group.edit', $g->id) }}">{{ $g->id }}</a>
+                          <a href="{{ route('admin.cable.edit', $g->id) }}">{{ $g->id }}</a>
                           <input type="hidden" name="group_ids[]" value="{{ $g->id }}">
                         </td>
                         <td class="CDT-series_category" rowspan="{{ $num_of_items }}">
@@ -588,10 +591,10 @@
       initImageRange('.custom-range', '.list-image');
     })
     function doUpdate() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.update_multiple') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.cable.update_multiple') }}').submit();
     }
     function doDelete() {
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.destroy_multiple') }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.cable.destroy_multiple') }}').submit();
     }
   </script>
 @endsection

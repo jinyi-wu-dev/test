@@ -130,7 +130,7 @@ return new class extends Migration
             $table->boolean('show_luminous_color')->default(false);
             $table->boolean('show_lt_num_of_ch')->default(false);
             $table->boolean('show_power_consumption')->default(false);
-            $table->boolean('show_seg')->default(false);
+            $table->boolean('show_sag')->default(false);
             $table->boolean('show_input_voltage')->default(false);
 
             $table->boolean('show_diming_controll')->default(false);
@@ -234,7 +234,8 @@ return new class extends Migration
         Schema::create('cable_items', function (Blueprint $table) {
             $table->bigInteger('item_id')->unsigned();
             $table->enum('language', ['ja', 'en'])->default('ja');
-            $table->string('type')->default('');
+            $table->string('conditions')->default('');
+            $table->string('length')->default('');
             $table->timestamps();
             $table->primary(['item_id', 'language']);
         });

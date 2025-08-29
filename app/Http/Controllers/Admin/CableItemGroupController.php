@@ -10,6 +10,7 @@ use App\Models\CableItemGroup;
 use App\Models\CableItemGroupDetail;
 use App\Models\LightingItem;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CableItemGroupController extends Controller
 {
@@ -56,8 +57,9 @@ class CableItemGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CableItemGroup $group)
+    public function edit($id)
     {
+        $group = CableItemGroup::find($id);
         return view('admin/cable_item_group/edit', [
             'group'         => $group,
             'first_item'    => $group->first_item(),
@@ -121,7 +123,7 @@ class CableItemGroupController extends Controller
         }
 
         return redirect()
-            ->route('admin.group.index')
+            ->route('admin.cable.index')
             ->with('message', sprintf(config('system.messages.update_succeeded'), $group->id));
     }
 
@@ -133,7 +135,7 @@ class CableItemGroupController extends Controller
         $id = $group->id;
         $group->delete();
         return redirect()
-            ->route('admin.group.index')
+            ->route('admin.cable.index')
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $id));
     }
 
@@ -150,7 +152,7 @@ class CableItemGroupController extends Controller
             }
         }
         return redirect()
-            ->route('admin.group.index')
+            ->route('admin.cable.index')
             ->withInput($request->only('keyword'))
             ->with('message', sprintf(config('system.messages.update_succeeded'), implode(',', $request->group_ids)));
     }
@@ -162,7 +164,7 @@ class CableItemGroupController extends Controller
             $group->delete();
         }
         return redirect()
-            ->route('admin.group.index')
+            ->route('admin.cable.index')
             ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
     }
 
@@ -175,7 +177,7 @@ class CableItemGroupController extends Controller
         $group->save();
 
         return redirect()
-            ->route('admin.group.edit', $group)
+            ->route('admin.cable.edit', $group)
             ->with('message', sprintf(config('system.messages.create_succeeded'), $item->id));
     }
     
@@ -189,8 +191,224 @@ class CableItemGroupController extends Controller
         }
 
         return redirect()
-            ->route('admin.group.edit', $group)
+            ->route('admin.cable.edit', $group)
             ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
+    }
+
+
+    /**
+     * --------------------------------------------------------------------------------------------
+     *  CSV
+     * --------------------------------------------------------------------------------------------
+     */
+    public function export_csv(Request $request)
+    {
+        //$list = $this->query($request)->get();
+        $list = CableItemGroup::get();
+        return new StreamedResponse(function() use ($list) {
+            $fh = fopen('php://output', 'w');
+
+            fputcsv($fh, mb_convert_encoding([
+                'ID',
+                'NEWステータス',
+                '公開ステータス',
+                '生産終了ステータス',
+                'シリーズ型式',
+                '電源側コネクタ',
+                '照明側コネクタ',
+                '使用温度',
+                '使用湿度',
+                '適合規格1',
+                '適合規格2',
+                '備考欄',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '言語',
+                '備考記述1',
+                '備考記述2',
+                '備考記述3',
+                '備考記述4',
+                '備考記述5',
+                '注意書き',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '',
+                'ID',
+                '貸出可能',
+                '個別型式',
+                '品番',
+                '接続条件',
+                'ケーブル長さ[ja]',
+                'ケーブル長さ[en]',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, [config('system.csv.cable.identifier')]);
+
+            foreach ($list as $group) {
+                $item = $group->first_item();
+                fputcsv($fh, mb_convert_encoding([
+                    $group->id,
+                    $item->is_new       ? '1' : '0',
+                    $item->is_publish   ? '1' : '0',
+                    $item->is_end       ? '1' : '0',
+                    $item->series->model,
+                    $group->power_connector,
+                    $group->lighting_connector,
+                    $item->operating_temperature,
+                    $item->operating_humidity,
+                    $item->is_RoHS ? '1' : ($item->is_RoHS2 ? '2' : '0'),
+                    $item->is_CN_RoHSe1 ? '1' : ($item->is_CN_RoHS102 ? '2' : '0'),
+                    $item->memo,
+                ], 'cp932', 'utf8'));
+
+                foreach (config('system.language.list') as $lang) {
+                    $detail = $group->details()->where('language', $lang)->first();
+                    fputcsv($fh, mb_convert_encoding([
+                        $lang,
+                        $detail->description1,
+                        $detail->description2,
+                        $detail->description3,
+                        $detail->description4,
+                        $detail->description5,
+                        $detail->note,
+                    ], 'cp932', 'utf8'));
+                }
+
+                foreach ($group->items() as $item) {
+                    $ja_detail = $item->cable_items()->where('language', 'ja')->first();
+                    $en_detail = $item->cable_items()->where('language', 'en')->first();
+                    fputcsv($fh, mb_convert_encoding([
+                        '',
+                        $item->id,
+                        $item->is_lend ? '1' : '0',
+                        $item->model,
+                        $item->product_number,
+                        $ja_detail->conditions,
+                        $ja_detail->length,
+                        $en_detail->length,
+                    ], 'cp932', 'utf8'));
+                }
+            }
+            fclose($fh);
+        }, 200, [
+            'Content-Type'          => 'text/csv',
+            'Content-Disposition'   => sprintf('attachment; filename="%s"', config('system.csv.cable.filename')),
+        ]);
+    }
+
+    public function import_csv(Request $request) {
+        $file = $request->file('csv');
+        if ($file) {
+            try {
+                $fp = fopen($file->getRealPath(), 'r');
+                fgetcsv($fp);
+                fgetcsv($fp);
+                fgetcsv($fp);
+                $no = 4;
+                $line = fgetcsv($fp);
+                if ($line[0]!=config('system.csv.cable.identifier')) {
+                    throw new \Exception('対象のファイルではありません');
+                }
+
+                $inserts = [];
+                $updates = [];
+                $error = '';
+                $group = null;
+                $group_info = null;
+                while(($line=fgetcsv($fp))!==false) {
+                    $no++;
+                    $line = mb_convert_encoding($line, 'utf8', 'cp932');
+
+                    if (($line[0]=='' && $line[1]!='') || is_numeric($line[0])) {
+                        $create = false;
+                        if ($line[0]=='') {
+                            $create = true;
+                            $group = new CableItemGroup();
+                        } else {
+                            $group = CableItemGroup::find($line[0]);
+                            if (!$group) {
+                                throw new \Exception('指定されたIDが存在しません');
+                            }
+                        }
+
+                        $group_info = $line;
+                        $group->power_connector     = $line[5];
+                        $group->lighting_connector  = $line[6];
+                        $group->save();
+                    } else if (in_array($line[0], config('system.language.list'))) {
+                        if (!$group) {
+                            throw new \Exception('グループが不明です');
+                        }
+                        $detail = $group->details()->where('language', $line[0])->first();
+
+                        $detail->description1   = $line[1];
+                        $detail->description2   = $line[2];
+                        $detail->description3   = $line[3];
+                        $detail->description4   = $line[4];
+                        $detail->description5   = $line[5];
+                        $detail->note           = $line[6];
+                        $detail->save();
+                    } else if ($line[0]=='' && ($line[1]=='' || is_numeric($line[1]))) {
+                        if (!$group) {
+                            throw new \Exception('グループが不明です');
+                        }
+                        if (!$group_info) {
+                            throw new \Exception('グループ情報が不明です');
+                        }
+
+                        $item = null;
+                        if ($line[1]=='') {
+                            $item = new Item();
+                        } else {
+                            $item = Item::find($line[1]);
+                            if (!$item) {
+                                throw new \Exception('指定されたIDが存在しません');
+                            }
+                        }
+
+                        $item->is_new       = $group_info[1];
+                        $item->is_publish   = $group_info[2];
+                        $item->is_end       = $group_info[3];
+
+                        $series = Series::where('model', $group_info[4])->first();
+                        if (!$series) {
+                            throw new \Exception('シリーズ型式が存在しません');
+                        }
+                        $item->series_id = $series->id;
+
+                        $item->is_lend          = $line[2];
+                        $item->model            = $line[3];
+                        $item->product_number   = $line[4];
+                        $item->save();
+
+                        foreach (condig('system.language.list') as $lang) {
+                            $detail = $item->cable_items()->where('language', $lang)->first();
+                            if (!$detail) {
+                                $detail = new CableItem();
+                                $detail->item_id = $item->id;
+                                $detail->lang    = $lang;
+                            }
+                            $detail->conditions = $line[5];
+                            $detail->length     = match($lang) {
+                                'ja' => $line[6],
+                                'en' => $line[7],
+                            };
+                            $detail->save();
+                        }
+                    } else {
+                        throw new \Exception('不明な行です');
+                    }
+                }
+            } catch (\Exception $e) {
+                $error = $no . '行目：' . $e->getMessage();
+            }
+
+            echo "新規作成";
+            print_r($inserts);
+            echo "更新";
+            print_r($updates);
+            echo $error;
+            exit;
+        }
     }
 
 

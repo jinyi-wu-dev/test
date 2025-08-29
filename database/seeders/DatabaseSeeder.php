@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
                 'show_luminous_color' => true,
                 'show_lt_num_of_ch' => true,
                 'show_power_consumption' => true,
-                'show_seg' => true,
+                'show_sag' => true,
                 'show_input_voltage' => true,
                 'show_diming_controll' => true,
                 'show_total_capacity' => true,
@@ -284,12 +284,14 @@ class DatabaseSeeder extends Seeder
                     DB::table('cable_items')->insert([
                         'item_id' => $item_id,
                         'language' => 'ja',
-                        'type' => fake()->word(),
+                        'conditions' => fake()->word(),
+                        'length' => fake()->word(),
                     ]);
                     DB::table('cable_items')->insert([
                         'item_id' => $item_id,
                         'language' => 'en',
-                        'type' => fake()->word(),
+                        'conditions' => fake()->word(),
+                        'length' => fake()->word(),
                     ]);
                     $cable_group[] = $item_id;
                 } else if ($pos==3) {

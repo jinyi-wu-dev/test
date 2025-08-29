@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class TopController extends Controller
 {
@@ -26,6 +28,13 @@ class TopController extends Controller
         return $this->languageView('index', [
             'news' => $news,
         ]);
+    }
+
+    public function lang(Request $request) {
+        if (in_array($request->lang, config('system.language.list'))) {
+            Session::put('locale', $request->lang);
+        }
+        return redirect(url()->previous());
     }
 
 }

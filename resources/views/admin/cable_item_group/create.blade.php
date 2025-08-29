@@ -8,7 +8,7 @@
 @endsection
 
 @section('form')
-  <form method="post" action="{{ route('admin.group.store') }}" enctype="multipart/form-data">
+  <form method="post" action="{{ route('admin.cable.store') }}" enctype="multipart/form-data">
 @endsection
 
 @section('form_button')

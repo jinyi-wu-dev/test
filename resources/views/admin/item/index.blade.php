@@ -81,10 +81,17 @@
                   'name'  => 'keyword',
                   'value' => request('keyword'),
                 ])
-                <button type="submit" class="btn btn-secondary">　検　索　</button>  
-                <button type="submit" class="btn btn-success btn-sm float-right" onClick="
-                  $('form').attr('action', '{{ route('admin.item.csv') }}').attr('target', '_blank').attr('method', 'post');
+                <button type="submit" class="btn btn-info">　検　索　</button>  
+                <button type="submit" class="btn btn-secondary btn-sm float-right" onClick="
+                  @if ($category==App\Enums\Category::LIGHTING)
+                    $('form').attr('action', '{{ route('admin.item.export_lighting_csv') }}').attr('target', '_blank').attr('method', 'post');
+                  @elseif ($category==App\Enums\Category::CONTROLLER)
+                    $('form').attr('action', '{{ route('admin.item.export_controller_csv') }}').attr('target', '_blank').attr('method', 'post');
+                  @elseif ($category==App\Enums\Category::OPTION)
+                    $('form').attr('action', '{{ route('admin.item.export_option_csv') }}').attr('target', '_blank').attr('method', 'post');
+                  @endif
                 ">　CSV出力　</button>  
+
               </div>
               <div class="row">
                 <table class="table table-bordered table-striped">

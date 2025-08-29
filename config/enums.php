@@ -25,6 +25,7 @@ return [
             'op_lighting'       => '照明用オプション',
             'op_other'          => 'その他オプション',
         ],
+        /*
         'series_show' => [
             'show_type'                     => 'タイプ',
             'show_model'                    => '型式',
@@ -46,6 +47,7 @@ return [
             'show_external_diming_control'  => '外部調光制御',
             'show_throughput'               => '透過率',
         ],
+         */
     ],
 
     'ja' => [

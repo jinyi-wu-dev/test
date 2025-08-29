@@ -232,10 +232,10 @@
                     <tr>
                       <th>ID</th>
                       <th>貸出可能</th>
-                      <th>タイプ</th>
                       <th>型式</th>
                       <th>品番</th>
-                      <th>器具重量</th>
+                      <th>接続条件</th>
+                      <th>ケーブル長さ</th>
                       <th>削除</th>
                     </tr>
                   </thead>
@@ -244,57 +244,67 @@
                     @php
                       $cables = $item->cable_items->keyBy('language');
                     @endphp
-                      <tr>
-                        <td>
-                          {{ $item->id }}
-                          <input type="hidden" name="cable:cable_ids[]" value="{{ $item->id }}">
-                        </td>
-                        <td>
-                          @include('admin.parts.custom_checkbox', [
-                            'switch'    => true,
-                            'name'      => 'cable:common2:is_lend[]',
-                            'id'        => 'is_lend_' . $item->id,
-                            'form_value'     => $item->id,
-                            'checked'   => $item->is_lend,
-                          ])
-                        </td>
-                        <td>
-                          @include('admin.parts.form_text', [
-                            'name'      => 'cable:ja:type[]',
-                            'value'     => $cables['ja']->type ?? '',
-                          ])
-                          @include('admin.parts.form_text', [
-                            'name'      => 'cable:en:type[]',
-                            'value'     => $cables['en']->type ?? '',
-                          ])
-                        </td>
-                        <td>
-                          @include('admin.parts.form_text', [
-                            'name'      => 'cable:common:model[]',
-                            'value'     => $item->model,
-                          ])
-                        </td>
-                        <td>
-                          @include('admin.parts.form_text', [
-                            'name'      => 'cable:common:product_number[]',
-                            'value'     => $item->product_number,
-                          ])
-                        </td>
-                        <td>
-                          @include('admin.parts.form_text', [
-                            'name'      => 'cable:common:weight[]',
-                            'value'     => $item->weight,
-                          ])
-                        </td>
-                        <td>
-                          @include('admin.parts.custom_checkbox', [
-                            'name'        => 'removes[]',
-                            'id'          => 'removes-'.$item->id,
-                            'form_value'  => $item->id,
-                            'type'        => 'danger',
-                          ])
-                        </td>
-                      </tr>
+                      @foreach (config('system.language.list') as $lang)
+                        <tr>
+                          @if ($lang=='ja')
+                            <td rowspan="2">
+                              {{ $item->id }}
+                              <input type="hidden" name="cable:cable_ids[]" value="{{ $item->id }}">
+                            </td>
+                            <td>
+                              @include('admin.parts.custom_checkbox', [
+                                'switch'    => true,
+                                'name'      => 'cable:common2:is_lend[]',
+                                'id'        => 'is_lend_' . $item->id,
+                                'form_value'     => $item->id,
+                                'checked'   => $item->is_lend,
+                              ])
+                            </td>
+                            <td rowspan="2">
+                              @include('admin.parts.form_text', [
+                                'name'      => 'cable:common:model[]',
+                                'value'     => $item->model,
+                              ])
+                            </td>
+                            <td rowspan="2">
+                              @include('admin.parts.form_text', [
+                                'name'      => 'cable:common:product_number[]',
+                                'value'     => $item->product_number,
+                              ])
+                            </td>
+                            <td rowspan="2">
+                              @include('admin.parts.form_text', [
+                                'name'      => 'cable:ja:conditions[]',
+                                'value'     => $cables['ja']->conditions ?? '',
+                              ])
+                            </td>
+                            <td>
+                              @include('admin.parts.form_text', [
+                                'name'      => 'cable:ja:length[]',
+                                'value'     => $cables['ja']->length ?? '',
+                              ])
+                            </td>
+                            <td rowspan="2">
+                              @include('admin.parts.custom_checkbox', [
+                                'name'        => 'removes[]',
+                                'id'          => 'removes-'.$item->id,
+                                'form_value'  => $item->id,
+                                'type'        => 'danger',
+                              ])
+                            </td>
+                          @else
+                            <td>
+                              {{ $lang }}
+                            </td>
+                            <td>
+                              @include('admin.parts.form_text', [
+                                'name'      => 'cable:'.$lang.':length[]',
+                                'value'     => $cables[$lang]->length ?? '',
+                              ])
+                            </td>
+                          @endif
+                        </tr>
+                      @endforeach
                     @endforeach
                     <tr>
                       <td colspan="7">
@@ -329,11 +339,11 @@
     @if (isset($group))
     function doAddItem() {
       $('input[name=_method]').val('post');
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.add_item', $group->id) }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.cable.add_item', $group->id) }}').submit();
     }
     function doDeleteItems() {
       $('input[name=_method]').val('post');
-      $('form').attr('method', 'post').attr('action', '{{ route('admin.group.destroy_items', $group->id) }}').submit();
+      $('form').attr('method', 'post').attr('action', '{{ route('admin.cable.destroy_items', $group->id) }}').submit();
     }
     @endif
   </script>

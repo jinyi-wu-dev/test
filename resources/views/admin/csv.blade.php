@@ -50,7 +50,11 @@
                   'label'     => '対象',
                   'empty'     => true,
                   'options'   => [
-                    'series' => 'シリーズ',
+                    'series'      => 'シリーズ',
+                    'lighting'    => '個別・照明',
+                    'controller'  => '個別・コントローラー',
+                    'cable'       => '個別・ケーブル',
+                    'option'      => '個別・オプション',
                   ],
                 ])
                 @include('admin.parts.form_file', [
@@ -74,6 +78,18 @@
       switch($(this).val()) {
         case 'series':
           $('form').attr('action', '{{ route('admin.series.import_csv') }}');
+          break;
+        case 'lighting':
+          $('form').attr('action', '{{ route('admin.item.import_lighting_csv') }}');
+          break;
+        case 'controller':
+          $('form').attr('action', '{{ route('admin.item.import_controller_csv') }}');
+          break;
+        case 'option':
+          $('form').attr('action', '{{ route('admin.item.import_option_csv') }}');
+          break;
+        case 'cable':
+          $('form').attr('action', '{{ route('admin.cable.import_csv') }}');
           break;
       }
     });

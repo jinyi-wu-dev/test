@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use App\Http\Middleware\CheckLocale;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -20,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
             return route('signin');
         });
         $middleware->remove(ConvertEmptyStringsToNull::class);
+
+        $middleware->web(append:[
+            CheckLocale::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

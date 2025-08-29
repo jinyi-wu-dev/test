@@ -13,7 +13,10 @@ use App\Models\Icon;
 use App\Models\Feature;
 use App\Enums\Category;
 use App\Enums\Genre;
+use App\Enums\Color;
+use App\Enums\DimmableControl;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ItemController extends Controller
 {
@@ -226,7 +229,6 @@ class ItemController extends Controller
             ->with('message', sprintf(config('system.messages.delete_succeeded'), implode(',', $request->removes)));
     }
 
-
     protected function save(Request $request, Item $item=null) {
         $request->validate([
             'series_id'  => 'required',
@@ -298,6 +300,20 @@ class ItemController extends Controller
         $related_series->sync($rs);
     }
 
+    protected function syncRelatedSeriesFromCsv($category, $related_series, $list, $errorLabel) {
+        $ids = [];
+        if ($list) {
+            foreach (explode(',', $list) as $model) {
+                $series = Series::where('model', $model)->first();
+                if (!$series) {
+                    throw new \Exception("{$errorLabel}：指定型式がありません「{$model}」");
+                }
+                $ids[] = $series->id;
+            }
+            $this->syncRelatedSeries($category, $ids, $related_series);
+        }
+    }
+
     protected function saveLighting($item, $request, $multi_params) {
         $details = $item->lighting_items->keyBy('language');
         foreach ($multi_params as $lang => $values) {
@@ -348,5 +364,688 @@ class ItemController extends Controller
             $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
         }
     }
+
+
+    /**
+     * --------------------------------------------------------------------------------------------
+     *  CSV lighting
+     * --------------------------------------------------------------------------------------------
+     */
+    public function export_lighting_csv(Request $request) {
+        $list = $this->lightingItemQuery($request)->get();
+        return new StreamedResponse(function() use ($list) {
+            $fh = fopen('php://output', 'w');
+
+            fputcsv($fh, mb_convert_encoding([
+                'ID',
+                'NEWステータス',
+                '公開ステータス',
+                '生産終了ステータス',
+                '貸出可能ステータス',
+                'シリーズ型式',
+                '個別型式',
+                '品番',
+                '使用温度',
+                '使用湿度',
+                '器具重量',
+                '適合規格1',
+                '適合規格2',
+                '適合規格3',
+                '適合規格4',
+                '適合規格5',
+                '備考欄',
+                '関連製品_コントローラー',
+                '関連製品_ケーブル',
+                '関連製品_オプション',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '言語',
+                'タイプ',
+                '発光色',
+                '発光色記号',
+                '色温度/ピーク波長',
+                '消費電力',
+                'CH数',
+                '入力',
+                'その他',
+                '備考記述1',
+                '備考記述2',
+                '備考記述3',
+                '備考記述4',
+                '備考記述5',
+                '注意書き',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, [config('system.csv.lighting.identifier')]);
+
+            foreach ($list as $item) {
+                $r_controllers = [];
+                foreach ($item->related_controllers as $r) {
+                    $r_controllers[]  = $r->model;
+                }
+                $r_controllers = implode(',', $r_controllers);
+
+                $r_cables = [];
+                foreach ($item->related_cables as $r) {
+                    $r_cables[]  = $r->model;
+                }
+                $r_cables = implode(',', $r_cables);
+
+                $r_options = [];
+                foreach ($item->related_options as $r) {
+                    $r_options[]  = $r->model;
+                }
+                $r_options = implode(',', $r_options);
+
+                fputcsv($fh, mb_convert_encoding([
+                    $item->id,
+                    $item->is_new       ? '1' : '0',
+                    $item->is_publish   ? '1' : '0',
+                    $item->is_end       ? '1' : '0',
+                    $item->is_lend      ? '1' : '0',
+                    $item->series->model,
+                    $item->model,
+                    $item->product_number,
+                    $item->operating_temperature,
+                    $item->operating_humidity,
+                    $item->weight,
+                    $item->is_RoHS ? '1' : ($item->is_RoHS2 ? '2' : '0'),
+                    $item->is_CN_RoHSe1 ? '1' : ($item->is_CN_RoHS102 ? '2' : '0'),
+                    $item->is_CE_IEC ? '1' : ($item->is_CE_EN ? '2' : '0'),
+                    $item->is_UKCA ? '1' : '0',
+                    $item->is_PSE ? '1' : '0',
+                    $item->memo,
+                    $r_controllers,
+                    $r_cables,
+                    $r_options,
+                ], 'cp932', 'utf8'));
+
+                foreach (config('system.language.list') as $lang) {
+                    $detail = $item->lighting_items()->where('language', $lang)->first();
+                    fputcsv($fh, mb_convert_encoding([
+                        $lang,
+                        $detail->type,
+                        $detail->color->label(),
+                        $detail->color1,
+                        $detail->color2,
+                        $detail->power_consumption,
+                        $detail->num_of_ch,
+                        $detail->input,
+                        $detail->etc,
+                        $detail->description1,
+                        $detail->description2,
+                        $detail->description3,
+                        $detail->description4,
+                        $detail->description5,
+                        $detail->note,
+                    ], 'cp932', 'utf8'));
+                }
+            }
+            fclose($fh);
+        }, 200, [
+            'Content-Type'          => 'text/csv',
+            'Content-Disposition'   => sprintf('attachment; filename="%s"', config('system.csv.lighting.filename')),
+        ]);
+    }
+
+    public function import_lighting_csv(Request $request) {
+        $file = $request->file('csv');
+        if ($file) {
+            try {
+                $inserts = [];
+                $updates = [];
+                $error = '';
+
+                $fp = fopen($file->getRealPath(), 'r');
+                fgetcsv($fp);
+                fgetcsv($fp);
+                $no = 3;
+                $line = fgetcsv($fp);
+                if ($line[0]!=config('system.csv.lighting.identifier')) {
+                    throw new \Exception('対象のファイルではありません');
+                }
+
+                $item = null;
+                while(($line=fgetcsv($fp))!==false) {
+                    $no++;
+                    $line = mb_convert_encoding($line, 'utf8', 'cp932');
+                    if ($line[0]=='' || is_numeric($line[0])) {
+                        $create = false;
+                        $item = null;
+                        if ($line[0]=='') {
+                            $create = true;
+                            $item = new Item();
+                        } else {
+                            $item = Item::find($line[0]);
+                            if (!$item) {
+                                throw new \Exception('指定されたIDが存在しません');
+                            }
+                        }
+
+                        $item->is_new       = $line[1];
+                        $item->is_publish   = $line[2];
+                        $item->is_end       = $line[3];
+                        $item->is_lend      = $line[4];
+
+                        $series = Series::where('model', $line[5])->first();
+                        if (!$series) {
+                            throw new \Exception('シリーズ型式が存在しません');
+                        }
+                        $item->series_id = $series->id;
+
+                        $item->model                    = $line[6];
+                        $item->product_number           = $line[7];
+                        $item->operating_temperature    = $line[8];
+                        $item->operating_humidity       = $line[9];
+                        $item->weight                   = $line[10];
+
+                        $item->is_RoHS          = $line[11]=='1';
+                        $item->is_RoHS2         = $line[11]=='2';
+                        $item->is_CN_RoHSe1     = $line[12]=='1';
+                        $item->is_CN_RoHS102    = $line[12]=='2';
+                        $item->is_CE_IEC        = $line[13]=='1';
+                        $item->is_CE_EN         = $line[13]=='2';
+                        $item->is_UKCA          = $line[14]=='1';
+                        $item->is_PSE           = $line[15]=='1';
+
+                        $item->memo = $line[16];
+
+                        $this->syncRelatedSeriesFromCsv(CATEGORY::CONTROLLER, $item->related_controllers(), $line[17], '関連製品コントローラー');
+                        $this->syncRelatedSeriesFromCsv(CATEGORY::CABLE, $item->related_cables(), $line[18], '関連製品ケーブル');
+                        $this->syncRelatedSeriesFromCsv(CATEGORY::OPTION, $item->related_options(), $line[19], '関連製品オプション');
+
+                        $item->save();
+                    } else if (in_array($line[0], config('system.language.list'))) {
+                        if (!$item) {
+                            throw new \Exception('個別が不明です');
+                        }
+                        $detail = $item->lighting_items()->where('language', $line[0])->first();
+                        if (!$detail) {
+                            $detail = new LightingItem([
+                                'item_id'   => $item->id,
+                                'language'  => $line[0],
+                            ]);
+                        }
+                        $detail->type               = $line[1];
+                        $detail->color              = match($line[2]) {
+                            '白' => Color::WHITE,
+                            '青' => Color::BLUE,
+                            '緑' => Color::GREEN,
+                            '黄' => Color::YELLOW,
+                            '赤' => Color::RED,
+                            'IR1000未満' => Color::IR_UNDER_1000,
+                            'IR1000以上' => Color::IR_OVER_1000,
+                            'UV280未満' => Color::UV_UNDER_280,
+                            'UV280以上' => Color::UV_OVER_280,
+                            'フルカラー' => Color::FULL_COLOR,
+                            'マルチカラー' => Color::MULTI_COLOR,
+                        };
+                        $detail->color1             = $line[3];
+                        $detail->color2             = $line[4];
+                        $detail->power_consumption  = $line[5];
+                        $detail->num_of_ch          = $line[6];
+                        $detail->input              = $line[7];
+                        $detail->etc                = $line[8];
+                        $detail->description1       = $line[9];
+                        $detail->description2       = $line[10];
+                        $detail->description3       = $line[11];
+                        $detail->description4       = $line[12];
+                        $detail->description5       = $line[13];
+                        $detail->note               = $line[14];
+                        $detail->save();
+                    } else {
+                        throw new \Exception('不明な行です');
+                    }
+                }
+            } catch (\Exception $e) {
+                $error = $no . '行目：' . $e->getMessage();
+            }
+
+            echo "新規作成";
+            print_r($inserts);
+            echo "更新";
+            print_r($updates);
+            echo $error;
+            exit;
+        }
+    }
+
+    /**
+     * --------------------------------------------------------------------------------------------
+     *  CSV controller
+     * --------------------------------------------------------------------------------------------
+     */
+    public function export_controller_csv(Request $request) {
+        $list = $this->controllerItemQuery($request)->get();
+        return new StreamedResponse(function() use ($list) {
+            $fh = fopen('php://output', 'w');
+
+            fputcsv($fh, mb_convert_encoding([
+                'ID',
+                'NEWステータス',
+                '公開ステータス',
+                '生産終了ステータス',
+                '貸出可能ステータス',
+                'シリーズ型式',
+                '個別型式',
+                '品番',
+                '使用温度',
+                '使用湿度',
+                '器具重量',
+                '適合規格1',
+                '適合規格2',
+                '適合規格3',
+                '適合規格4',
+                '適合規格5',
+                '備考欄',
+                '調光制御',
+                '外部ON/OFF制御',
+                '外部調光制御/LAN通信',
+                '外部調光制御/8bitパラレル',
+                '外部調光制御/10bitパラレル',
+                '外部調光制御/RS-232C',
+                '外部調光制御/アナログ',
+                '関連製品_ケーブル',
+                '関連製品_オプション',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '言語',
+                'タイプ',
+                '発光色',
+                '発光色記号',
+                '色温度/ピーク波長',
+                '消費電力',
+                'CH数',
+                '入力',
+                'その他',
+                '備考記述1',
+                '備考記述2',
+                '備考記述3',
+                '備考記述4',
+                '備考記述5',
+                '注意書き',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, [config('system.csv.controller.identifier')]);
+
+            foreach ($list as $item) {
+                $r_cables = [];
+                foreach ($item->related_cables as $r) {
+                    $r_cables[]  = $r->model;
+                }
+                $r_cables = implode(',', $r_cables);
+
+                $r_options = [];
+                foreach ($item->related_options as $r) {
+                    $r_options[]  = $r->model;
+                }
+                $r_options = implode(',', $r_options);
+
+                fputcsv($fh, mb_convert_encoding([
+                    $item->id,
+                    $item->is_new       ? '1' : '0',
+                    $item->is_publish   ? '1' : '0',
+                    $item->is_end       ? '1' : '0',
+                    $item->is_lend      ? '1' : '0',
+                    $item->series->model,
+                    $item->model,
+                    $item->product_number,
+                    $item->operating_temperature,
+                    $item->operating_humidity,
+                    $item->weight,
+                    $item->is_RoHS ? '1' : ($item->is_RoHS2 ? '2' : '0'),
+                    $item->is_CN_RoHSe1 ? '1' : ($item->is_CN_RoHS102 ? '2' : '0'),
+                    $item->is_CE_IEC ? '1' : ($item->is_CE_EN ? '2' : '0'),
+                    $item->is_UKCA ? '1' : '0',
+                    $item->is_PSE ? '1' : '0',
+                    $item->memo,
+                    $item->japanese_controller_item->dimmable_control->label(),
+                    $item->japanese_controller_item->is_external_switch   ? '1' : '0',
+                    $item->japanese_controller_item->is_ethernet          ? '1' : '0',
+                    $item->japanese_controller_item->is_8bit_parallel     ? '1' : '0',
+                    $item->japanese_controller_item->is_10bit_parallel    ? '1' : '0',
+                    $item->japanese_controller_item->is_rs232c            ? '1' : '0',
+                    $item->japanese_controller_item->is_analog            ? '1' : '0',
+                    $r_cables,
+                    $r_options,
+                ], 'cp932', 'utf8'));
+
+                foreach (config('system.language.list') as $lang) {
+                    $detail = $item->controller_items()->where('language', $lang)->first();
+                    fputcsv($fh, mb_convert_encoding([
+                        $lang,
+                        $detail->type,
+                        $detail->total_capacity,
+                        $detail->num_of_ch,
+                        $detail->input,
+                        $detail->output,
+                        $detail->description1,
+                        $detail->description2,
+                        $detail->description3,
+                        $detail->description4,
+                        $detail->description5,
+                        $detail->note,
+                    ], 'cp932', 'utf8'));
+                }
+            }
+            fclose($fh);
+        }, 200, [
+            'Content-Type'          => 'text/csv',
+            'Content-Disposition'   => sprintf('attachment; filename="%s"', config('system.csv.controller.filename')),
+        ]);
+    }
+
+    public function import_controller_csv(Request $request) {
+        $file = $request->file('csv');
+        if ($file) {
+            try {
+                $inserts = [];
+                $updates = [];
+                $error = '';
+
+                $fp = fopen($file->getRealPath(), 'r');
+                fgetcsv($fp);
+                fgetcsv($fp);
+                $no = 3;
+                $line = fgetcsv($fp);
+                if ($line[0]!=config('system.csv.controller.identifier')) {
+                    throw new \Exception('対象のファイルではありません');
+                }
+
+                $item = null;
+                while(($line=fgetcsv($fp))!==false) {
+                    $no++;
+                    $line = mb_convert_encoding($line, 'utf8', 'cp932');
+                    if ($line[0]=='' || is_numeric($line[0])) {
+                        $create = false;
+                        $item = null;
+                        if ($line[0]=='') {
+                            $create = true;
+                            $item = new Item();
+                        } else {
+                            $item = Item::find($line[0]);
+                            if (!$item) {
+                                throw new \Exception('指定されたIDが存在しません');
+                            }
+                        }
+
+                        $item->is_new       = $line[1];
+                        $item->is_publish   = $line[2];
+                        $item->is_end       = $line[3];
+                        $item->is_lend      = $line[4];
+
+                        $series = Series::where('model', $line[5])->first();
+                        if (!$series) {
+                            throw new \Exception('シリーズ型式が存在しません');
+                        }
+                        $item->series_id = $series->id;
+
+                        $item->model                    = $line[6];
+                        $item->product_number           = $line[7];
+                        $item->operating_temperature    = $line[8];
+                        $item->operating_humidity       = $line[9];
+                        $item->weight                   = $line[10];
+
+                        $item->is_RoHS          = $line[11]=='1';
+                        $item->is_RoHS2         = $line[11]=='2';
+                        $item->is_CN_RoHSe1     = $line[12]=='1';
+                        $item->is_CN_RoHS102    = $line[12]=='2';
+                        $item->is_CE_IEC        = $line[13]=='1';
+                        $item->is_CE_EN         = $line[13]=='2';
+                        $item->is_UKCA          = $line[14]=='1';
+                        $item->is_PSE           = $line[15]=='1';
+
+                        $item->memo = $line[16];
+
+                        $item->japanese_controller_item->dimmable_control       = match($line[17]) {
+                            'PWM方式'           => DimmableControl::PWM,
+                            '電流可変方式'      => DimmableControl::VARIABLE_CURRENT,
+                            '電圧可変方式'      => DimmableControl::VARIABLE_VOLTAGE,
+                            'オーバードライブ'  => DimmableControl::OVERDRIVE,
+                        };
+                        $item->japanese_controller_item->is_external_switch     = $line[18];
+                        $item->japanese_controller_item->is_ethernet            = $line[19];
+                        $item->japanese_controller_item->is_8bit_parallel       = $line[20];
+                        $item->japanese_controller_item->is_10bit_parallel      = $line[21];
+                        $item->japanese_controller_item->is_rs232c              = $line[22];
+                        $item->japanese_controller_item->is_analog              = $line[23];
+
+                        $this->syncRelatedSeriesFromCsv(CATEGORY::CABLE, $item->related_cables(), $line[24], '関連製品ケーブル');
+                        $this->syncRelatedSeriesFromCsv(CATEGORY::OPTION, $item->related_options(), $line[25], '関連製品オプション');
+
+                        $item->save();
+                    } else if (in_array($line[0], config('system.language.list'))) {
+                        if (!$item) {
+                            throw new \Exception('個別が不明です');
+                        }
+                        $detail = $item->controller_items()->where('language', $line[0])->first();
+                        if (!$detail) {
+                            $detail = new ControllerItem([
+                                'item_id'   => $item->id,
+                                'language'  => $line[0],
+                            ]);
+                        }
+                        $detail->type               = $line[1];
+                        $detail->total_capacity     = $line[2];
+                        $detail->num_of_ch          = $line[3];
+                        $detail->input              = $line[4];
+                        $detail->output             = $line[5];
+                        $detail->description1       = $line[6];
+                        $detail->description2       = $line[7];
+                        $detail->description3       = $line[8];
+                        $detail->description4       = $line[9];
+                        $detail->description5       = $line[10];
+                        $detail->note               = $line[11];
+                        $detail->save();
+                    } else {
+                        throw new \Exception('不明な行です');
+                    }
+                }
+            } catch (\Exception $e) {
+                $error = $no . '行目：' . $e->getMessage();
+            }
+
+            echo "新規作成";
+            print_r($inserts);
+            echo "更新";
+            print_r($updates);
+            echo $error;
+            exit;
+        }
+    }
+
+    /**
+     * --------------------------------------------------------------------------------------------
+     *  CSV option
+     * --------------------------------------------------------------------------------------------
+     */
+    public function export_option_csv(Request $request) {
+        $list = $this->controllerItemQuery($request)->get();
+        return new StreamedResponse(function() use ($list) {
+            $fh = fopen('php://output', 'w');
+
+            fputcsv($fh, mb_convert_encoding([
+                'ID',
+                'NEWステータス',
+                '公開ステータス',
+                '生産終了ステータス',
+                '貸出可能ステータス',
+                'シリーズ型式',
+                '個別型式',
+                '品番',
+                '使用温度',
+                '使用湿度',
+                '器具重量',
+                '適合規格1',
+                '適合規格2',
+                '適合規格3',
+                '適合規格4',
+                '適合規格5',
+                '備考欄',
+                '関連製品_オプション',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, mb_convert_encoding([
+                '言語',
+                'タイプ',
+                '透過率',
+                '備考記述1',
+                '備考記述2',
+                '備考記述3',
+                '備考記述4',
+                '備考記述5',
+                '注意書き',
+            ], 'cp932', 'utf8'));
+            fputcsv($fh, [config('system.csv.option.identifier')]);
+
+            foreach ($list as $item) {
+                $r_options = [];
+                foreach ($item->related_options as $r) {
+                    $r_options[]  = $r->model;
+                }
+                $r_options = implode(',', $r_options);
+
+                fputcsv($fh, mb_convert_encoding([
+                    $item->id,
+                    $item->is_new       ? '1' : '0',
+                    $item->is_publish   ? '1' : '0',
+                    $item->is_end       ? '1' : '0',
+                    $item->is_lend      ? '1' : '0',
+                    $item->series->model,
+                    $item->model,
+                    $item->product_number,
+                    $item->operating_temperature,
+                    $item->operating_humidity,
+                    $item->weight,
+                    $item->is_RoHS ? '1' : ($item->is_RoHS2 ? '2' : '0'),
+                    $item->is_CN_RoHSe1 ? '1' : ($item->is_CN_RoHS102 ? '2' : '0'),
+                    $item->is_CE_IEC ? '1' : ($item->is_CE_EN ? '2' : '0'),
+                    $item->is_UKCA ? '1' : '0',
+                    $item->is_PSE ? '1' : '0',
+                    $item->memo,
+                    $r_options,
+                ], 'cp932', 'utf8'));
+
+                foreach (config('system.language.list') as $lang) {
+                    $detail = $item->controller_items()->where('language', $lang)->first();
+                    fputcsv($fh, mb_convert_encoding([
+                        $lang,
+                        $detail->type,
+                        $detail->throughput,
+                        $detail->description1,
+                        $detail->description2,
+                        $detail->description3,
+                        $detail->description4,
+                        $detail->description5,
+                        $detail->note,
+                    ], 'cp932', 'utf8'));
+                }
+            }
+            fclose($fh);
+        }, 200, [
+            'Content-Type'          => 'text/csv',
+            'Content-Disposition'   => sprintf('attachment; filename="%s"', config('system.csv.option.filename')),
+        ]);
+    }
+
+    public function import_option_csv(Request $request) {
+        $file = $request->file('csv');
+        if ($file) {
+            try {
+                $inserts = [];
+                $updates = [];
+                $error = '';
+
+                $fp = fopen($file->getRealPath(), 'r');
+                fgetcsv($fp);
+                fgetcsv($fp);
+                $no = 3;
+                $line = fgetcsv($fp);
+                if ($line[0]!=config('system.csv.option.identifier')) {
+                    throw new \Exception('対象のファイルではありません');
+                }
+
+                $item = null;
+                while(($line=fgetcsv($fp))!==false) {
+                    $no++;
+                    $line = mb_convert_encoding($line, 'utf8', 'cp932');
+                    if ($line[0]=='' || is_numeric($line[0])) {
+                        $create = false;
+                        $item = null;
+                        if ($line[0]=='') {
+                            $create = true;
+                            $item = new Item();
+                        } else {
+                            $item = Item::find($line[0]);
+                            if (!$item) {
+                                throw new \Exception('指定されたIDが存在しません');
+                            }
+                        }
+
+                        $item->is_new       = $line[1];
+                        $item->is_publish   = $line[2];
+                        $item->is_end       = $line[3];
+                        $item->is_lend      = $line[4];
+
+                        $series = Series::where('model', $line[5])->first();
+                        if (!$series) {
+                            throw new \Exception('シリーズ型式が存在しません');
+                        }
+                        $item->series_id = $series->id;
+
+                        $item->model                    = $line[6];
+                        $item->product_number           = $line[7];
+                        $item->operating_temperature    = $line[8];
+                        $item->operating_humidity       = $line[9];
+                        $item->weight                   = $line[10];
+
+                        $item->is_RoHS          = $line[11]=='1';
+                        $item->is_RoHS2         = $line[11]=='2';
+                        $item->is_CN_RoHSe1     = $line[12]=='1';
+                        $item->is_CN_RoHS102    = $line[12]=='2';
+                        $item->is_CE_IEC        = $line[13]=='1';
+                        $item->is_CE_EN         = $line[13]=='2';
+                        $item->is_UKCA          = $line[14]=='1';
+                        $item->is_PSE           = $line[15]=='1';
+
+                        $item->memo = $line[16];
+
+                        $this->syncRelatedSeriesFromCsv(CATEGORY::OPTION, $item->related_options(), $line[19], '関連製品オプション');
+
+                        $item->save();
+                    } else if (in_array($line[0], config('system.language.list'))) {
+                        if (!$item) {
+                            throw new \Exception('個別が不明です');
+                        }
+                        $detail = $item->cable_items()->where('language', $line[0])->first();
+                        if (!$detail) {
+                            $detail = new CableItem([
+                                'item_id'   => $item->id,
+                                'language'  => $line[0],
+                            ]);
+                        }
+                        $detail->type               = $line[1];
+                        $detail->throughput         = $line[2];
+                        $detail->description1       = $line[3];
+                        $detail->description2       = $line[4];
+                        $detail->description3       = $line[5];
+                        $detail->description4       = $line[6];
+                        $detail->description5       = $line[7];
+                        $detail->note               = $line[8];
+                        $detail->save();
+                    } else {
+                        throw new \Exception('不明な行です');
+                    }
+                }
+            } catch (\Exception $e) {
+                $error = $no . '行目：' . $e->getMessage();
+            }
+
+            echo "新規作成";
+            print_r($inserts);
+            echo "更新";
+            print_r($updates);
+            echo $error;
+            exit;
+        }
+    }
+
     
 }

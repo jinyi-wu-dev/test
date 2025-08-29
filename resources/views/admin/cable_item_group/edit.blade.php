@@ -12,7 +12,7 @@
 
 
 @section('form')
-  <form method="post" action="{{ route('admin.group.update', $group->id) }}" enctype="multipart/form-data">
+  <form method="post" action="{{ route('admin.cable.update', $group->id) }}" enctype="multipart/form-data">
   @method('put')
   @csrf
 @endsection
