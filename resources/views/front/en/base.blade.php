@@ -242,7 +242,7 @@
                     <span class="current">EN</span>
                   </li>
                   <li class="lang-list__item">
-                    <a href="{{ route('lang', ['lang'=>'jp']) }}">JP</a>
+                    <a href="{{ route('lang', ['lang'=>'ja']) }}">JP</a>
                   </li>
                 @endif
               </ul>

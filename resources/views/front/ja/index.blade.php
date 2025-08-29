@@ -134,29 +134,27 @@
                         </figure>
                       </a>
                     </div>
-                    {{--
                     <div class="product-item">
-                      <a href="./search/?s=赤外照明">
+                      <a href="{{ route('search', ['lighting_colors' => [App\Enums\Color::IR_UNDER_1000, App\Enums\Color::IR_OVER_1000]]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product009.jpg') }}" alt="赤外照明">
                           <figcaption>赤外照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="./search/?s=紫外照明">
+                      <a href="{{ route('search', ['lighting_colors' => [App\Enums\Color::UV_UNDER_280, App\Enums\Color::UV_OVER_280]]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product010.jpg') }}" alt="紫外照明">
                           <figcaption>紫外照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="./search/?s=フルカラー・マルチカラー照明">
+                      <a href="{{ route('search', ['lighting_colors' => [App\Enums\Color::FULL_COLOR, App\Enums\Color::MULTI_COLOR]]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product011.jpg') }}" alt="フルカラー・マルチカラー照明">
                           <figcaption>フルカラー・マルチカラー照明</figcaption>
                         </figure>
                       </a>
                     </div>
-                    --}}
                     <div class="product-item">
                       <a href="{{ route('search', ['lighting_logistics' => '1']) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product012.jpg') }}" alt="物流用照明">

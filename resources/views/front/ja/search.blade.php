@@ -1,6 +1,8 @@
 @extends('front/ja/base')
 
-@section('title') Leimac | 検索 @endsection
+@section('title')
+  <title>Leimac | 検索</title>
+@endsection
 
 @section('main')
     <!-- Site Main-->
@@ -419,15 +421,15 @@
                           <div class="aside-body-item">
                             <label class="checkbox-label">
                               <input type="checkbox" name="lighting_colors[]"
-                                value="{{ App\Enums\Color::UV->value }}"
-                                @if(in_array(App\Enums\Color::UV->value, request('lighting_colors')??[])) checked @endif
+                                value="{{ App\Enums\Color::UV_UNDER_280->value }}"
+                                @if(in_array(App\Enums\Color::UV_UNDER_280->value, request('lighting_colors')??[])) checked @endif
                               >
                               <span class="checkbox-text"></span>UV
                             </label>
                             <label class="checkbox-label">
                               <input type="checkbox" name="lighting_colors[]"
-                                value="{{ App\Enums\Color::UV_DUV->value }}"
-                                @if(in_array(App\Enums\Color::UV_DUV->value, request('lighting_colors')??[])) checked @endif
+                                value="{{ App\Enums\Color::UV_OVER_280->value }}"
+                                @if(in_array(App\Enums\Color::UV_OVER_280->value, request('lighting_colors')??[])) checked @endif
                               >
                               <span class="checkbox-text"></span>UV（深紫外）
                             </label>

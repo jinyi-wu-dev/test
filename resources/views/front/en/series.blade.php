@@ -1,6 +1,8 @@
 @extends('front/ja/base')
 
-@section('title') Leimac | {{ $series->model }} @endsection
+@section('title')
+  <title>Leimac | {{ $series->model }}</title>
+@endsection
 
 @section('main')
     <!-- Site Main-->
