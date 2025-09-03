@@ -470,23 +470,38 @@ class ItemController extends Controller
 
                 foreach (config('system.language.list') as $lang) {
                     $detail = $item->lighting_items()->where('language', $lang)->first();
-                    fputcsv($fh, mb_convert_encoding([
-                        $lang,
-                        $detail->type,
-                        $detail->color->label(),
-                        $detail->color1,
-                        $detail->color2,
-                        $detail->power_consumption,
-                        $detail->num_of_ch,
-                        $detail->input,
-                        $detail->etc,
-                        $detail->description1,
-                        $detail->description2,
-                        $detail->description3,
-                        $detail->description4,
-                        $detail->description5,
-                        $detail->note,
-                    ], 'cp932', 'utf8'));
+                    if ($detail) {
+                        fputcsv($fh, mb_convert_encoding([
+                            $lang,
+                            $detail->type,
+                            match($detail->color) {
+                                Color::NONE             => '',
+                                Color::WHITE            => config('system.csv.enums.color.white'),
+                                Color::BLUE             => config('system.csv.enums.color.blue'),
+                                Color::GREEN            => config('system.csv.enums.color.green'),
+                                Color::YELLOW           => config('system.csv.enums.color.yellow'),
+                                Color::RED              => config('system.csv.enums.color.red'),
+                                Color::IR_UNDER_1000    => config('system.csv.enums.color.ir_u1000'),
+                                Color::IR_OVER_1000     => config('system.csv.enums.color.ir_o1000'),
+                                Color::UV_UNDER_280     => config('system.csv.enums.color.uv_u280'),
+                                Color::UV_OVER_280      => config('system.csv.enums.color.uv_o280'),
+                                Color::FULL_COLOR       => config('system.csv.enums.color.full_color'),
+                                Color::MULTI_COLOR      => config('system.csv.enums.color.multi_color'),
+                            },
+                            $detail->color1,
+                            $detail->color2,
+                            $detail->power_consumption,
+                            $detail->num_of_ch,
+                            $detail->input,
+                            $detail->etc,
+                            $detail->description1,
+                            $detail->description2,
+                            $detail->description3,
+                            $detail->description4,
+                            $detail->description5,
+                            $detail->note,
+                        ], 'cp932', 'utf8'));
+                    }
                 }
             }
             fclose($fh);
@@ -576,17 +591,17 @@ class ItemController extends Controller
                         }
                         $detail->type               = $line[1];
                         $detail->color              = match($line[2]) {
-                            '白' => Color::WHITE,
-                            '青' => Color::BLUE,
-                            '緑' => Color::GREEN,
-                            '黄' => Color::YELLOW,
-                            '赤' => Color::RED,
-                            'IR1000未満' => Color::IR_UNDER_1000,
-                            'IR1000以上' => Color::IR_OVER_1000,
-                            'UV280未満' => Color::UV_UNDER_280,
-                            'UV280以上' => Color::UV_OVER_280,
-                            'フルカラー' => Color::FULL_COLOR,
-                            'マルチカラー' => Color::MULTI_COLOR,
+                            config('system.csv.enums.color.white')          => Color::WHITE,
+                            config('system.csv.enums.color.blue')           => Color::BLUE,
+                            config('system.csv.enums.color.green')          => Color::GREEN,
+                            config('system.csv.enums.color.yellow')         => Color::YELLOW,
+                            config('system.csv.enums.color.red')            => Color::RED,
+                            config('system.csv.enums.color.ir_u1000')       => Color::IR_UNDER_1000,
+                            config('system.csv.enums.color.ir_o1000')       => Color::IR_OVER_1000,
+                            config('system.csv.enums.color.uv_u280')        => Color::UV_UNDER_280,
+                            config('system.csv.enums.color.uv_o280')        => Color::UV_OVER_280,
+                            config('system.csv.enums.color.full_color')     => Color::FULL_COLOR,
+                            config('system.csv.enums.color.multi_color')    => Color::MULTI_COLOR,
                         };
                         $detail->color1             = $line[3];
                         $detail->color2             = $line[4];

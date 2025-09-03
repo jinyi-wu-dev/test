@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Series;
 use App\Models\Item;
 use App\Models\LendItem;
+use App\Enums\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -197,10 +198,36 @@ class ProductController extends Controller
     public function item($id)
     {
         $item = Item::find($id);
-        return $this->languageView('item', [
-            'series' => $item->series,
-            'item' => $item,
-        ]);
+        switch ($item->series->category) {
+        case Category::LIGHTING:
+            return $this->languageView('item', [
+                'item'      => $item,
+                'series'    => $item->series,
+                'series_lc' => $item->series->locale_detail,
+                'series_ja' => $item->series->japanese_detail,
+                'item_lc'   => $item->locale_lighting_item,
+                'item_ja'   => $item->japanese_lighting_item,
+            ]);
+        case Category::CONTROLLER:
+            return $this->languageView('item', [
+                'item'      => $item,
+                'series'    => $item->series,
+                'series_lc' => $item->series->locale_detail,
+                'series_ja' => $item->series->japanese_detail,
+                'item_lc'   => $item->locale_controller_item,
+                'item_ja'   => $item->japanese_controller_item,
+            ]);
+        case Category::OPTION:
+            return $this->languageView('item', [
+                'item'      => $item,
+                'series'    => $item->series,
+                'series_lc' => $item->series->locale_detail,
+                'series_ja' => $item->series->japanese_detail,
+                'item_lc'   => $item->locale_option_item,
+                'item_ja'   => $item->japanese_option_item,
+            ]);
+        };
+
     }
 
     public function cart()

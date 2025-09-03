@@ -1,4 +1,4 @@
-@extends('front/ja/base')
+@extends('front/'.app()->getLocale().'/base')
 
 @section('title')
   <title>Leimac | 検索</title>

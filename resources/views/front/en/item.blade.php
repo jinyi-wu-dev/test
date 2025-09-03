@@ -1,4 +1,4 @@
-@extends('front/ja/base')
+@extends('front/'.app()->getLocale().'/base')
 
 
 @section('title')
@@ -28,7 +28,7 @@
             <div class="index-data">
               <div class="index-title">
                 <span class="index-title-type">
-                  {{ $series->locale_detail->name }}
+                  {{ $series_lc->name ?  $series_lc->name : $series_ja->name }}
                   {{ $series->genre->label() }}
                 </span>
                 <span class="index-title-series">{{ $series->model }} <span>series</span>
@@ -37,11 +37,11 @@
               <h2 class="detail-title">{{ $item->model }}</h2>
               <div class="index-textarea">
                 <p>
-                  {{ $item->locale_lighting_item->description1 }}<br/>
-                  {{ $item->locale_lighting_item->description2 }}<br/>
-                  {{ $item->locale_lighting_item->description3 }}<br/>
-                  {{ $item->locale_lighting_item->description4 }}<br/>
-                  {{ $item->locale_lighting_item->description5 }}<br/>
+                  {{ $item_lc->description1 ? $item_lc->description1 : $item_ja->description1 }}<br/>
+                  {{ $item_lc->description2 ? $item_lc->description2 : $item_ja->description2 }}<br/>
+                  {{ $item_lc->description3 ? $item_lc->description3 : $item_ja->description3 }}<br/>
+                  {{ $item_lc->description4 ? $item_lc->description4 : $item_ja->description4 }}<br/>
+                  {{ $item_lc->description5 ? $item_lc->description5 : $item_ja->description5 }}<br/>
                 </p>
               </div>
               <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
@@ -49,7 +49,7 @@
                 item_id="{{ $item->id }}"
                 item_name1="{{ $item->model }}"
                 item_name2="{{ $item->model }}"
-                item_url="{{ $item->series->fileUrl('image') }}"
+                item_url="{{ $series->fileUrl('image') }}"
               >デモ機貸出依頼</button>
             </div>
           </div>
@@ -64,7 +64,7 @@
               <div class="article-block">
                 <div class="note">
                   <p class="text-center">
-                    <strong>発光色：赤色(B) 2025年3月31日生産終了予定 ▶ 後継機：赤色(DB)</strong>
+                  <strong>{{ $item->note }}</strong>
                   </p>
                 </div>
                 <div class="column column-2">
@@ -72,72 +72,13 @@
                     <h2 class="c-title square">製品仕様</h2>
                     <table class="product-detail-table">
                       <tbody>
-                        <tr>
-                          <th>タイプ</th>
-                          <td>{{ $item->locale_lighting_item->type }}</td>
-                        </tr>
-                        <tr>
-                          <th>型　式</th>
-                          <td>{{ $item->model }}</td>
-                        </tr>
-                        <tr>
-                          <th>品　番</th>
-                          <td>{{ $item->product_number }}</td>
-                        </tr>
-                        <tr>
-                          <th>発光色</th>
-                          <td>{{ $item->locale_lighting_item->color1 }}</td>
-                        </tr>
-                        <tr>
-                          <th>消費電力</th>
-                          <td>{{ $item->locale_lighting_item->power_consumption }}</td>
-                        </tr>
-                        <tr>
-                          <th>CH数</th>
-                          <td>{{ $item->locale_lighting_item->num_of_ch }}</td>
-                        </tr>
-                        <tr>
-                          <th>入 力</th>
-                          <td>{{ $item->locale_lighting_item->input }}</td>
-                        </tr>
-                        <tr>
-                          <th>使用温度</th>
-                          <td>{{ $item->operating_temperature }}</td>
-                        </tr>
-                        <tr>
-                          <th>使用湿度</th>
-                          <td>{{ $item->operating_humidity }}</td>
-                        </tr>
-                        <tr>
-                          <th>器具重量</th>
-                          <td>{{ $item->weight }}</td>
-                        </tr>
-                        <tr>
-                          <th>適合規格</th>
-                          <td>
-                            @if ($item->is_RoHS)
-                              RoHS<br/>
-                            @elseif ($item->is_RoHS2)
-                              RoHS2<br/>
-                            @endif
-                            @if ($item->is_CN_RoHSe1)
-                              中国RoHS e-1<br/>
-                            @elseif ($item->is_CN_RoHS102)
-                              中国RoHS 10-2<br/>
-                            @endif
-                            @if ($item->is_CE_IEC)
-                              CE(IEC62471)<br/>
-                            @elseif ($item->is_CE_IEC)
-                              CE(EN55011, EN61000-6-2)<br/>
-                            @endif
-                            @if ($item->is_UKCA)
-                              UKCA<br/>
-                            @endif
-                            @if ($item->is_PSE)
-                              PSE<br/>
-                            @endif
-                          </td>
-                        </tr>
+                        @if ($series->category==App\Enums\Category::LIGHTING)
+                          @include('front/'.app()->getLocale().'/item_spec_lighting')
+                        @elseif ($series->category==App\Enums\Category::CONTROLLER)
+                          @include('front/'.app()->getLocale().'/item_spec_controller')
+                        @elseif ($series->category==App\Enums\Category::OPTION)
+                          @include('front/'.app()->getLocale().'/item_spec_option')
+                        @endif
                       </tbody>
                     </table>
                     <p class="small">
@@ -167,10 +108,13 @@
 
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
                 <script>
-                  const url = '{{ $item->locale_lighting_item->fileUrl('external_view_pdf') }}';
+                  const url = "{{ $item_lc->hasFile('external_view_pdf') ? $item_lc->fileUrl('external_view_pdf') : ($item_ja->hasFile('external_view_pdf') ? $item_ja->fileUrl('external_view_pdf') : '') }}";
                   const pageNumber = 1;
 
-
+                  if ($url=='') {
+                    document.getElementById('pdf-canvas').style.display = 'none';
+                    return;
+                  }
 
                   let pdfDoc = null;
                   let currentScale = 1.5;
@@ -376,14 +320,23 @@
                       <dl>
                         <dt>外観図 DL</dt>
                         <dd class="download">
-                          <a class="download-icon" href="{{ $item->locale_lighting_item->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
-                          <a class="dl-icon" href="{{ $item->locale_lighting_item->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                          <a class="download-icon"
+                            href="{{ $item_lc->hasFile('external_view_pdf') ? $item_lc->fileUrl('external_view_pdf') : ($item_ja->hasFile('external_view_pdf') ? $item_ja->fileUrl('external_view_pdf') : '') }}"
+                            target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF">
+                          </a>
+                          <a class="dl-icon"
+                            href="{{ $item_lc->hasFile('external_view_dxf') ? $item_lc->fileUrl('external_view_dxf') : ($item_ja->hasFile('external_view_dxf') ? $item_ja->fileUrl('external_view_dxf') : '') }}"
+                            target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF">
+                          </a>
                         </dd>
                       </dl>
                       <dl>
                         <dt>3Dモデル DL</dt>
                         <dd class="download">
-                          <a class="download-icon" href="{{ $item->locale_lighting_item->fileUrl('3d_model_step') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step"></a>
+                          <a class="download-icon"
+                            href="{{ $item_lc->hasFile('3d_model_step') ? $item_lc->fileUrl('3d_model_step') : ($item_ja->hasFile('3d_model_step') ? $item_ja->fileUrl('3d_model_step') : '') }}"
+                            target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step">
+                          </a>
                         </dd>
                       </dl>
                     </div>

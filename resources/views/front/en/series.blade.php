@@ -1,8 +1,10 @@
-@extends('front/ja/base')
+@extends('front/'.app()->getLocale().'/base')
+
 
 @section('title')
   <title>Leimac | {{ $series->model }}</title>
 @endsection
+
 
 @section('main')
     <!-- Site Main-->

@@ -1,4 +1,4 @@
-@extends('front/ja/base')
+@extends('front/'.app()->getLocale().'/base')
 
 
 @section('main')

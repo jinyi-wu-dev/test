@@ -66,6 +66,22 @@ return [
             'identifier'    => '[option]',
             'filename'      => sprintf('leimac_option_%s.csv', date('Ymd')),
         ],
+
+        'enums' => [
+            'color' => [
+                'white'         => '白',
+                'blue'          => '青',
+                'green'         => '緑',
+                'yellow'        => '黄',
+                'red'           => '赤',
+                'ir_u1000'      => 'IR1000未満',
+                'ir_o1000'      => 'IR1000以上',
+                'uv_u280'       => 'UV280未満',
+                'uv_o280'       => 'UV280以上',
+                'full_color'    => 'フルカラー',
+                'multi_color'   => 'マルチカラー',
+            ],
+        ],
     ],
 
     'file' => [
