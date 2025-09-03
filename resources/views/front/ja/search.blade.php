@@ -254,6 +254,14 @@
                   <div class="aside-body">
                     <div class="aside-body-inner">
                       <label class="checkbox-label new">
+                        <input type="checkbox" name="only_end" value="1" @if(request('only_end')) checked @endif>
+                        <span class="checkbox-text"></span>生産終了品
+                      </label>
+                    </div>
+                  </div>
+                  <div class="aside-body">
+                    <div class="aside-body-inner">
+                      <label class="checkbox-label new">
                         <input type="checkbox" name="only_new" value="1" @if(request('only_new')) checked @endif>
                         <span class="checkbox-text"></span>新製品
                       </label>
@@ -328,18 +336,6 @@
                               @if(in_array(App\Enums\Genre::LT_OTHER->value, request('genres')??[])) checked @endif
                             >
                             <span class="checkbox-text"></span>その他照明
-                          </label>
-                        </div>
-                        <div class="aside-body-item">
-                          <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_logistics" value="1" @if(request('lighting_logistics')) checked @endif>
-                            <span class="checkbox-text"></span>物流向け照明
-                          </label>
-                        </div>
-                        <div class="aside-body-item">
-                          <label class="checkbox-label">
-                            <input type="checkbox" name="lighting_partner" value="1" @if(request('lighting_partner')) checked @endif>
-                            <span class="checkbox-text"></span>提携企業製品
                           </label>
                         </div>
                       </div>
@@ -498,6 +494,29 @@
                           <div class="input-text">
                             <input type="text" name="lighting_weight_max" value="{{ request('lighting_weight_max') }}">
                             <span class="checkbox-text">ｇ以下</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="aside-body-detail">
+                      <span class="detail-title">その他</span>
+                      <div class="detail-block">
+                        <div class="aside-body-list">
+                          <div class="aside-body-item">
+                            <label class="checkbox-label">
+                              <input type="checkbox" name="lighting_logistics"
+                                value="1"
+                                @if(request('lighting_logistics')) checked @endif
+                              >
+                              <span class="checkbox-text"></span>物流向け照明
+                            </label>
+                            <label class="checkbox-label">
+                              <input type="checkbox" name="lighting_partner"
+                                value="1"
+                                @if(request('lighting_partner')) checked @endif
+                              >
+                              <span class="checkbox-text"></span>提携企業製品
+                            </label>
                           </div>
                         </div>
                       </div>
