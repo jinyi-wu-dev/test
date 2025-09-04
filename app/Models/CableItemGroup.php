@@ -59,7 +59,11 @@ class CableItemGroup extends Model
     private $_items = null;
     public function items() {
         if ($this->_items==null) {
-            $this->_items = Item::whereIn('id', $this->item_ids)->get();
+            if ($this->item_ids) {
+                $this->_items = Item::whereIn('id', $this->item_ids)->get();
+            } else {
+                $this->_items = [];
+            }
         }
         return $this->_items;
     }
@@ -67,14 +71,20 @@ class CableItemGroup extends Model
     private $_first_item = null;
     public function first_item() {
         if ($this->_first_item==null) {
-            $this->_first_item = Item::whereIn('id', $this->item_ids)->first();
+            if ($this->item_ids) {
+                $this->_first_item = Item::whereIn('id', $this->item_ids)->first();
+            }
         }
         return $this->_first_item;
     }
 
     public function addItem($id) {
         $item_ids = $this->item_ids;
-        array_push($item_ids, $id);
+        if (!$item_ids) {
+            $item_ids = [$id];
+        } else {
+            array_push($item_ids, $id);
+        }
         $this->item_ids = $item_ids;
     }
 

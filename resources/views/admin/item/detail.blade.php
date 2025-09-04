@@ -2,6 +2,18 @@
 
 
 @section('content')
+  <script>
+    function doDelete() {
+      $('input[name="_method"]').val('delete');
+      $('form').submit();
+    }
+  </script>
+  @include('admin.parts.modal', [
+    'id'      => 'conformModal',
+    'title'   => '削除',
+    'message' => '削除します。よろしいですか？',
+    'on_ok'   => 'doDelete();',
+  ])
   <section class="content">
     <div class="container-fluid">
         <input type="hidden" name="category" value="{{ $category }}">

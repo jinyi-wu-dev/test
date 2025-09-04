@@ -61,7 +61,7 @@
                   'name'        => 'csv',
                   'label'       => 'CSVファイル',
                 ])
-                <button type="submit" class="btn btn-primary">　アップロード　</button>  
+                <button type="submit" class="btn btn-primary" disabled>　アップロード　</button>  
               </div>
             </div>
           </div>
@@ -78,19 +78,26 @@
       switch($(this).val()) {
         case 'series':
           $('form').attr('action', '{{ route('admin.series.import_csv') }}');
+          $('button[type=submit]').prop('disabled', false);
           break;
         case 'lighting':
           $('form').attr('action', '{{ route('admin.item.import_lighting_csv') }}');
+          $('button[type=submit]').prop('disabled', false);
           break;
         case 'controller':
           $('form').attr('action', '{{ route('admin.item.import_controller_csv') }}');
+          $('button[type=submit]').prop('disabled', false);
           break;
         case 'option':
           $('form').attr('action', '{{ route('admin.item.import_option_csv') }}');
+          $('button[type=submit]').prop('disabled', false);
           break;
         case 'cable':
           $('form').attr('action', '{{ route('admin.cable.import_csv') }}');
+          $('button[type=submit]').prop('disabled', false);
           break;
+        default:
+          $('button[type=submit]').prop('disabled', true);
       }
     });
   </script>

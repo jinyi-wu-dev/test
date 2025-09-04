@@ -392,8 +392,8 @@
                   <tbody>
                     @foreach ($groups as $g)
                       @php
+                        $series = $g->series;
                         $first_item = $g->first_item();
-                        $series = $first_item->series;
                         $num_of_items = count($g->items());
                       @endphp
                       <tr>
@@ -431,7 +431,7 @@
                             'switch'      => true,
                             'name'        => 'is_new_group_ids[]',
                             'id'          => 'is_new-'.$g->id,
-                            'value'       => $first_item->is_new ? $g->id : '',
+                            'value'       => $first_item && $first_item->is_new ? $g->id : '',
                             'form_value'  => $g->id,
                           ])
                         </td>
@@ -440,7 +440,7 @@
                             'switch'      => true,
                             'name'        => 'is_end_group_ids[]',
                             'id'          => 'is_end-'.$g->id,
-                            'value'       => $first_item->is_end ? $g->id : '',
+                            'value'       => $first_item && $first_item->is_end ? $g->id : '',
                             'form_value'  => $g->id,
                           ])
                         </td>
@@ -449,7 +449,7 @@
                             'switch'      => true,
                             'name'        => 'is_publish_group_ids[]',
                             'id'          => 'is_publish-'.$g->id,
-                            'value'       => $first_item->is_publish ? $g->id : '',
+                            'value'       => $first_item && $first_item->is_publish ? $g->id : '',
                             'form_value'  => $g->id,
                           ])
                         </td>
@@ -472,10 +472,10 @@
                           @endforeach
                         </td>
                         <td class="CDT-operating_temperature" rowspan="{{ $num_of_items }}">
-                          {{ $first_item->operating_temperature }}
+                          {{ $first_item->operating_temperature ?? '' }}
                         </td>
                         <td class="CDT-operating_humidity" rowspan="{{ $num_of_items }}">
-                          {{ $first_item->operating_humidity }}
+                          {{ $first_item->operating_humidity ?? '' }}
                         </td>
                         <td class="CDT-weight">
                           @foreach ($g->items() as $item)
@@ -484,16 +484,16 @@
                           @endforeach
                         </td>
                         <td class="CDT-is_RoHS" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->is_RoHS) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                          @if ($first_item && $first_item->is_RoHS) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
                         </td>
                         <td class="CDT-is_RoHS2" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->is_RoHS2) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                          @if ($first_item && $first_item->is_RoHS2) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
                         </td>
                         <td class="CDT-is_CN_RoHSe1" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->is_CN_RoHSe1) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                          @if ($first_item && $first_item->is_CN_RoHSe1) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
                         </td>
                         <td class="CDT-is_CN_RoHS102" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->is_CN_RoHS102) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
+                          @if ($first_item && $first_item->is_CN_RoHS102) {{ config('system.string.valid') }} @else {{ config('system.string.invalid') }} @endif
                         </td>
                         <td class="CDT-description1" rowspan="{{ $num_of_items }}">
                           {{ $g->japanese_detail->description1 }}
@@ -511,25 +511,25 @@
                           {{ $g->japanese_detail->description5 }}
                         </td>
                         <td class="CDT-exterior_image" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->hasFile('exterior_image')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                          @if ($first_item && $first_item->hasFile('exterior_image')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
                         </td>
                         <td class="CDT-exterior_pdf" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->hasFile('exterior_pdf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                          @if ($first_item && $first_item->hasFile('exterior_pdf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
                         </td>
                         <td class="CDT-exterior_dxf" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->hasFile('exterior_dxf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                          @if ($first_item && $first_item->hasFile('exterior_dxf')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
                         </td>
                         <td class="CDT-model_stl" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->hasFile('model_stl')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                          @if ($first_item && $first_item->hasFile('model_stl')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
                         </td>
                         <td class="CDT-model_step" rowspan="{{ $num_of_items }}">
-                          @if ($first_item->hasFile('model_step')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
+                          @if ($first_item && $first_item->hasFile('model_step')) {{ config('system.string.exixts') }} @else {{ config('system.string.not_exist') }} @endif
                         </td>
                         <td class="CDT-note" rowspan="{{ $num_of_items }}">
                           {{ $g->japanese_detail->note }}
                         </td>
                         <td class="CDT-memo" rowspan="{{ $num_of_items }}">
-                          {{ $first_item->memo }}
+                          {{ $first_item->memo ?? '' }}
                         </td>
                         <td class="CDT-delete" rowspan="{{ $num_of_items }}">
                           @include('admin.parts.custom_checkbox', [

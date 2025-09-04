@@ -133,7 +133,7 @@ class ItemController extends Controller
         return view('admin/item/create', [
             'category'      => Category::from($request->category),
             'categories'    => Category::keyLabel(),
-            'series'        => Series::pluck('model', 'id'),
+            'series'        => Series::where('category', $request->category)->pluck('model', 'id'),
             'controllers'   => Series::controller()->pluck('model', 'id'),
             'cables'        => Series::cable()->pluck('model', 'id'),
             'options'       => Series::option()->pluck('model', 'id'),
@@ -172,7 +172,7 @@ class ItemController extends Controller
             'item'          => $item,
             'category'      => $item->series->category,
             'details'       => $details,
-            'series'        => Series::pluck('model', 'id'),
+            'series'        => Series::where('category', $item->series->category)->pluck('model', 'id'),
             'controllers'   => Series::controller()->pluck('model', 'id'),
             'cables'        => Series::cable()->pluck('model', 'id'),
             'options'       => Series::option()->pluck('model', 'id'),
@@ -193,12 +193,12 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Item $item)
+    public function destroy(Request $request, Item $item)
     {
         $id = $item->id;
         $item->delete();
         return redirect()
-            ->route('admin.item.index')
+            ->route('admin.item.index', ['category'=>$request->category])
             ->with('message', sprintf(config('system.messages.delete_succeeded'), $id));
     }
 
@@ -329,8 +329,11 @@ class ItemController extends Controller
                 'item_id'   => $item->id,
                 'language'  => $lang,
             ], $values));
-            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
-            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+
+            if (isset($detail[$lang])) {
+                $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+                $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+            }
         }
     }
     
@@ -349,8 +352,11 @@ class ItemController extends Controller
                 'item_id'   => $item->id,
                 'language'  => $lang,
             ], $values));
-            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
-            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+
+            if (isset($detail[$lang])) {
+                $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+                $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+            }
         }
     }
     
@@ -369,8 +375,11 @@ class ItemController extends Controller
                 'item_id'   => $item->id,
                 'language'  => $lang,
             ], $values));
-            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
-            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+
+            if (isset($detail[$lang])) {
+                $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+                $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+            }
         }
     }
 

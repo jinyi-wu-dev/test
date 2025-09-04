@@ -59,7 +59,7 @@
                 @include('admin.parts.form_select', [
                   'name'      => 'group:series_id',
                   'label'     => 'シリーズ型式',
-                  'value'     => $first_item->series_id ?? '',
+                  'value'     => $group->series_id ?? '',
                   'empty'     => true,
                   'options'   => $series,
                 ])

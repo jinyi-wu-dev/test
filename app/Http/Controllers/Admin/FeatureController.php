@@ -98,7 +98,7 @@ class FeatureController extends Controller
 
     protected function save(Request $request, Feature $feature=null) {
         $request->validate([
-            //'title' => 'required',
+            'layout' => 'required',
         ]);
         list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
 
@@ -120,7 +120,9 @@ class FeatureController extends Controller
                 'language'  => $lang,
             ], $values));
 
-            $details[$lang]->uploadFile('image', $request->file($lang.':image'));
+            if (isset($details[$lang])) {
+                $details[$lang]->uploadFile('image', $request->file($lang.':image'));
+            }
         }
 
 

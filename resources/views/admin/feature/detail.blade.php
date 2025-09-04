@@ -3,7 +3,7 @@
 
 @section('content')
   <script>
-    function onOK() {
+    function doDelete() {
       $('input[name="_method"]').val('delete');
       $('form').submit();
     }
@@ -12,7 +12,7 @@
     'id'      => 'conformModal',
     'title'   => '削除',
     'message' => '削除します。よろしいですか？',
-    'on_ok'   => 'onOK();',
+    'on_ok'   => 'doDelete();',
   ])
   <section class="content">
     <div class="container-fluid">

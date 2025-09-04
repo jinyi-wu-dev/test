@@ -2,6 +2,12 @@
 
 
 @section('content')
+  <script>
+    function doDelete() {
+      $('input[name="_method"]').val('delete');
+      $('form').submit();
+    }
+  </script>
   @include('admin.parts.modal', [
     'id'      => 'conformModal',
     'title'   => '削除',

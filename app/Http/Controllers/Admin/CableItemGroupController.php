@@ -9,6 +9,7 @@ use App\Models\CableItem;
 use App\Models\CableItemGroup;
 use App\Models\CableItemGroupDetail;
 use App\Models\LightingItem;
+use App\Enums\Category;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -31,7 +32,7 @@ class CableItemGroupController extends Controller
     public function create()
     {
         return view('admin/cable_item_group/create', [
-            'series'        => Series::pluck('model', 'id'),
+            'series'        => Series::where('category', Category::CABLE)->pluck('model', 'id'),
         ]);
     }
 
@@ -40,11 +41,10 @@ class CableItemGroupController extends Controller
      */
     public function store(Request $request)
     {
-        $group = new CableItemGroup();
-        $group->save();
+        $group = $this->save($request);
         return redirect()
-            ->route('admin.group.index')
-            ->with('message', sprintf(config('system.messages.create_succeeded'), $item->id));
+            ->route('admin.cable.index')
+            ->with('message', sprintf(config('system.messages.create_succeeded'), $group->id));
     }
 
     /**
@@ -64,7 +64,7 @@ class CableItemGroupController extends Controller
             'group'         => $group,
             'first_item'    => $group->first_item(),
             'details'       => $group->details->keyBy('language'),
-            'series'        => Series::pluck('model', 'id'),
+            'series'        => Series::where('category', Category::CABLE)->pluck('model', 'id'),
         ]);
     }
 
@@ -74,11 +74,24 @@ class CableItemGroupController extends Controller
     public function update(Request $request, $id)
     {
         $group = CableItemGroup::find($id);
+        $this->save($request, $group);
 
+        return redirect()
+            ->route('admin.cable.index')
+            ->with('message', sprintf(config('system.messages.update_succeeded'), $group->id));
+    }
+
+    protected function save(Request $request, CableItemGroup $group=null)
+    {
         $request->validate([
+            'group:series_id'  => 'required',
         ]);
         list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
-        $group->fill($multi_params['group']);
+        if (!$group) {
+            $group = new CableItemGroup($multi_params['group']);
+        } else {
+            $group->fill($multi_params['group']);
+        }
         $group->save();
         $group->uploadFile('3d_model_stl', $request->file('3d_model_stl'));
         $group->uploadFile('3d_model_step', $request->file('3d_model_step'));
@@ -93,29 +106,34 @@ class CableItemGroupController extends Controller
                 'cable_item_group_id'   => $group->id,
                 'language'  => $lang,
             ], $values));
-            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
-            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+
+            if (isset($details[$lang])) {
+                $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+                $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
+            }
         }
 
-        list($single_params, $cable_params) = $this->splitMultiParameters($multi_params['cable']);
-        $shape_cable_params = [];
-        foreach ($single_params['cable_ids'] as $pos => $id) {
-            foreach ($cable_params as $label => $values) {
-                $params = [];
-                if (in_array($label, ['common2'])) {
-                    continue;
+        if (isset($multi_params['cable'])) {
+            list($single_params, $cable_params) = $this->splitMultiParameters($multi_params['cable']);
+            $shape_cable_params = [];
+            foreach ($single_params['cable_ids'] as $pos => $id) {
+                foreach ($cable_params as $label => $values) {
+                    $params = [];
+                    if (in_array($label, ['common2'])) {
+                        continue;
+                    }
+                    foreach ($values as $key => $vals) {
+                        $params[$key] = $vals[$pos];
+                    }
+                    $shape_cable_params[$id][$label] = $params;
                 }
-                foreach ($values as $key => $vals) {
-                    $params[$key] = $vals[$pos];
-                }
-                $shape_cable_params[$id][$label] = $params;
             }
         }
         foreach ($group->items() as $item) {
             $item->series_id = $group->series_id;
             $item->fill($multi_params['item']);
             $item->fill($shape_cable_params[$item->id]['common']);
-            $item->is_lend      = in_array($item->id, $cable_params['common2']['is_lend']);
+            $item->is_lend      = in_array($item->id, $cable_params['common2']['is_lend'] ?? []);
             $item->is_RoHS      = $multi_params['item']['cs_rohs']=='RoHS';
             $item->is_RoHS2     = $multi_params['item']['cs_rohs']=='RoHS2';
             $item->is_CN_RoHSe1     = $multi_params['item']['cs_crohs']=='e_1';
@@ -137,9 +155,7 @@ class CableItemGroupController extends Controller
             }
         }
 
-        return redirect()
-            ->route('admin.cable.index')
-            ->with('message', sprintf(config('system.messages.update_succeeded'), $group->id));
+        return $group;
     }
 
     /**
