@@ -6,7 +6,7 @@
 
 
 @section('breadcrumb')
-  <li class="breadcrumb-item active">UserList</li>
+  <li class="breadcrumb-item active">ケーブル一覧</li>
 @endsection
 
 

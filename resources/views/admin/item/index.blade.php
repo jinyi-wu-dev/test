@@ -4,18 +4,22 @@
 @if ($category==App\Enums\Category::LIGHTING)
   @section('title', '個別型式一覧・照明')
   @section('header', '個別型式一覧・照明')
+  @section('breadcrumb')
+    <li class="breadcrumb-item active">照明一覧</li>
+  @endsection
 @elseif ($category==App\Enums\Category::CONTROLLER)
   @section('title', '個別型式一覧・コントローラー')
   @section('header', '個別型式一覧・コントローラー')
+  @section('breadcrumb')
+    <li class="breadcrumb-item active">コントローラー一覧</li>
+  @endsection
 @elseif ($category==App\Enums\Category::OPTION)
   @section('title', '個別型式一覧・オプション')
   @section('header', '個別型式一覧・オプション')
+  @section('breadcrumb')
+    <li class="breadcrumb-item active">オプション一覧</li>
+  @endsection
 @endif
-
-
-@section('breadcrumb')
-  <li class="breadcrumb-item active">一覧</li>
-@endsection
 
 
 @section('form')

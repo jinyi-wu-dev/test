@@ -6,8 +6,8 @@
 
 
 @section('breadcrumb')
-  <li class="breadcrumb-item"><a href="{{ route('admin.top') }}">UserList</a></li>
-  <li class="breadcrumb-item active">UserEdit</li>
+  <li class="breadcrumb-item"><a href="{{ route('admin.cable.index') }}">ケーブル一覧</a></li>
+  <li class="breadcrumb-item active">ケーブル詳細</li>
 @endsection
 
 

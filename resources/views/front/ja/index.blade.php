@@ -79,49 +79,49 @@
                   </h3>
                   <div class="product-list">
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_LINE]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_LINE]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product001.jpg') }}" alt="ライン照明">
                           <figcaption>ライン照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_RING]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_RING]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product002.jpg') }}" alt="リング照明">
                           <figcaption>リング照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_TRANSMISSION]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_TRANSMISSION]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product003.jpg') }}" alt="バー照明">
                           <figcaption>バー照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_FLATSURFACE]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_FLATSURFACE]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product004.jpg') }}" alt="透過・面照明">
                           <figcaption>透過・面照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_DOME]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_DOME]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product005.jpg') }}" alt="ドーム照明">
                           <figcaption>ドーム照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_COAXIAL_SPOT]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_COAXIAL_SPOT]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product006.jpg') }}" alt="同軸・スポット照明">
                           <figcaption>同軸・スポット照明</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['lighting_genres[]' => App\Enums\Genre::LT_OTHER]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::LT_OTHER]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product007.jpg') }}" alt="その他照明">
                           <figcaption>その他照明</figcaption>
                         </figure>
@@ -164,7 +164,7 @@
                     </div>
                   </div>
                   <div class="index-link">
-                    <a href="{{ route('search', ['lighting_genres' => [
+                    <a href="{{ route('search', ['genres' => [
                       App\Enums\Genre::LT_LINE->value,
                       App\Enums\Genre::LT_RING->value,
                       App\Enums\Genre::LT_TRANSMISSION->value,
@@ -186,28 +186,28 @@
                   </h3>
                   <div class="product-list">
                     <div class="product-item">
-                      <a href="{{ route('search', ['controller_genres[]' => App\Enums\Genre::CR_AC_INPUT]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::CR_AC_INPUT]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product013.jpg') }}" alt="AC入力コントローラ">
                           <figcaption>AC入力コントローラ</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['controller_genres[]' => App\Enums\Genre::CR_DC_INPUT]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::CR_DC_INPUT]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product014.jpg') }}" alt="DC入力コントローラ">
                           <figcaption>DC入力コントローラ</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['controller_genres[]' => App\Enums\Genre::CR_PoE_INPUT]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::CR_PoE_INPUT]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product015.jpg') }}" alt="PoEコントローラ">
                           <figcaption>PoEコントローラ</figcaption>
                         </figure>
                       </a>
                     </div>
                     <div class="product-item">
-                      <a href="{{ route('search', ['controller_genres[]' => App\Enums\Genre::CR_EX_AND_SP]) }}">
+                      <a href="{{ route('search', ['genres[]' => App\Enums\Genre::CR_EX_AND_SP]) }}">
                         <figure class="figure"><img src="{{ asset('/assets/img/top/top-product016.jpg') }}" alt="専用/特殊コントローラ">
                           <figcaption>専用/特殊コントローラ</figcaption>
                         </figure>
@@ -215,7 +215,7 @@
                     </div>
                   </div>
                   <div class="index-link">
-                    <a href="{{ route('search', ['controller_genres' => [
+                    <a href="{{ route('search', ['genres' => [
                       App\Enums\Genre::CR_AC_INPUT->value,
                       App\Enums\Genre::CR_DC_INPUT->value,
                       App\Enums\Genre::CR_PoE_INPUT->value,
