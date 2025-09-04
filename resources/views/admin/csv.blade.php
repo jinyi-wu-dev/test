@@ -22,12 +22,6 @@
 
 
 @section('content')
-  @include('admin.parts.modal', [
-    'id'      => 'conformModal',
-    'title'   => '削除',
-    'message' => '削除します。よろしいですか？',
-    'on_ok'   => 'doDelete();',
-  ])
   <section class="content">
     <div class="container-fluid">
       

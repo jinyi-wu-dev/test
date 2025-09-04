@@ -254,8 +254,29 @@ class SeriesController extends Controller
                     $series->is_logistics                   ? '1' : '0',
                     $series->is_partner                     ? '1' : '0',
                     $series->japanese_detail->model,
-                    $series->category->label(),
-                    $series->genre->label(),
+                    match($series->category) {
+                        Category::LIGHTING      => config('system.csv.enums.category.lighting'),
+                        Category::CONTROLLER    => config('system.csv.enums.category.controller'),
+                        Category::CABLE         => config('system.csv.enums.category.cable'),
+                        Category::OPTION        => config('system.csv.enums.category.option'),
+                    },
+                    match($series->genre) {
+                        Genre::LT_LINE          => config('system.csv.enums.genre.lt_line'),
+                        Genre::LT_RING          => config('system.csv.enums.genre.lt_ring'),
+                        Genre::LT_TRANSMISSION  => config('system.csv.enums.genre.lt_transmission'),
+                        Genre::LT_FLATSURFACE   => config('system.csv.enums.genre.lt_flatsurface'),
+                        Genre::LT_DOME          => config('system.csv.enums.genre.lt_dome'),
+                        Genre::LT_COAXIAL_SPOT  => config('system.csv.enums.genre.lt_coaxial_spot'),
+                        Genre::LT_OTHER         => config('system.csv.enums.genre.lt_other'),
+                        Genre::CR_AC_INPUT      => config('system.csv.enums.genre.cr_ac_input'),
+                        Genre::CR_DC_INPUT      => config('system.csv.enums.genre.cr_dc_input'),
+                        Genre::CR_PoE_INPUT     => config('system.csv.enums.genre.cr_poe_input'),
+                        Genre::CR_EX_AND_SP     => config('system.csv.enums.genre.cr_ex_and_sp'),
+                        Genre::CB_LIGHTING      => config('system.csv.enums.genre.cb_lighting'),
+                        Genre::CB_EXTERNAL      => config('system.csv.enums.genre.cb_external'),
+                        Genre::OP_LIGHTING      => config('system.csv.enums.genre.op_lighting'),
+                        Genre::OP_OTHER         => config('system.csv.enums.genre.op_other'),
+                    },
                     $series->show_type                      ? '1' : '0',
                     $series->show_model                     ? '1' : '0',
                     $series->show_product_number            ? '1' : '0',
@@ -300,24 +321,27 @@ class SeriesController extends Controller
     }
 
     public function import_csv(Request $request) {
+        $request->validate([
+            'csv' => 'required',
+        ]);
+
+        $inserts = [];
+        $updates = [];
+        $error = '';
+        $no = 0;
         $file = $request->file('csv');
         if ($file) {
             try {
-                $inserts = [];
-                $updates = [];
-                $error = '';
-
                 $fp = fopen($file->getRealPath(), 'r');
-                fgetcsv($fp);
-                fgetcsv($fp);
-                $line = fgetcsv($fp);
+                fgetcsv($fp); $no++;
+                fgetcsv($fp); $no++;
+                $line = fgetcsv($fp); $no++;
                 if ($line[0]!='[series]') {
-                    throw new \Exception('ファイル内容が不正です');
+                    throw new \Exception('対象のファイルではありません');
                 }
 
                 $series = null;
                 $model = '';
-                $no = 3;
                 while(($line=fgetcsv($fp))!==false) {
                     $no++;
                     $line = mb_convert_encoding($line, 'utf8', 'cp932');
@@ -360,15 +384,38 @@ class SeriesController extends Controller
 
                             $model = $line[6];
 
-                            $tmp = array_search($line[7], config('enums.system.category'));
+                            $tmp = match($line[7]) {
+                                config('system.csv.enums.category.lighting')    => Category::LIGHTING,
+                                config('system.csv.enums.category.lighting')    => Category::CONTROLLER,
+                                config('system.csv.enums.category.lighting')    => Category::CABLE,
+                                config('system.csv.enums.category.lighting')    => Category::OPTION,
+                                default                                         => false,
+                            };
                             if ($tmp===false) {
-                                throw new \Exception('"品目タイプ" が不正です');
+                                throw new \Exception(sprintf('"品目タイプ" が不正です 【%s】', $line[7]));
                             }
                             $s->category = $tmp;
 
-                            $tmp = array_search($line[8], config('enums.system.genre'));
+                            $tmp = match($line[8]) {
+                                config('system.csv.enums.genre.lt_line')            => Genre::LT_LINE,
+                                config('system.csv.enums.genre.lt_ring')            => Genre::LT_RING,
+                                config('system.csv.enums.genre.lt_transmission')    => Genre::LT_TRANSMISSION,
+                                config('system.csv.enums.genre.lt_flatsurface')     => Genre::LT_FLATSURFACE,
+                                config('system.csv.enums.genre.lt_dome')            => Genre::LT_DOME,
+                                config('system.csv.enums.genre.lt_coaxial_spot')    => Genre::LT_COAXIAL_SPOT,
+                                config('system.csv.enums.genre.lt_other')           => Genre::LT_OTHER,
+                                config('system.csv.enums.genre.cr_ac_input')        => Genre::CR_AC_INPUT,
+                                config('system.csv.enums.genre.cr_dc_input')        => Genre::CR_DC_INPUT,
+                                config('system.csv.enums.genre.cr_poe_input')       => Genre::CR_PoE_INPUT,
+                                config('system.csv.enums.genre.cr_ex_and_sp')       => Genre::CR_EX_AND_SP,
+                                config('system.csv.enums.genre.cb_lighting')        => Genre::CB_LIGHTING,
+                                config('system.csv.enums.genre.cb_external')        => Genre::CB_EXTERNAL,
+                                config('system.csv.enums.genre.op_lighting')        => Genre::OP_LIGHTING,
+                                config('system.csv.enums.genre.op_other')           => Genre::OP_OTHER,
+                                default                                             => false,
+                            };
                             if ($tmp===false) {
-                                throw new \Exception('"ジャンル" が不正です');
+                                throw new \Exception(sprintf('"ジャンル" が不正です 【%s】', $line[8]));
                             }
                             $s->genre = $tmp;
                             
@@ -417,14 +464,13 @@ class SeriesController extends Controller
             } catch (\Exception $e) {
                 $error = $no . '行目：' . $e->getMessage();
             }
-
-            echo "新規作成";
-            print_r($inserts);
-            echo "更新";
-            print_r($updates);
-            echo $error;
-            exit;
         }
+
+        return view('admin/csv_result', [
+            'inserts'   => $inserts,
+            'updates'   => $updates,
+            'error'     => $error,
+        ]);
     }
 
 }

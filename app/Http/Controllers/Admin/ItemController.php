@@ -521,18 +521,21 @@ class ItemController extends Controller
     }
 
     public function import_lighting_csv(Request $request) {
+        $request->validate([
+            'csv' => 'required',
+        ]);
+
+        $inserts = [];
+        $updates = [];
+        $error = '';
+        $no = 0;
         $file = $request->file('csv');
         if ($file) {
             try {
-                $inserts = [];
-                $updates = [];
-                $error = '';
-
                 $fp = fopen($file->getRealPath(), 'r');
-                fgetcsv($fp);
-                fgetcsv($fp);
-                $no = 3;
-                $line = fgetcsv($fp);
+                fgetcsv($fp); $no++;
+                fgetcsv($fp); $no++;
+                $line = fgetcsv($fp); $no++;
                 if ($line[0]!=config('system.csv.lighting.identifier')) {
                     throw new \Exception('対象のファイルではありません');
                 }
@@ -599,7 +602,8 @@ class ItemController extends Controller
                             ]);
                         }
                         $detail->type               = $line[1];
-                        $detail->color              = match($line[2]) {
+
+                        $tmp->color = match($line[2]) {
                             config('system.csv.enums.color.white')          => Color::WHITE,
                             config('system.csv.enums.color.blue')           => Color::BLUE,
                             config('system.csv.enums.color.green')          => Color::GREEN,
@@ -611,7 +615,13 @@ class ItemController extends Controller
                             config('system.csv.enums.color.uv_o280')        => Color::UV_OVER_280,
                             config('system.csv.enums.color.full_color')     => Color::FULL_COLOR,
                             config('system.csv.enums.color.multi_color')    => Color::MULTI_COLOR,
+                            default                                         => false,
                         };
+                        if ($tmp===false) {
+                            throw new \Exception(sprintf('"発光色" が不正です 【%s】', $line[2]));
+                        }
+                        $detail->color = $tmp;
+
                         $detail->color1             = $line[3];
                         $detail->color2             = $line[4];
                         $detail->power_consumption  = $line[5];
@@ -632,14 +642,13 @@ class ItemController extends Controller
             } catch (\Exception $e) {
                 $error = $no . '行目：' . $e->getMessage();
             }
-
-            echo "新規作成";
-            print_r($inserts);
-            echo "更新";
-            print_r($updates);
-            echo $error;
-            exit;
         }
+
+        return view('admin/csv_result', [
+            'inserts'   => $inserts,
+            'updates'   => $updates,
+            'error'     => $error,
+        ]);
     }
 
     /**
@@ -730,7 +739,12 @@ class ItemController extends Controller
                     $item->is_UKCA ? '1' : '0',
                     $item->is_PSE ? '1' : '0',
                     $item->memo,
-                    $item->japanese_controller_item->dimmable_control->label(),
+                    match($item->japanese_controller_item->dimmable_control) {
+                        DimmableControl::PWM                => config('system.csv.enums.dimmable_control.pwm'),
+                        DimmableControl::VARIABLE_CURRENT   => config('system.csv.enums.dimmable_control.variable_current'),
+                        DimmableControl::VARIABLE_VOLTAGE   => config('system.csv.enums.dimmable_control.variable_voltage'),
+                        DimmableControl::OVERDRIVE          => config('system.csv.enums.dimmable_control.overdrive'),
+                    },
                     $item->japanese_controller_item->is_external_switch   ? '1' : '0',
                     $item->japanese_controller_item->is_ethernet          ? '1' : '0',
                     $item->japanese_controller_item->is_8bit_parallel     ? '1' : '0',
@@ -767,18 +781,21 @@ class ItemController extends Controller
     }
 
     public function import_controller_csv(Request $request) {
+        $request->validate([
+            'csv' => 'required',
+        ]);
+
+        $inserts = [];
+        $updates = [];
+        $error = '';
+        $no = 0;
         $file = $request->file('csv');
         if ($file) {
             try {
-                $inserts = [];
-                $updates = [];
-                $error = '';
-
                 $fp = fopen($file->getRealPath(), 'r');
-                fgetcsv($fp);
-                fgetcsv($fp);
-                $no = 3;
-                $line = fgetcsv($fp);
+                fgetcsv($fp); $no++;
+                fgetcsv($fp); $no++;
+                $line = fgetcsv($fp); $no++;
                 if ($line[0]!=config('system.csv.controller.identifier')) {
                     throw new \Exception('対象のファイルではありません');
                 }
@@ -828,12 +845,18 @@ class ItemController extends Controller
 
                         $item->memo = $line[16];
 
-                        $item->japanese_controller_item->dimmable_control       = match($line[17]) {
-                            'PWM方式'           => DimmableControl::PWM,
-                            '電流可変方式'      => DimmableControl::VARIABLE_CURRENT,
-                            '電圧可変方式'      => DimmableControl::VARIABLE_VOLTAGE,
-                            'オーバードライブ'  => DimmableControl::OVERDRIVE,
+                        $tmp = match($line[17]) {
+                            config('system.csv.enums.dimmable_control.pwm')                 => DimmableControl::PWM,
+                            config('system.csv.enums.dimmable_control.variable_current')    => DimmableControl::VARIABLE_CURRENT,
+                            config('system.csv.enums.dimmable_control.variable_voltage')    => DimmableControl::VARIABLE_VOLTAGE,
+                            config('system.csv.enums.dimmable_control.overdrive')           => DimmableControl::OVERDRIVE,
+                            default                                                         => false,
                         };
+                        if ($tmp===false) {
+                            throw new \Exception(sprintf('"調光制御" が不正です 【%s】', $line[17]));
+                        }
+                        $item->japanese_controller_item->dimmable_control       = $tmp;
+
                         $item->japanese_controller_item->is_external_switch     = $line[18];
                         $item->japanese_controller_item->is_ethernet            = $line[19];
                         $item->japanese_controller_item->is_8bit_parallel       = $line[20];
@@ -875,14 +898,13 @@ class ItemController extends Controller
             } catch (\Exception $e) {
                 $error = $no . '行目：' . $e->getMessage();
             }
-
-            echo "新規作成";
-            print_r($inserts);
-            echo "更新";
-            print_r($updates);
-            echo $error;
-            exit;
         }
+
+        return view('admin/csv_result', [
+            'inserts'   => $inserts,
+            'updates'   => $updates,
+            'error'     => $error,
+        ]);
     }
 
     /**
@@ -979,18 +1001,21 @@ class ItemController extends Controller
     }
 
     public function import_option_csv(Request $request) {
+        $request->validate([
+            'csv' => 'required',
+        ]);
+
+        $inserts = [];
+        $updates = [];
+        $error = '';
+        $no = 1;
         $file = $request->file('csv');
         if ($file) {
             try {
-                $inserts = [];
-                $updates = [];
-                $error = '';
-
                 $fp = fopen($file->getRealPath(), 'r');
-                fgetcsv($fp);
-                fgetcsv($fp);
-                $no = 3;
-                $line = fgetcsv($fp);
+                fgetcsv($fp); $no++;
+                fgetcsv($fp); $no++;
+                $line = fgetcsv($fp); $no++;
                 if ($line[0]!=config('system.csv.option.identifier')) {
                     throw new \Exception('対象のファイルではありません');
                 }
@@ -1070,14 +1095,13 @@ class ItemController extends Controller
             } catch (\Exception $e) {
                 $error = $no . '行目：' . $e->getMessage();
             }
-
-            echo "新規作成";
-            print_r($inserts);
-            echo "更新";
-            print_r($updates);
-            echo $error;
-            exit;
         }
+
+        return view('admin/csv_result', [
+            'inserts'   => $inserts,
+            'updates'   => $updates,
+            'error'     => $error,
+        ]);
     }
 
     

@@ -13,12 +13,23 @@ enum Category: string
     case CABLE      = 'cable';
     case OPTION     = 'option';
 
-    public function label(): string {
-        return match($this) {
-            Category::LIGHTING      => config('enums.system.category.lighting'),
-            Category::CONTROLLER    => config('enums.system.category.controller'),
-            Category::CABLE         => config('enums.system.category.cable'),
-            Category::OPTION        => config('enums.system.category.option'),
+    public function label($lang=null): string {
+        if (!$lang) {
+            $lang = app()->getLocale();
+        }
+        return match($lang) {
+            'ja' => match($this) {
+                Category::LIGHTING      => '照明',
+                Category::CONTROLLER    => 'コントローラー',
+                Category::CABLE         => 'ケーブル',
+                Category::OPTION        => 'オプション',
+            },
+            'en' => match($this) {
+                Category::LIGHTING      => '照明',
+                Category::CONTROLLER    => 'コントローラー',
+                Category::CABLE         => 'ケーブル',
+                Category::OPTION        => 'オプション',
+            },
         };
     }
 }

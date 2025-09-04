@@ -318,9 +318,9 @@ class CableItemGroupController extends Controller
                         $item->is_lend ? '1' : '0',
                         $item->model,
                         $item->product_number,
-                        $ja_detail->conditions,
-                        $ja_detail->length,
-                        $en_detail->length,
+                        $ja_detail->conditions ?? '',
+                        $ja_detail->length ?? '',
+                        $en_detail->length ?? '',
                     ], 'cp932', 'utf8'));
                 }
             }
@@ -332,22 +332,26 @@ class CableItemGroupController extends Controller
     }
 
     public function import_csv(Request $request) {
+        $request->validate([
+            'csv' => 'required',
+        ]);
+
+        $inserts = [];
+        $updates = [];
+        $error = '';
+        $no = 0;
         $file = $request->file('csv');
         if ($file) {
             try {
                 $fp = fopen($file->getRealPath(), 'r');
-                fgetcsv($fp);
-                fgetcsv($fp);
-                fgetcsv($fp);
-                $no = 4;
-                $line = fgetcsv($fp);
+                fgetcsv($fp); $no++;
+                fgetcsv($fp); $no++;
+                fgetcsv($fp); $no++;
+                $line = fgetcsv($fp); $no++;
                 if ($line[0]!=config('system.csv.cable.identifier')) {
                     throw new \Exception('対象のファイルではありません');
                 }
 
-                $inserts = [];
-                $updates = [];
-                $error = '';
                 $group = null;
                 $group_info = null;
                 while(($line=fgetcsv($fp))!==false) {
@@ -437,14 +441,13 @@ class CableItemGroupController extends Controller
             } catch (\Exception $e) {
                 $error = $no . '行目：' . $e->getMessage();
             }
-
-            echo "新規作成";
-            print_r($inserts);
-            echo "更新";
-            print_r($updates);
-            echo $error;
-            exit;
         }
+
+        return view('admin/csv_result', [
+            'inserts'   => $inserts,
+            'updates'   => $updates,
+            'error'     => $error,
+        ]);
     }
 
 

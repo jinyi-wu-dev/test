@@ -68,6 +68,29 @@ return [
         ],
 
         'enums' => [
+            'category' => [
+                'lighting'      => '照明',
+                'controller'    => 'コントローラー',
+                'cable'         => 'ケーブル',
+                'option'        => 'オプション',
+            ],
+            'genre' => [
+                'lt_line'           => 'ライン照明',
+                'lt_ring'           => 'リング照明',
+                'lt_transmission'   => 'バー照明',
+                'lt_flatsurface'    => '透過・面照明',
+                'lt_dome'           => 'ドーム照明',
+                'lt_coaxial_spot'   => '同軸・スポット照明',
+                'lt_other'          => 'その他照明',
+                'cr_ac_input'       => 'AC入力コントローラ',
+                'cr_dc_input'       => 'DC入力コントローラ',
+                'cr_poe_input'      => 'PoE入力コントローラ',
+                'cr_ex_and_sp'      => '専用/特殊コントローラ',
+                'cb_lighting'       => '照明用ケーブル',
+                'cb_external'       => '外部制御用ケーブル',
+                'op_lighting'       => '照明用オプション',
+                'op_other'          => 'その他オプション',
+            ],
             'color' => [
                 'white'         => '白',
                 'blue'          => '青',
@@ -80,6 +103,12 @@ return [
                 'uv_o280'       => 'UV280以上',
                 'full_color'    => 'フルカラー',
                 'multi_color'   => 'マルチカラー',
+            ],
+            'dimmable_control' => [
+                'pwm'               => 'PWM方式',
+                'variable_current'  => '電流可変方式',
+                'variable_voltage'  => '電圧可変方式',
+                'overdrive'         => 'オーバードライブ',
             ],
         ],
     ],
