@@ -169,4 +169,16 @@ class Item extends Model
                     ->withTimestamps();
     }
 
+    public function isPublic() {
+        return ($this->series->is_publish && $this->is_publish);
+    }
+
+    public function isDiscontinued() {
+        return ($this->series->is_end || $this->is_end);
+    }
+
+    public function isLending() {
+        return ($this->isPublic() && !$this->isDiscontinued() && $this->is_lend);
+    }
+
 }

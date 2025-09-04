@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Series;
 use App\Models\Item;
 use App\Models\CableItemGroupDetail;
 use App\Traits\FileUploadable;
@@ -35,6 +36,10 @@ class CableItemGroup extends Model
     /**
      * Relation
      */
+    public function series() {
+        return $this->belongsTo(Series::class);
+    }
+
     public function details() {
         return $this->hasMany(CableItemGroupDetail::class, 'cable_item_group_id');
     }

@@ -47,7 +47,7 @@
               <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
                 @if(!$item->is_lend) disabled @endif
                 item_id="{{ $item->id }}"
-                item_name1="{{ $item->model }}"
+                item_name1="{{ $series->model }}"
                 item_name2="{{ $item->model }}"
                 item_url="{{ $series->fileUrl('image') }}"
               >デモ機貸出依頼</button>

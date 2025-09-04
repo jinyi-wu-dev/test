@@ -190,6 +190,10 @@ class ProductController extends Controller
     public function series($id)
     {
         $series = Series::find($id);
+        if (!$series || !$series->is_publish) {
+            abort(404);
+        }
+
         if ($series->category!=Category::CABLE) {
             return $this->languageView('series', [
                 'series' => $series,
@@ -209,6 +213,10 @@ class ProductController extends Controller
     public function item($id)
     {
         $item = Item::find($id);
+        if (!$item || !$item->isPublic()) {
+            abort(404);
+        }
+
         switch ($item->series->category) {
         case Category::LIGHTING:
             return $this->languageView('item', [

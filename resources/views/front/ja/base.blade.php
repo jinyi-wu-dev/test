@@ -198,9 +198,11 @@
                       <div id="lending_item_sample" style="display:none">
                         <li class="lending-list__item" item_id="">
                           <input type="hidden" name="items[]" value="">
-                          <div class="lending-img"><img src="{{ asset('/assets/img/common/lending-item.jpg') }}" alt="アイテム"></div>
+                          <div class="lending-img"><img src="" alt="アイテム" class="lending-img-src"></div>
                           <div class="lending-text">
                             <p class="lending-text__name">
+                              <div class="lending-name1"></div>
+                              <div class="lending-name2"></div>
                             </p>
                           </div>
                           <div class="lending-counter">

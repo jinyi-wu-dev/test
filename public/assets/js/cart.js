@@ -5,7 +5,8 @@
           item_id,
           lending_cart[item_id][0],
           lending_cart[item_id][1],
-          lending_cart[item_id][2]
+          lending_cart[item_id][2],
+          lending_cart[item_id][3]
         );
       }
       
@@ -23,6 +24,7 @@
               btn.getAttribute("item_id"),
               1,
               btn.getAttribute("item_name1"),
+              btn.getAttribute("item_name2"),
               btn.getAttribute("item_url")
             );
             addCart(
@@ -53,8 +55,8 @@
     }
 
     /* Edit cart item */
-    function addCartItem(item_id, num, name, image_url) {
-      lending_cart[item_id] = [num, name, image_url];
+    function addCartItem(item_id, num, name1, name2, image_url) {
+      lending_cart[item_id] = [num, name1, name2, image_url];
       saveCartStorage();
     }
     function removeCartItem(item_id) {
@@ -118,8 +120,10 @@
         new_item.classList.add('cart_item_'+item_id);
         new_item.setAttribute('item_id', item_id);
         new_item.querySelector('input[name=items\\[\\]]').value = item_id;
-        new_item.querySelector('.lending-text__name').textContent = item_name1;
+        new_item.querySelector('.lending-name1').textContent = item_name1;
+        new_item.querySelector('.lending-name2').textContent = item_name2;
         new_item.querySelector('.counter-input').setAttribute('value', num_of_item);
+        new_item.querySelector('.lending-img-src').src = item_url;
         new_item.querySelector('.increment').addEventListener('click', incrementCartEvent);
         new_item.querySelector('.decrement2').addEventListener('click', decrementCartEvent);
         new_item.querySelector('.lending-delete-button').addEventListener('click', removeCartEvent);

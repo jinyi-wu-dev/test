@@ -166,60 +166,62 @@
                           </thead>
                           <tbody>
                             @foreach ($series->items as $item)
-                              <tr>
-                                @if ($series->show_type)                      <td>{{ $item->type }}</td> @endif
-                                @if ($series->show_model)                     <td class="format
-                                                                                @if($item->is_new) is-new @endif
-                                                                                @if($item->is_end) is-discontinued @endif
-                                                                              "><a href="{{ route('item', $item) }}">{{ $item->model }}</a> </td> @endif
-                                @if ($series->show_product_number)            <td>{{ $item->product_number }}</td> @endif
-                                @if ($series->show_weight)                    <td>{{ $item->weight }}</td> @endif
-                                @if ($series->show_other)                     <td></td> @endif
-                                @if ($series->show_compatible_standards)      <td></td> @endif
+                              @if ($item->is_publish)
+                                <tr>
+                                  @if ($series->show_type)                      <td>{{ $item->type }}</td> @endif
+                                  @if ($series->show_model)                     <td class="format
+                                                                                  @if($item->is_new) is-new @endif
+                                                                                  @if($item->isDiscontinued()) is-discontinued @endif
+                                                                                "><a href="{{ route('item', $item) }}">{{ $item->model }}</a> </td> @endif
+                                  @if ($series->show_product_number)            <td>{{ $item->product_number }}</td> @endif
+                                  @if ($series->show_weight)                    <td>{{ $item->weight }}</td> @endif
+                                  @if ($series->show_other)                     <td></td> @endif
+                                  @if ($series->show_compatible_standards)      <td></td> @endif
 
-                                @if ($series->category==App\Enums\Category::LIGHTING)
-                                  @if ($series->show_luminous_color)          <td>{{ $item->locale_lighting_item->color1 }}</td> @endif
-                                  @if ($series->show_lt_num_of_ch)            <td>{{ $item->locale_lighting_item->num_of_ch }}</td> @endif
-                                  @if ($series->show_power_consumption)       <td>{{ $item->locale_lighting_item->power_connector }}</td> @endif
-                                  @if ($series->show_seg)                     <td></td> @endif
-                                  @if ($series->show_input_voltage)           <td>{{ $item->locale_lighting_item->input }}</td> @endif
-                                @endif
+                                  @if ($series->category==App\Enums\Category::LIGHTING)
+                                    @if ($series->show_luminous_color)          <td>{{ $item->locale_lighting_item->color1 }}</td> @endif
+                                    @if ($series->show_lt_num_of_ch)            <td>{{ $item->locale_lighting_item->num_of_ch }}</td> @endif
+                                    @if ($series->show_power_consumption)       <td>{{ $item->locale_lighting_item->power_connector }}</td> @endif
+                                    @if ($series->show_seg)                     <td></td> @endif
+                                    @if ($series->show_input_voltage)           <td>{{ $item->locale_lighting_item->input }}</td> @endif
+                                  @endif
 
-                                @if ($series->category==App\Enums\Category::CONTROLLER)
-                                  @if ($series->show_diming_controll)         <td>{{ $item->locale_controller_item->dimmable_control->label() }}</td> @endif
-                                  @if ($series->show_total_capacity)          <td>{{ $item->locale_controller_item->total_capacity }}</td> @endif
-                                  @if ($series->show_ct_num_of_ch)            <td>{{ $item->locale_controller_item->num_of_ch }}</td> @endif
-                                  @if ($series->show_input)                   <td>{{ $item->locale_controller_item->input }}</td> @endif
-                                  @if ($series->show_output)                  <td>{{ $item->locale_controller_item->output }}</td> @endif
-                                  @if ($series->show_external_onoff)          <td></td> @endif
-                                  @if ($series->show_external_diming_control) <td></td> @endif
-                                @endif
+                                  @if ($series->category==App\Enums\Category::CONTROLLER)
+                                    @if ($series->show_diming_controll)         <td>{{ $item->locale_controller_item->dimmable_control->label() }}</td> @endif
+                                    @if ($series->show_total_capacity)          <td>{{ $item->locale_controller_item->total_capacity }}</td> @endif
+                                    @if ($series->show_ct_num_of_ch)            <td>{{ $item->locale_controller_item->num_of_ch }}</td> @endif
+                                    @if ($series->show_input)                   <td>{{ $item->locale_controller_item->input }}</td> @endif
+                                    @if ($series->show_output)                  <td>{{ $item->locale_controller_item->output }}</td> @endif
+                                    @if ($series->show_external_onoff)          <td></td> @endif
+                                    @if ($series->show_external_diming_control) <td></td> @endif
+                                  @endif
 
-                                @if ($series->category==App\Enums\Category::OPTION)
-                                  @if ($series->show_throughput)              <td>{{ $item->locale_option_item->throughput }}</td> @endif
-                                @endif
+                                  @if ($series->category==App\Enums\Category::OPTION)
+                                    @if ($series->show_throughput)              <td>{{ $item->locale_option_item->throughput }}</td> @endif
+                                  @endif
 
-                                <td>
-                                  <div class="download">
-                                    <a class="download-icon" href="{{ $item->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
-                                    <a class="dl-icon" href="{{ $item->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div class="download">
-                                    <a class="download-icon" href="{{ $item->fileUrl('3d_model_step') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step"></a>
-                                  </div>
-                                </td>
-                                <td>
-                                  <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
-                                    @if(!$item->is_lend) disabled @endif
-                                    item_id="{{ $item->id }}"
-                                    item_name1="{{ $item->model }}"
-                                    item_name2="{{ $item->model }}"
-                                    item_url="{{ $series->fileUrl('image') }}"
-                                  >貸出依頼</button>
-                                </td>
-                              </tr>
+                                  <td>
+                                    <div class="download">
+                                      <a class="download-icon" href="{{ $item->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
+                                      <a class="dl-icon" href="{{ $item->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="download">
+                                      <a class="download-icon" href="{{ $item->fileUrl('3d_model_step') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step"></a>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <button class="lending-request-button @if(!$item->isLending()) is-disabled @endif"
+                                      @if(!$item->isLending()) disabled @endif
+                                      item_id="{{ $item->id }}"
+                                      item_name1="{{ $series->model }}"
+                                      item_name2="{{ $item->model }}"
+                                      item_url="{{ $series->fileUrl('image') }}"
+                                    >貸出依頼</button>
+                                  </td>
+                                </tr>
+                              @endif
                             @endforeach
                           </tbody>
                         </table>
@@ -247,27 +249,29 @@
                               </thead>
                               <tbody>
                                 @foreach ($group->items() as $item)
-                                  @php
-                                    $item_lc = $item->locale_cable_item;
-                                    $item_ja = $item->japanese_cable_item;
-                                  @endphp
-                                  <tr>
-                                    <td class="format">
-                                      <span>{{ $item->model }}</span>
-                                    </td>
-                                    <td>{{ $item->product_number }}</td>
-                                    <td>{{ $item_ja->conditions }}</td>
-                                    <td>{{ $item_lc->length ? $item_lc->length : $item_ja->length }}</td>
-                                    <td>
-                                      <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
-                                        @if(!$item->is_lend) disabled @endif
-                                        item_id="{{ $item->id }}"
-                                        item_name1="{{ $item->model }}"
-                                        item_name2="{{ $item->model }}"
-                                        item_url="{{ $series->fileUrl('image') }}"
-                                      >貸出依頼</button>
-                                    </td>
-                                  </tr>
+                                  @if ($item->is_publish)
+                                    @php
+                                      $item_lc = $item->locale_cable_item;
+                                      $item_ja = $item->japanese_cable_item;
+                                    @endphp
+                                    <tr>
+                                      <td class="format">
+                                        <span>{{ $item->model }}</span>
+                                      </td>
+                                      <td>{{ $item->product_number }}</td>
+                                      <td>{{ $item_ja->conditions }}</td>
+                                      <td>{{ $item_lc->length ? $item_lc->length : $item_ja->length }}</td>
+                                      <td>
+                                        <button class="lending-request-button @if(!$item->is_lend) is-disabled @endif"
+                                          @if(!$item->is_lend) disabled @endif
+                                          item_id="{{ $item->id }}"
+                                          item_name1="{{ $group->series->model }}"
+                                          item_name2="{{ $item->model }}"
+                                          item_url="{{ $group->series->fileUrl('image') }}"
+                                        >貸出依頼</button>
+                                      </td>
+                                    </tr>
+                                  @endif
                                 @endforeach
                               </tbody>
                             </table>
@@ -386,9 +390,6 @@
                     </div>
                   </div>
                 </div>
-
-
-
                 @endif
 
               </div>
