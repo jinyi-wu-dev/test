@@ -93,6 +93,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="article-block">
                 <h2 class="c-title square">外観図</h2>
                 <div class="canvas-container" style="overflow: hidden; position: relative; width: 100%; height: 600px; border: 1px solid #ccc;">
@@ -101,217 +102,15 @@
                     <button class="canvas-controller-out" onclick="zoomOut()"></button>
                     <button class="canvas-controller-full" onclick="toggleFullscreen()"></button>
                   </div>
-
-
                   <canvas id="pdf-canvas" class="pdf-canvas" style="cursor: grab; position: absolute; left: 0; top: 0;"></canvas>
                 </div>
-
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+                <script src="{{ asset('/assets/js/pdf.js') }}"></script>
                 <script>
-                  const url = "{{ $item_lc->hasFile('external_view_pdf') ? $item_lc->fileUrl('external_view_pdf') : ($item_ja->hasFile('external_view_pdf') ? $item_ja->fileUrl('external_view_pdf') : '') }}";
-                  const pageNumber = 1;
-
-                  if ($url=='') {
-                    document.getElementById('pdf-canvas').style.display = 'none';
-                    return;
-                  }
-
-                  let pdfDoc = null;
-                  let currentScale = 1.5;
-                  const canvas = document.getElementById('pdf-canvas');
-                  const context = canvas.getContext('2d');
-                  const container = document.querySelector('.canvas-container');
-
-                  let fixedContainerHeight = null;
-                  let renderTask = null;
-
-                  let isDragging = false;
-                  let dragStartX, dragStartY;
-                  let translateX = 0,
-                    translateY = 0;
-
-                  function updateTransform() {
-                    canvas.style.transform = `translate(calc(-50% + ${translateX}px), calc(-50% + ${translateY}px)) scale(1)`;
-                  }
-
-                  const renderPage = (scale) => {
-                    pdfDoc.getPage(pageNumber).then(page => {
-                      const viewport = page.getViewport({
-                        scale
-                      });
-
-                      canvas.height = viewport.height;
-                      canvas.width = viewport.width;
-
-                      if (fixedContainerHeight === null) {
-                        fixedContainerHeight = viewport.height;
-                        container.style.height = fixedContainerHeight + 'px';
-                      }
-
-                      const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                      };
-
-                      // 前の描画が進行中ならキャンセル
-                      if (renderTask) {
-                        renderTask.cancel();
-                      }
-
-                      renderTask = page.render(renderContext);
-
-                      renderTask.promise.then(() => {
-                        renderTask = null; // 完了後にnullクリア
-                      }).catch((error) => {
-                        if (error?.name === 'RenderingCancelledException') {
-                          // キャンセルされた場合は無視
-                          return;
-                        }
-                        console.error('Render error:', error);
-                      });
-                    });
-                  };
-
-
-                  pdfjsLib.getDocument(url).promise.then(pdf => {
-                    pdfDoc = pdf;
-                    pdf.getPage(pageNumber).then(page => {
-                      const containerWidth = container.clientWidth;
-                      const viewport = page.getViewport({
-                        scale: 1
-                      });
-                      currentScale = containerWidth / viewport.width;
-                      renderPage(currentScale);
-                    });
-                  });
-
-                  function zoomIn() {
-                    currentScale = Math.min(currentScale + 0.2, 5);
-                    renderPage(currentScale);
-                  }
-
-                  function zoomOut() {
-                    currentScale = Math.max(currentScale - 0.2, 0.2);
-                    renderPage(currentScale);
-                  }
-
-                  function toggleFullscreen() {
-                    const elem = document.querySelector('.canvas-container');
-
-                    if (!document.fullscreenElement) {
-                      if (elem.requestFullscreen) {
-                        elem.requestFullscreen();
-                      } else if (elem.webkitRequestFullscreen) {
-                        elem.webkitRequestFullscreen();
-                      } else if (elem.msRequestFullscreen) {
-                        elem.msRequestFullscreen();
-                      }
-                    } else {
-                      if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                      } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                      } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                      }
-                    }
-                  }
-
-                  canvas.addEventListener('mousedown', e => {
-                    isDragging = true;
-                    dragStartX = e.clientX - translateX;
-                    dragStartY = e.clientY - translateY;
-                    canvas.style.cursor = 'grabbing';
-                  });
-
-                  window.addEventListener('mouseup', () => {
-                    isDragging = false;
-                    canvas.style.cursor = 'grab';
-                  });
-
-                  window.addEventListener('mousemove', e => {
-                    if (!isDragging) return;
-                    translateX = e.clientX - dragStartX;
-                    translateY = e.clientY - dragStartY;
-                    updateTransform();
-                  });
-
-                  canvas.addEventListener('touchstart', e => {
-                    if (e.touches.length === 1) {
-                      isDragging = true;
-                      dragStartX = e.touches[0].clientX - translateX;
-                      dragStartY = e.touches[0].clientY - translateY;
-                    }
-                  });
-
-                  window.addEventListener('touchend', () => {
-                    isDragging = false;
-                  });
-
-                  window.addEventListener('touchmove', e => {
-                    if (!isDragging || e.touches.length !== 1) return;
-                    translateX = e.touches[0].clientX - dragStartX;
-                    translateY = e.touches[0].clientY - dragStartY;
-                    updateTransform();
-                    e.preventDefault();
-                  }, {
-                    passive: false
-                  });
-
-
-                  let initialPinchDistance = null;
-                  let initialScale = currentScale;
-
-                  canvas.addEventListener('touchstart', e => {
-                    if (e.touches.length === 2) {
-                      const dx = e.touches[0].clientX - e.touches[1].clientX;
-                      const dy = e.touches[0].clientY - e.touches[1].clientY;
-                      initialPinchDistance = Math.hypot(dx, dy);
-                      initialScale = currentScale;
-                    }
-                  }, {
-                    passive: false
-                  });
-
-                  canvas.addEventListener('touchmove', e => {
-                    if (e.touches.length === 2 && initialPinchDistance) {
-                      e.preventDefault();
-
-                      const dx = e.touches[0].clientX - e.touches[1].clientX;
-                      const dy = e.touches[0].clientY - e.touches[1].clientY;
-                      const currentDistance = Math.hypot(dx, dy);
-                      const scaleRatio = currentDistance / initialPinchDistance;
-                      currentScale = Math.min(Math.max(initialScale * scaleRatio, 0.2), 5); // 限界チェック
-
-                      renderPage(currentScale);
-                    }
-                  }, {
-                    passive: false
-                  });
-
-                  canvas.addEventListener('touchend', e => {
-                    if (e.touches.length < 2) {
-                      initialPinchDistance = null;
-                    }
-                  });
-
-
-
-
-                  container.addEventListener('wheel', (event) => {
-                    event.preventDefault();
-                    const delta = event.deltaY;
-                    if (delta < 0) {
-                      currentScale = Math.min(currentScale + 0.1, 5);
-                    } else {
-                      currentScale = Math.max(currentScale - 0.1, 0.2);
-                    }
-                    renderPage(currentScale);
-                  });
+                  initPdfCanvas(
+                    "{{ $item_lc->hasFile('external_view_pdf') ? $item_lc->fileUrl('external_view_pdf') : ($item_ja->hasFile('external_view_pdf') ? $item_ja->fileUrl('external_view_pdf') : '') }}"
+                  );
                 </script>
-
-
-
 
                 <div class="column column-2">
                   <div class="column-item">
@@ -334,7 +133,7 @@
                         <dt>3Dモデル DL</dt>
                         <dd class="download">
                           <a class="download-icon"
-                            href="{{ $item_lc->hasFile('3d_model_step') ? $item_lc->fileUrl('3d_model_step') : ($item_ja->hasFile('3d_model_step') ? $item_ja->fileUrl('3d_model_step') : '') }}"
+                            href="{{ $item->hasFile('3d_model_step') ? $item->fileUrl('3d_model_step') : '' }}"
                             target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step">
                           </a>
                         </dd>
@@ -344,7 +143,7 @@
                 </div>
                 <div class="download-note">
                   <div class="download-note__disc">
-                    <p class="small">デモ機貸出依頼・会員限定データのダウンロードは、<a class="ud" href="../../login">会員登録・ログインページ</a>よりログインしていただく必要がございます。</p>
+                    <p class="small">デモ機貸出依頼・会員限定データのダウンロードは、<a class="ud" href="{{ route('signin') }}">会員登録・ログインページ</a>よりログインしていただく必要がございます。</p>
                     <p class="small">本ソフトウェアをダウンロードする前に本使用許諾契約をお読みください 。</p>
                     <p class="small">本ソフトウェアをダウンロードすることにより、お客様は本使用許諾契約に同意したことになります。</p>
                     <p class="small">本使用許諾契約に同意いただけない場合は本ソフトウェアのダウンロードはお控えください。</p>
@@ -461,7 +260,7 @@
                 <p class="cta-title">お気軽にご相談くださいませ</p>
                 <div class="cta-contact">
                   <div class="btn--cta">
-                    <a href="../../mail">
+                    <a href="{{ route('contact') }}">
                       <svg id="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30.5 25">
                         <<path class="cta-icon" d="M25.12,0H5.39C2.41,0,0,2.41,0,5.39v10.14c0,2.97,2.41,5.39,5.39,5.39h9.62l5.82,4.09v-4.09h4.29c2.97,0,5.39-2.41,5.39-5.39V5.39c0-2.97-2.41-5.39-5.39-5.39ZM7.73,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM15.25,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12ZM22.78,12.57c-1.17,0-2.12-.95-2.12-2.12s.95-2.12,2.12-2.12,2.12.95,2.12,2.12-.95,2.12-2.12,2.12Z" />
                       </svg>

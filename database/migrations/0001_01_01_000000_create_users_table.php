@@ -242,6 +242,7 @@ return new class extends Migration
 
         Schema::create('cable_item_groups', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('series_id')->nullable(false);
             $table->string('item_ids')->default('');
             $table->string('lighting_connector')->default('');
             $table->string('power_connector')->default('');

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Icon;
 use App\Models\Feature;
+use App\Models\Item;
+use App\Models\CableItemGroup;
 use App\Enums\Category;
 use App\Enums\Genre;
 use App\Traits\FileUploadable;
@@ -96,6 +98,10 @@ class Series extends Model
 
     public function items() {
         return $this->hasMany(Item::class, 'series_id');
+    }
+
+    public function cable_item_groups() {
+        return $this->hasMany(CableItemGroup::class, 'series_id');
     }
 
 }

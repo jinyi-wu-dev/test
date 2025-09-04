@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\FileUploadable;
+use App\Traits\HasCompositePrimaryKey;
 
 class CableItemGroupDetail extends Model
 {
+    use FileUploadable;
+    use HasCompositePrimaryKey;
+
     protected $primaryKey = ['cable_item_group_id', 'language'];
 
     public $incrementing = false;
@@ -21,4 +26,8 @@ class CableItemGroupDetail extends Model
         'note',
     ];
 
+    public function __construct($attributes = []) {
+        parent::__construct($attributes);
+        $this->initializeFileUpload('group', 'cable_item_group_id', ['language']);
+    }
 }

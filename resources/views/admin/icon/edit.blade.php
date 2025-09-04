@@ -1,13 +1,13 @@
 @extends('admin/icon/detail')
 
 
-@section('title', 'アイコン更新')
+@section('title', 'アイコン詳細')
 @section('header', 'アイコン')
 
 
 @section('breadcrumb')
   <li class="breadcrumb-item"><a href="{{ route('admin.icon.index') }}">アイコン一覧</a></li>
-  <li class="breadcrumb-item active">アイコン更新</li>
+  <li class="breadcrumb-item active">アイコン詳細</li>
 @endsection
 
 

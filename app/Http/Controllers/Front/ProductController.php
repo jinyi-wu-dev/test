@@ -190,9 +190,20 @@ class ProductController extends Controller
     public function series($id)
     {
         $series = Series::find($id);
-        return $this->languageView('series', [
-            'series' => $series,
-        ]);
+        if ($series->category!=Category::CABLE) {
+            return $this->languageView('series', [
+                'series' => $series,
+            ]);
+        } else {
+            $group = $series->cable_item_groups->first();
+            return $this->languageView('series', [
+                'series'        => $series,
+                'group'         => $group,
+                'group_lc'      => $group->locale_detail,
+                'group_ja'      => $group->japanese_detail,
+                'first_item_ja' => $group->first_item(),
+            ]);
+        }
     }
 
     public function item($id)
@@ -226,6 +237,9 @@ class ProductController extends Controller
                 'item_lc'   => $item->locale_option_item,
                 'item_ja'   => $item->japanese_option_item,
             ]);
+        case Category::CABLE:
+            return redirect()
+                ->route('series', $item->series);
         };
 
     }

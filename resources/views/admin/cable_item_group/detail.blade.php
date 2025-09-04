@@ -57,7 +57,7 @@
                   'empty_value' => true,
                 ])
                 @include('admin.parts.form_select', [
-                  'name'      => 'item:series_id',
+                  'name'      => 'group:series_id',
                   'label'     => 'シリーズ型式',
                   'value'     => $first_item->series_id ?? '',
                   'empty'     => true,
@@ -231,6 +231,88 @@
                   'name'      => 'detail:en:note',
                   'label'     => '注意書き',
                   'value'     => $details['en']->note ?? '',
+                ])
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">共通ファイル</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                @include('admin.parts.form_file', [
+                  'name'        => '3d_model_stl',
+                  'label'       => '3Dモデル（STL）',
+                  'file_label'  => isset($group)&&$group->hasFile('3d_model_stl')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
+                ])
+                @include('admin.parts.form_file', [
+                  'name'        => '3d_model_step',
+                  'label'       => '3Dモデル（STEP）',
+                  'file_label'  => isset($group)&&$group->hasFile('3d_model_step')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
+                ])
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">日本語ファイル</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                @include('admin.parts.form_file', [
+                  'name'        => 'ja:external_view_pdf',
+                  'label'       => '外観図（PDF）',
+                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_pdf')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
+                ])
+                @include('admin.parts.form_file', [
+                  'name'        => 'ja:external_view_dxf',
+                  'label'       => '外観図（DXF）',
+                  'file_label'  => isset($details['ja'])&&$details['ja']->hasFile('external_view_dxf')
+                                    ? config('system.string.exist') : config('system.string.not_exist'),
+                ])
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h3 class="card-title">英語ファイル</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                @include('admin.parts.form_file', [
+                  'name'        => 'en:external_view_pdf',
+                  'label'       => '外観図（PDF）',
+                  'file_label'  => isset($details['en'])&&$details['en']->hasFile('external_view_pdf') ? '○' : '-',
+                ])
+                @include('admin.parts.form_file', [
+                  'name'        => 'en:external_view_dxf',
+                  'label'       => '外観図（DXF）',
+                  'file_label'  => isset($details['en'])&&$details['en']->hasFile('external_view_dxf') ? '○' : '-',
                 ])
               </div>
             </div>

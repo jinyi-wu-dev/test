@@ -80,8 +80,11 @@ class CableItemGroupController extends Controller
         list($single_params, $multi_params) = $this->splitMultiParameters($request->all());
         $group->fill($multi_params['group']);
         $group->save();
+        $group->uploadFile('3d_model_stl', $request->file('3d_model_stl'));
+        $group->uploadFile('3d_model_step', $request->file('3d_model_step'));
 
         list($single_params, $detail_params) = $this->splitMultiParameters($multi_params['detail']);
+        $details = $group->details->keyBy('language');
         foreach ($detail_params as $lang => $values) {
             CableItemGroupDetail::updateOrInsert([
                 'cable_item_group_id'   => $group->id,
@@ -90,6 +93,8 @@ class CableItemGroupController extends Controller
                 'cable_item_group_id'   => $group->id,
                 'language'  => $lang,
             ], $values));
+            $details[$lang]->uploadFile('external_view_pdf', $request->file($lang.':external_view_pdf'));
+            $details[$lang]->uploadFile('external_view_dxf', $request->file($lang.':external_view_dxf'));
         }
 
         list($single_params, $cable_params) = $this->splitMultiParameters($multi_params['cable']);
@@ -107,6 +112,7 @@ class CableItemGroupController extends Controller
             }
         }
         foreach ($group->items() as $item) {
+            $item->series_id = $group->series_id;
             $item->fill($multi_params['item']);
             $item->fill($shape_cable_params[$item->id]['common']);
             $item->is_lend      = in_array($item->id, $cable_params['common2']['is_lend']);

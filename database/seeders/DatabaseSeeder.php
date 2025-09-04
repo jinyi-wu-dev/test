@@ -311,6 +311,7 @@ class DatabaseSeeder extends Seeder
             }
             if ($pos==2) {
                 DB::table('cable_item_groups')->insert([
+                    'series_id' => $series_id,
                     'item_ids' => '['.implode(',', $cable_group).']',
                     'lighting_connector' => fake()->word(),
                     'power_connector' => fake()->word(),

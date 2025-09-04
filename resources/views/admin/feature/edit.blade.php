@@ -1,13 +1,13 @@
 @extends('admin/feature/detail')
 
 
-@section('title', '特徴・特性更新')
+@section('title', '特徴・特性詳細')
 @section('header', '特徴・特性')
 
 
 @section('breadcrumb')
   <li class="breadcrumb-item"><a href="{{ route('admin.feature.index') }}">特徴・特性一覧</a></li>
-  <li class="breadcrumb-item active">特徴・特性更新</li>
+  <li class="breadcrumb-item active">特徴・特性詳細</li>
 @endsection
 
 
