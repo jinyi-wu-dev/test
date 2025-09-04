@@ -100,7 +100,7 @@
                               <div class="feature-item">
                                 <h2 class="c-title border square">{{ $feature->locale_detail->title }}</h2>
                                 <div class="feature-lead">
-                                  <p>{{ $feature->locale_detail->body }}</p>
+                                  <p>{!! $feature->locale_detail->body !!}</p>
                                 </div>
                                 <div class="feature-image"><img class="modal-img" src="{{ $feature->locale_detail->fileUrl('image') }}" alt=""></div>
                               </div>
@@ -109,7 +109,7 @@
                                 <h2 class="c-title border square">{{ $feature->locale_detail->title }}</h2>
                                 <div class="inner">
                                   <div class="feature-lead">
-                                    <p>{{ $feature->locale_detail->body }}</p>
+                                    <p>{!! $feature->locale_detail->body !!}</p>
                                   </div>
                                   <div class="feature-image"><img class="modal-img" src="{{ $feature->locale_detail->fileUrl('image') }}" alt=""></div>
                                 </div>

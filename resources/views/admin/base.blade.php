@@ -25,9 +25,9 @@
   {{--
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{ asset('admin/admin_lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  --}}
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('admin/admin_lte/plugins/summernote/summernote-bs4.min.css') }}">
-  --}}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

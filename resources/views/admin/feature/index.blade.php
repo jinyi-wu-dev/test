@@ -88,7 +88,7 @@
                         {{ $feature->layout->label() }}
                       </td>
                       <td>
-                        {{ $feature->japanese_detail->body }}
+                        {!! $feature->japanese_detail->body !!}
                       </td>
                       <td>
                         @if ($feature->japanese_detail->hasFile('image'))

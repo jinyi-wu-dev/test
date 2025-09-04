@@ -104,9 +104,21 @@
 
 @section('footer_script')
   <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+  <script src="{{ asset('admin/admin_lte/plugins/summernote/summernote-bs4.min.js') }}"></script>
   <script>
     $(function() {
       bsCustomFileInput.init();
+      $('textarea').each(function() {
+        $(this).summernote({
+          lang: 'ja-JP',
+          height: '200',
+          toolbar: [
+            ['font', ['bold', 'underline', 'clear']],
+            ['insert', ['link']],
+          ]
+        });
+      });
+      
     });
   </script>
 @endsection
