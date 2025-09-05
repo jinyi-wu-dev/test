@@ -122,23 +122,24 @@
                       <dl>
                         <dt>外観図 DL</dt>
                         <dd class="download">
-                          <a class="download-icon"
-                            href="{{ $item_lc->hasFile('external_view_pdf') ? $item_lc->fileUrl('external_view_pdf') : ($item_ja->hasFile('external_view_pdf') ? $item_ja->fileUrl('external_view_pdf') : '') }}"
-                            target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF">
-                          </a>
-                          <a class="dl-icon"
-                            href="{{ $item_lc->hasFile('external_view_dxf') ? $item_lc->fileUrl('external_view_dxf') : ($item_ja->hasFile('external_view_dxf') ? $item_ja->fileUrl('external_view_dxf') : '') }}"
-                            target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF">
-                          </a>
+                          @if (Auth::check() && $item_lc->hasFile('external_view_pdf'))
+                            <a class="download-icon" href="{{ $item_lc->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
+                          @elseif (Auth::check() && $item_ja->hasFile('external_view_pdf'))
+                            <a class="download-icon" href="{{ $item_ja->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
+                          @endif
+                          @if (Auth::check() && $item_lc->hasFile('external_view_dxf'))
+                            <a class="dl-icon" href="{{ $item_lc->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                          @elseif (Auth::check() && $item_ja->hasFile('external_view_dxf'))
+                            <a class="dl-icon" href="{{ $item_ja->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                          @endif
                         </dd>
                       </dl>
                       <dl>
                         <dt>3Dモデル DL</dt>
                         <dd class="download">
-                          <a class="download-icon"
-                            href="{{ $item->hasFile('3d_model_step') ? $item->fileUrl('3d_model_step') : '' }}"
-                            target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step">
-                          </a>
+                          @if (Auth::check() && $item->hasFile('3d_model_step'))
+                            <a class="download-icon" href="{{ $item->fileUrl('3d_model_step') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step"></a>
+                          @endif
                         </dd>
                       </dl>
                     </div>
