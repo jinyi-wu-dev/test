@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Icon;
 use App\Models\Feature;
 use App\Models\Item;
@@ -13,6 +14,7 @@ use App\Traits\FileUploadable;
 
 class Series extends Model
 {
+    use SoftDeletes;
     use FileUploadable;
 
     protected $fillable = [
@@ -33,13 +35,13 @@ class Series extends Model
         'show_power_consumption',
         'show_seg',
         'show_input_voltage',
-        'show_diming_controll',
+        'show_dimming_controll',
         'show_total_capacity',
         'show_ct_num_of_ch',
         'show_input',
         'show_output',
         'show_external_onoff',
-        'show_external_diming_control',
+        'show_external_dimming_control',
         'show_throughput',
         'memo',
     ];

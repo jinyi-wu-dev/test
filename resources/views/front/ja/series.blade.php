@@ -10,7 +10,10 @@
     <!-- Site Main-->
     <main class="site-main" id="site-main">
       <!-- section-fv-->
-      <section class="section section-fv-series-index">
+      <section class="section section-fv-series-index
+        @if($series->is_new) is-new @endif
+        @if($series->is_end) is-discontinued @endif
+      ">
         <div class="content row">
           <div class="index-grid">
             <div class="index-thumbnail"><img src="{{ $series->fileUrl('image') }}" alt=""></div>
@@ -42,15 +45,21 @@
                 @endforeach
               </div>
               <div class="index-btns">
+                @if ($series->hasFile('catalogue'))
                 <div class="index-btn--download index-btn--catalog">
                   <a href="{{ $series->fileUrl('catalogue') }}" target="_blank" rel="noopener">カタログ DL</a>
                 </div>
+                @endif
+                @if ($series->hasFile('pamphlet'))
                 <div class="index-btn--download">
                   <a href="{{ $series->fileUrl('pamphlet') }}" target="_blank" rel="noopener">パンフレット DL</a>
                 </div>
+                @endif
+                @if ($series->hasFile('manual'))
                 <div class="index-btn--download">
                   <a href="{{ $series->fileUrl('manual') }}" target="_blank" rel="noopener">取扱説明書 DL</a>
                 </div>
+                @endif
               </div>
             </div>
           </div>
@@ -141,7 +150,7 @@
                                 @if ($series->show_luminous_color)          <th>発光色</th> @endif
                                 @if ($series->show_lt_num_of_ch)            <th>CH数</th> @endif
                                 @if ($series->show_power_consumption)       <th>消費電力</th> @endif
-                                @if ($series->show_seg)                     <th>SAG値</th> @endif
+                                @if ($series->show_sag)                     <th>SAG値</th> @endif
                                 @if ($series->show_input_voltage)           <th>入力電圧</th> @endif
                               @endif
 
@@ -167,10 +176,22 @@
                           <tbody>
                             @foreach ($series->items as $item)
                               @if ($item->is_publish)
+                                @php
+                                  $item_lc = match($series->category) {
+                                    App\Enums\Category::LIGHTING    => $item->locale_lighting_item,
+                                    App\Enums\Category::CONTROLLER  => $item->locale_controller_item,
+                                    App\Enums\Category::OPTION      => $item->locale_option_item,
+                                  };
+                                  $item_ja = match($series->category) {
+                                    App\Enums\Category::LIGHTING    => $item->japanese_lighting_item,
+                                    App\Enums\Category::CONTROLLER  => $item->japanese_controller_item,
+                                    App\Enums\Category::OPTION      => $item->japanese_option_item,
+                                  };
+                                @endphp
                                 <tr>
-                                  @if ($series->show_type)                      <td>{{ $item->type }}</td> @endif
+                                  @if ($series->show_type)                      <td>{{ $item_lc->type ? $item_lc->type : $item_ja->type }}</td> @endif
                                   @if ($series->show_model)                     <td class="format
-                                                                                  @if($item->is_new) is-new @endif
+                                                                                  @if($item->isNew()) is-new @endif
                                                                                   @if($item->isDiscontinued()) is-discontinued @endif
                                                                                 "><a href="{{ route('item', $item) }}">{{ $item->model }}</a> </td> @endif
                                   @if ($series->show_product_number)            <td>{{ $item->product_number }}</td> @endif
@@ -179,36 +200,50 @@
                                   @if ($series->show_compatible_standards)      <td></td> @endif
 
                                   @if ($series->category==App\Enums\Category::LIGHTING)
-                                    @if ($series->show_luminous_color)          <td>{{ $item->locale_lighting_item->color1 }}</td> @endif
-                                    @if ($series->show_lt_num_of_ch)            <td>{{ $item->locale_lighting_item->num_of_ch }}</td> @endif
-                                    @if ($series->show_power_consumption)       <td>{{ $item->locale_lighting_item->power_connector }}</td> @endif
-                                    @if ($series->show_seg)                     <td></td> @endif
-                                    @if ($series->show_input_voltage)           <td>{{ $item->locale_lighting_item->input }}</td> @endif
+                                    @if ($series->show_luminous_color)          <td></td> @endif
+                                    @if ($series->show_lt_num_of_ch)            <td>{{ $item_lc->num_of_ch ? $item_lc->num_of_ch : $item_ja->num_of_ch }}</td> @endif
+                                    @if ($series->show_power_consumption)       <td>{{ $item_lc->power_connector ? $item_lc->power_connector : $item_ja->power_connector }}</td> @endif
+                                    @if ($series->show_sag)                     <td>{{ $item_lc->sag ? $item_lc->sag : $item_ja->sag }}</td> @endif
+                                    @if ($series->show_input_voltage)           <td>{{ $item_lc->input ? $item_lc->input : $item_ja->input }}</td> @endif
                                   @endif
 
                                   @if ($series->category==App\Enums\Category::CONTROLLER)
-                                    @if ($series->show_diming_controll)         <td>{{ $item->locale_controller_item->dimmable_control->label() }}</td> @endif
-                                    @if ($series->show_total_capacity)          <td>{{ $item->locale_controller_item->total_capacity }}</td> @endif
-                                    @if ($series->show_ct_num_of_ch)            <td>{{ $item->locale_controller_item->num_of_ch }}</td> @endif
-                                    @if ($series->show_input)                   <td>{{ $item->locale_controller_item->input }}</td> @endif
-                                    @if ($series->show_output)                  <td>{{ $item->locale_controller_item->output }}</td> @endif
-                                    @if ($series->show_external_onoff)          <td></td> @endif
-                                    @if ($series->show_external_diming_control) <td></td> @endif
+                                    @php
+                                      $item_lc = $item->locale_controller_item;
+                                      $item_ja = $item->japanese_controller_item;
+                                    @endphp
+                                    @if ($series->show_dimming_controll)        <td>{{ $item->locale_controller_item->dimmable_control->label() }}</td> @endif
+                                    @if ($series->show_total_capacity)          <td>{{ $item_lc->total_capacity ? $item_lc->total_capacity : $item_ja->total_capacity }}</td> @endif
+                                    @if ($series->show_ct_num_of_ch)            <td>{{ $item_lc->num_of_ch ? $item_lc->num_of_ch : $item_ja->num_of_ch }}</td> @endif
+                                    @if ($series->show_input)                   <td>{{ $item_lc->input ? $item_lc->input : $item_ja->input }}</td> @endif
+                                    @if ($series->show_output)                  <td>{{ $item_lc->output ? $item_lc->output : $item_ja->output }}</td> @endif
+                                    @if ($series->show_external_onoff)          <td>@if($item_ja->is_external_switch) ○ @else ✕ @endif</td> @endif
+                                    @if ($series->show_external_dimming_control)<td>{{ $item_ja->externalDimmingControlsLabel() }}</td> @endif
                                   @endif
 
                                   @if ($series->category==App\Enums\Category::OPTION)
-                                    @if ($series->show_throughput)              <td>{{ $item->locale_option_item->throughput }}</td> @endif
+                                    @if ($series->show_throughput)              <td>{{ $item_lc->throughput ? $item_lc->throughput : $item_ja->throughput }}</td> @endif
                                   @endif
 
                                   <td>
                                     <div class="download">
-                                      <a class="download-icon" href="{{ $item->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
-                                      <a class="dl-icon" href="{{ $item->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                                      @if ($item_lc->hasFile('external_view_pdf'))
+                                        <a class="download-icon" href="{{ $item_lc->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
+                                      @elseif ($item_ja->hasFile('external_view_pdf'))
+                                        <a class="download-icon" href="{{ $item_ja->fileUrl('external_view_pdf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-pdf.png') }}" alt="PDF"></a>
+                                      @endif
+                                      @if ($item_lc->hasFile('external_view_dxf'))
+                                        <a class="dl-icon" href="{{ $item_lc->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                                      @elseif ($item_ja->hasFile('external_view_dxf'))
+                                        <a class="dl-icon" href="{{ $item_ja->fileUrl('external_view_dxf') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-dxf.png') }}" alt="DXF"></a>
+                                      @endif
                                     </div>
                                   </td>
                                   <td>
                                     <div class="download">
-                                      <a class="download-icon" href="{{ $item->fileUrl('3d_model_step') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step"></a>
+                                      @if ($item->hasFile('3d_model_step'))
+                                        <a class="download-icon" href="{{ $item->fileUrl('3d_model_step') }}" target="_blank" rel="noopener"><img src="{{ asset('/assets/img/common/dl-step.png') }}" alt="step"></a>
+                                      @endif
                                     </div>
                                   </td>
                                   <td>

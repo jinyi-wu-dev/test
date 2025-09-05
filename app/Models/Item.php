@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\UploadedFile;
 use App\Models\LightingItem;
@@ -16,6 +17,7 @@ use App\Traits\FileUploadable;
 
 class Item extends Model
 {
+    use SoftDeletes;
     use FileUploadable;
 
     protected $fillable = [
@@ -167,6 +169,10 @@ class Item extends Model
                     ->withPivot('category')
                     ->wherePivot('category', Category::OPTION)
                     ->withTimestamps();
+    }
+
+    public function isNew() {
+        return ($this->series->is_new || $this->is_new);
     }
 
     public function isPublic() {

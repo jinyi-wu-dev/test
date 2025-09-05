@@ -220,7 +220,7 @@
                     <div class="p-2">
                       @include('admin.parts.custom_checkbox', [
                         'switch'    => true,
-                        'name'      => 'show_diming_controll',
+                        'name'      => 'show_dimming_controll',
                         'label'     => '調光制御',
                         'valiable'  => 'series',
                         'empty_value' => true,
@@ -274,7 +274,7 @@
                     <div class="p-2">
                       @include('admin.parts.custom_checkbox', [
                         'switch'    => true,
-                        'name'      => 'show_external_diming_control',
+                        'name'      => 'show_external_dimming_control',
                         'label'     => '外部調光制御',
                         'valiable'  => 'series',
                         'empty_value' => true,

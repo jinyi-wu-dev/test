@@ -21,7 +21,10 @@
         </div>
       </div>
       <!-- section-fv-->
-      <section class="section section-fv-product-detail is-new">
+      <section class="section section-fv-product-detail
+        @if($item->isNew()) is-new @endif
+        @if($item->isDiscontinued()) is-discontinued @endif
+      ">
         <div class="content row">
           <div class="index-grid">
             <div class="index-thumbnail"><img src="{{ $series->fileUrl('image') }}" alt=""></div>

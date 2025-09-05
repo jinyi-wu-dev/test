@@ -258,6 +258,17 @@ return [
         'updated_at' => '更新日',
         'username' => 'ユーザー名',
         'year' => '年',
+
+        'kana' => 'フリガナ',
+        'building' => 'ビル名',
+        'phone_number' => '電話番号',
+        'company' => '会社名',
+        'department' => '部署',
+        'positions' => '役職',
+        'industries' => '業種',
+        'occupationes' => '職種',
+        'agree' => '同意',
+        'contents' => 'お問合わせ内容',
     ],
 
 ];

@@ -133,13 +133,13 @@ return new class extends Migration
             $table->boolean('show_sag')->default(false);
             $table->boolean('show_input_voltage')->default(false);
 
-            $table->boolean('show_diming_controll')->default(false);
+            $table->boolean('show_dimming_controll')->default(false);
             $table->boolean('show_total_capacity')->default(false);
             $table->boolean('show_ct_num_of_ch')->default(false);
             $table->boolean('show_input')->default(false);
             $table->boolean('show_output')->default(false);
             $table->boolean('show_external_onoff')->default(false);
-            $table->boolean('show_external_diming_control')->default(false);
+            $table->boolean('show_external_dimming_control')->default(false);
 
             $table->boolean('show_throughput')->default(false);
             $table->text('memo')->default('');
@@ -194,6 +194,7 @@ return new class extends Migration
             $table->string('color2')->default('');
             $table->string('power_consumption')->default('');
             $table->string('num_of_ch')->default('');
+            $table->string('sag')->default('');
             $table->string('input')->default('');
             $table->string('etc')->default('');
             $table->string('description1')->default('');
@@ -247,6 +248,7 @@ return new class extends Migration
             $table->string('lighting_connector')->default('');
             $table->string('power_connector')->default('');
             $table->timestamps();
+            $table->softDeletes()->nullable();
         });
 
         Schema::create('cable_item_group_details', function (Blueprint $table) {

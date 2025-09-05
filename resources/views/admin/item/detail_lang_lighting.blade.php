@@ -48,6 +48,12 @@
                   'disabled'  => $lang!='ja' && in_array('num_of_ch', config('system.common_columns.lighting')),
                 ])
                 @include('admin.parts.form_text', [
+                  'name'      => $lang.':sag',
+                  'label'     => 'SAG値',
+                  'value'     => $detail->sag ?? '',
+                  'disabled'  => $lang!='ja' && in_array('sag', config('system.common_columns.lighting')),
+                ])
+                @include('admin.parts.form_text', [
                   'name'      => $lang.':input',
                   'label'     => '入力',
                   'value'     => $detail->input ?? '',

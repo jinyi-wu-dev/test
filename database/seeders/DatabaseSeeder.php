@@ -107,13 +107,13 @@ class DatabaseSeeder extends Seeder
                 'show_power_consumption' => true,
                 'show_sag' => true,
                 'show_input_voltage' => true,
-                'show_diming_controll' => true,
+                'show_dimming_controll' => true,
                 'show_total_capacity' => true,
                 'show_ct_num_of_ch' => true,
                 'show_input' => true,
                 'show_output' => true,
                 'show_external_onoff' => true,
-                'show_external_diming_control' => true,
+                'show_external_dimming_control' => true,
                 'show_throughput' => true,
                 'memo' => fake()->realText(20),
             ]);
@@ -157,9 +157,9 @@ class DatabaseSeeder extends Seeder
             for ($j=1; $j<=5; $j++) {
                 DB::table('items')->insert([
                     'series_id' => $series_id,
-                    'is_new' => fake()->randomElement([0, 1]),
-                    'is_end' => fake()->randomElement([0, 1]),
-                    'is_publish' => fake()->randomElement([0, 1]),
+                    'is_new' => $pos==2 ? 0 : fake()->randomElement([0, 1]),
+                    'is_end' => $pos==2 ? 0 : fake()->randomElement([0, 1]),
+                    'is_publish' => $pos==2 ? 1 : fake()->randomElement([0, 1]),
                     'is_lend' => fake()->randomElement([0, 1]),
                     'model' => 'MODEL_'.$count++,
                     'product_number' => uniqid(),
@@ -179,6 +179,7 @@ class DatabaseSeeder extends Seeder
                         'color2' => fake()->word(),
                         'power_consumption' => fake()->randomNumber(),
                         'num_of_ch' => fake()->randomNumber(),
+                        'sag' => fake()->randomNumber(),
                         'input' => fake()->randomElement([
                             'DC12V',
                             'DC24V',

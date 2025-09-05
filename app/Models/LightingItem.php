@@ -25,6 +25,7 @@ class LightingItem extends Model
         'color2',
         'power_consumption',
         'num_of_ch',
+        'sag',
         'input',
         'etc',
         'description1',

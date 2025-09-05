@@ -47,4 +47,7 @@ class ControllerItem extends Model
         parent::__construct($attributes);
         $this->initializeFileUpload('item', 'item_id', ['language']);
     }
+
+    public function externalDimmingControlsLabel() {
+    }
 }

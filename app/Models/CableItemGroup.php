@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Series;
 use App\Models\Item;
 use App\Models\CableItemGroupDetail;
@@ -10,6 +11,7 @@ use App\Traits\FileUploadable;
 
 class CableItemGroup extends Model
 {
+    use SoftDeletes;
     use FileUploadable;
 
     protected $table = 'cable_item_groups';
